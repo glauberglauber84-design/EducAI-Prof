@@ -718,10 +718,12 @@ body { font-family: 'Inter', sans-serif; background: var(--cinza-cl); color: var
       <input type="text" placeholder="🔍  Buscar prompt…" oninput="filtrarPrompts(this.value)" id="busca-prompt">
       <select onchange="filtrarPromptsDisciplina(this.value)">
         <option value="">Todas as disciplinas</option>
+        <option>Língua Portuguesa</option>
         <option>Matemática</option>
-        <option>Português</option>
         <option>Ciências</option>
         <option>Artes</option>
+        <option>História</option>
+        <option>Geografia</option>
         <option>Geral</option>
       </select>
       <label class="filtro-acc">
@@ -744,8 +746,9 @@ body { font-family: 'Inter', sans-serif; background: var(--cinza-cl); color: var
       <input type="text" id="np-titulo" placeholder="Ex: Gerar questões abertas sobre frações">
       <label>Disciplina</label>
       <select id="np-disciplina">
-        <option>Matemática</option><option>Português</option>
-        <option>Ciências</option><option>Artes</option><option>Geral</option>
+        <option>Língua Portuguesa</option><option>Matemática</option>
+        <option>Ciências</option><option>Artes</option>
+        <option>História</option><option>Geografia</option><option>Geral</option>
       </select>
       <label>Ano escolar</label>
       <select id="np-ano">
@@ -1001,7 +1004,7 @@ const promptsMock = [
   },
   {
     titulo:"Roteiro de escrita criativa inclusivo",
-    disciplina:"Português", ano:"1º ao 3º ano",
+    disciplina:"Língua Portuguesa", ano:"1º ao 3º ano",
     ferramenta:"Book Creator / ChatGPT", inclusivo:true,
     prompt:'Crie um roteiro de 5 perguntas para guiar uma criança de 7 anos a inventar uma história curta. Use linguagem simples. Adapte as perguntas para uma criança com dificuldade de leitura: use frases curtas, sem jargões, e ofereça exemplos concretos em cada pergunta.',
     autor:"Prof. Carlos Lima", curtidas:31,
@@ -1015,7 +1018,7 @@ const promptsMock = [
   },
   {
     titulo:"Feedback de produção textual sem fazer pelo aluno",
-    disciplina:"Português", ano:"6º ao 9º ano",
+    disciplina:"Língua Portuguesa", ano:"6º ao 9º ano",
     ferramenta:"ChatGPT / Gemini", inclusivo:false,
     prompt:'Leia o texto do aluno a seguir e dê feedback em 3 tópicos: (1) o que está bom, (2) uma sugestão de melhoria estrutural, (3) uma pergunta que provoque o aluno a expandir uma ideia. Não reescreva nenhuma parte do texto.',
     autor:"Prof. Marcos Alves", curtidas:42,
