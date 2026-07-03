@@ -1,0 +1,1550 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EducAI Prof</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap');
+
+:root {
+  --verde:      #1A6B4A;
+  --verde-m:    #2E8B65;
+  --verde-cl:   #D4EDE2;
+  --amarelo:    #F5C842;
+  --amarelo-cl: #FEF6D0;
+  --cinza-esc:  #1C2330;
+  --cinza-med:  #4A5568;
+  --cinza-cl:   #F0F4F0;
+  --branco:     #FFFFFF;
+  --laranja:    #E07B39;
+  --laranja-cl: #FDE8D8;
+  --azul:       #3B6FD4;
+  --azul-cl:    #EBF0FB;
+  --roxo:       #7C3AED;
+  --roxo-cl:    #EDE9FE;
+  --vermelho:   #DC2626;
+  --vermelho-cl:#FEE2E2;
+  --borda:      #D8E5DC;
+  --sombra:     0 2px 12px rgba(26,107,74,.10);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Inter', sans-serif; background: var(--cinza-cl); color: var(--cinza-esc); min-height: 100vh; }
+
+/* TELAS */
+.tela { display: none; min-height: 100vh; flex-direction: column; }
+.tela.ativa { display: flex; }
+
+/* ═══════════════════════════════════
+   HOME
+═══════════════════════════════════ */
+#t-home {
+  background: linear-gradient(145deg, #0F3D28 0%, #1A6B4A 55%, #2E8B65 100%);
+  align-items: center; justify-content: center;
+  text-align: center; padding: 48px 24px;
+  position: relative; overflow: hidden;
+}
+#t-home::before {
+  content:''; position:absolute; width:600px; height:600px;
+  border-radius:50%; background:rgba(245,200,66,.07);
+  top:-150px; right:-150px; pointer-events:none;
+}
+#t-home::after {
+  content:''; position:absolute; width:400px; height:400px;
+  border-radius:50%; background:rgba(255,255,255,.04);
+  bottom:-100px; left:-80px; pointer-events:none;
+}
+.home-badge {
+  display:inline-block; background:rgba(245,200,66,.18);
+  border:1px solid rgba(245,200,66,.4); color:var(--amarelo);
+  font-family:'Sora',sans-serif; font-size:11px; font-weight:600;
+  letter-spacing:2px; text-transform:uppercase;
+  padding:6px 16px; border-radius:20px; margin-bottom:28px;
+}
+.home-titulo {
+  font-family:'Sora',sans-serif; font-size:clamp(36px,7vw,64px);
+  font-weight:700; color:#fff; line-height:1.1; margin-bottom:8px;
+}
+.home-titulo span { color:var(--amarelo); }
+.home-sub { font-size:17px; color:rgba(255,255,255,.72); max-width:500px; margin:16px auto 40px; line-height:1.6; }
+
+.home-cards { display:flex; gap:16px; flex-wrap:wrap; justify-content:center; margin-bottom:40px; max-width:900px; }
+.home-card {
+  background:rgba(255,255,255,.10); border:1px solid rgba(255,255,255,.18);
+  backdrop-filter:blur(8px); border-radius:16px; padding:24px 20px;
+  width:175px; cursor:pointer; transition:all .25s ease; text-align:center;
+}
+.home-card:hover { background:rgba(255,255,255,.18); transform:translateY(-4px); box-shadow:0 12px 32px rgba(0,0,0,.25); }
+.home-card .icone { font-size:30px; margin-bottom:12px; display:block; }
+.home-card h3 { font-family:'Sora',sans-serif; font-size:13px; font-weight:600; color:#fff; margin-bottom:5px; }
+.home-card p { font-size:11px; color:rgba(255,255,255,.6); line-height:1.4; }
+
+.btn-primario {
+  background:var(--amarelo); color:var(--cinza-esc);
+  font-family:'Sora',sans-serif; font-weight:700; font-size:15px;
+  padding:14px 36px; border:none; border-radius:50px; cursor:pointer;
+  transition:all .2s; text-decoration:none; display:inline-block;
+}
+.btn-primario:hover { background:#e6b800; transform:translateY(-2px); box-shadow:0 8px 24px rgba(245,200,66,.4); }
+.home-rodape { margin-top:48px; font-size:11px; color:rgba(255,255,255,.35); letter-spacing:1px; }
+
+/* ═══════════════════════════════════
+   NAVBAR
+═══════════════════════════════════ */
+.navbar {
+  background:var(--branco); border-bottom:2px solid var(--borda);
+  padding:0 28px; display:flex; align-items:center;
+  justify-content:space-between; height:64px;
+  position:sticky; top:0; z-index:100; box-shadow:var(--sombra);
+}
+.nav-logo {
+  font-family:'Sora',sans-serif; font-weight:700; font-size:18px;
+  color:var(--verde); cursor:pointer; display:flex; align-items:center; gap:6px;
+}
+.nav-logo .ponto { color:var(--amarelo); }
+.nav-links { display:flex; gap:4px; flex-wrap:wrap; }
+.nav-btn {
+  padding:8px 14px; border-radius:8px; border:none;
+  background:transparent; font-family:'Inter',sans-serif;
+  font-size:13px; font-weight:500; color:var(--cinza-med); cursor:pointer; transition:all .18s;
+}
+.nav-btn:hover, .nav-btn.ativo { background:var(--verde-cl); color:var(--verde); font-weight:600; }
+
+/* ═══════════════════════════════════
+   LAYOUT GERAL
+═══════════════════════════════════ */
+.conteudo { flex:1; max-width:1100px; width:100%; margin:0 auto; padding:36px 24px; }
+.titulo-pag { font-family:'Sora',sans-serif; font-size:24px; font-weight:700; color:var(--cinza-esc); margin-bottom:6px; }
+.subtitulo-pag { font-size:14px; color:var(--cinza-med); margin-bottom:28px; line-height:1.6; }
+
+/* ═══════════════════════════════════
+   REPOSITÓRIO
+═══════════════════════════════════ */
+.barra-filtros {
+  display:flex; gap:10px; margin-bottom:20px; flex-wrap:wrap; align-items:center;
+}
+.barra-filtros input, .barra-filtros select {
+  padding:10px 14px; border:2px solid var(--borda); border-radius:10px;
+  font-family:'Inter',sans-serif; font-size:13px;
+  background:var(--branco); color:var(--cinza-esc); outline:none; transition:border-color .18s;
+}
+.barra-filtros input { flex:1; min-width:200px; }
+.barra-filtros input:focus, .barra-filtros select:focus { border-color:var(--verde); }
+
+/* filtros de acessibilidade — destaque roxo */
+.filtro-acc {
+  display:flex; align-items:center; gap:8px;
+  background:var(--roxo-cl); border:2px solid #C4B5FD;
+  border-radius:10px; padding:8px 14px; cursor:pointer;
+  font-size:13px; font-weight:600; color:var(--roxo);
+  white-space:nowrap; transition:all .18s;
+}
+.filtro-acc input[type=checkbox] { accent-color:var(--roxo); width:16px; height:16px; cursor:pointer; }
+.filtro-acc:hover { background:#DDD6FE; }
+
+.grid-ferramentas { display:grid; grid-template-columns:repeat(auto-fill,minmax(290px,1fr)); gap:18px; }
+
+.card-ferramenta {
+  background:var(--branco); border:2px solid var(--borda);
+  border-radius:16px; padding:22px; cursor:pointer;
+  transition:all .22s; position:relative;
+}
+.card-ferramenta:hover { border-color:var(--verde-m); box-shadow:var(--sombra); transform:translateY(-2px); }
+
+.card-badges { display:flex; gap:6px; flex-wrap:wrap; margin-bottom:10px; }
+.badge {
+  font-size:10px; font-weight:700; letter-spacing:.4px;
+  padding:3px 9px; border-radius:20px; text-transform:uppercase;
+}
+.badge-mat   { background:var(--azul-cl);    color:var(--azul); }
+.badge-port  { background:var(--amarelo-cl); color:#9B6D00; }
+.badge-cien  { background:var(--verde-cl);   color:var(--verde); }
+.badge-arte  { background:var(--laranja-cl); color:var(--laranja); }
+.badge-todos { background:#F0F0F0;            color:#555; }
+.badge-open  { background:#E0F2FE;            color:#0369A1; }
+.badge-inc   { background:var(--roxo-cl);    color:var(--roxo); }
+.badge-nee   { background:#FDF4FF;            color:#9333EA; }
+
+.card-ferramenta h3 { font-family:'Sora',sans-serif; font-size:15px; font-weight:600; margin-bottom:5px; }
+.card-ferramenta p  { font-size:12px; color:var(--cinza-med); line-height:1.5; margin-bottom:14px; }
+
+.estrelas-card { position:absolute; top:18px; right:18px; font-size:12px; color:var(--amarelo); font-weight:700; background:var(--amarelo-cl); padding:3px 9px; border-radius:20px; }
+
+.chips-row { display:flex; gap:6px; flex-wrap:wrap; }
+.chip { font-size:11px; font-weight:600; padding:3px 9px; border-radius:20px; display:flex; align-items:center; gap:3px; }
+.chip-verde   { background:var(--verde-cl);   color:var(--verde); }
+.chip-roxo    { background:var(--roxo-cl);    color:var(--roxo); }
+.chip-azul    { background:var(--azul-cl);    color:var(--azul); }
+.chip-laranja { background:var(--laranja-cl); color:var(--laranja); }
+
+/* ═══════════════════════════════════
+   MODAL FICHA
+═══════════════════════════════════ */
+.overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,.5); z-index:200; align-items:center; justify-content:center; padding:16px; }
+.overlay.aberto { display:flex; }
+.modal {
+  background:var(--branco); border-radius:20px;
+  max-width:660px; width:100%; max-height:92vh;
+  overflow-y:auto; padding:36px; position:relative;
+}
+.modal-fechar {
+  position:absolute; top:16px; right:20px;
+  background:var(--cinza-cl); border:none; border-radius:50%;
+  width:36px; height:36px; font-size:18px; cursor:pointer;
+  display:flex; align-items:center; justify-content:center;
+  color:var(--cinza-med); transition:background .15s;
+}
+.modal-fechar:hover { background:var(--borda); }
+.modal h2 { font-family:'Sora',sans-serif; font-size:21px; font-weight:700; margin-bottom:6px; padding-right:44px; }
+.modal-desc { font-size:14px; color:var(--cinza-med); margin-bottom:18px; line-height:1.6; }
+.modal-nivel { background:var(--verde-cl); border-radius:10px; padding:10px 16px; font-size:13px; color:var(--verde); font-weight:600; margin-bottom:20px; }
+
+.criterios-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:20px; }
+.criterio { background:var(--cinza-cl); border-radius:10px; padding:12px 14px; }
+.criterio label { font-size:10px; font-weight:600; text-transform:uppercase; letter-spacing:.5px; color:var(--cinza-med); display:block; margin-bottom:5px; }
+.barra-criterio { height:6px; border-radius:6px; background:var(--borda); overflow:hidden; margin-bottom:3px; }
+.barra-fill { height:100%; border-radius:6px; background:var(--verde); }
+.barra-fill.media { background:var(--amarelo); }
+.barra-fill.baixa { background:var(--laranja); }
+.criterio span { font-size:11px; font-weight:600; color:var(--cinza-esc); }
+
+/* ── ABAS MODAL ── */
+.modal-abas { display:flex; gap:4px; margin-bottom:20px; border-bottom:2px solid var(--borda); padding-bottom:0; }
+.modal-aba {
+  padding:8px 16px; border:none; background:transparent;
+  font-family:'Inter',sans-serif; font-size:13px; font-weight:500;
+  color:var(--cinza-med); cursor:pointer; border-bottom:2px solid transparent;
+  margin-bottom:-2px; transition:all .18s;
+}
+.modal-aba.ativa { color:var(--verde); border-bottom-color:var(--verde); font-weight:600; }
+.modal-painel { display:none; }
+.modal-painel.ativo { display:block; }
+
+/* ── BÚSSOLA ÉTICA ── */
+.bussola-intro { font-size:13px; color:var(--cinza-med); margin-bottom:16px; line-height:1.6; background:var(--amarelo-cl); border-radius:10px; padding:12px 14px; }
+.check-item {
+  display:flex; align-items:flex-start; gap:12px;
+  padding:12px 0; border-bottom:1px solid var(--borda);
+}
+.check-item:last-child { border-bottom:none; }
+.check-item input[type=checkbox] { accent-color:var(--verde); width:18px; height:18px; cursor:pointer; margin-top:2px; flex-shrink:0; }
+.check-item .check-texto h4 { font-size:13px; font-weight:600; margin-bottom:2px; }
+.check-item .check-texto p  { font-size:12px; color:var(--cinza-med); line-height:1.4; }
+.bussola-score {
+  margin-top:16px; padding:14px; border-radius:12px;
+  text-align:center; font-family:'Sora',sans-serif; font-weight:700; font-size:15px;
+  display:none;
+}
+.bussola-score.verde { background:var(--verde-cl); color:var(--verde); display:block; }
+.bussola-score.amarelo { background:var(--amarelo-cl); color:#7A5F00; display:block; }
+.bussola-score.vermelho { background:var(--vermelho-cl); color:var(--vermelho); display:block; }
+
+/* ── DENÚNCIA ── */
+.denuncia-form textarea {
+  width:100%; padding:12px; border:2px solid var(--borda); border-radius:10px;
+  font-family:'Inter',sans-serif; font-size:13px; resize:vertical;
+  outline:none; margin-top:8px;
+}
+.denuncia-form textarea:focus { border-color:var(--vermelho); }
+.denuncia-form select {
+  width:100%; padding:10px 12px; border:2px solid var(--borda); border-radius:10px;
+  font-family:'Inter',sans-serif; font-size:13px; outline:none; margin-top:8px; background:var(--branco);
+}
+.btn-denunciar {
+  margin-top:12px; padding:10px 20px; background:var(--vermelho-cl);
+  color:var(--vermelho); border:2px solid #FCA5A5; border-radius:10px;
+  font-family:'Sora',sans-serif; font-size:13px; font-weight:700; cursor:pointer; transition:all .18s;
+}
+.btn-denunciar:hover { background:var(--vermelho); color:#fff; }
+
+.modal-btns { display:flex; gap:10px; margin-top:20px; }
+.btn-usar {
+  flex:1; padding:13px; background:var(--verde); color:#fff;
+  border:none; border-radius:12px; font-family:'Sora',sans-serif;
+  font-size:14px; font-weight:700; cursor:pointer; transition:background .2s;
+}
+.btn-usar:hover { background:var(--verde-m); }
+
+/* ═══════════════════════════════════
+   PLANEJADOR
+═══════════════════════════════════ */
+.form-planejador { background:var(--branco); border:2px solid var(--borda); border-radius:20px; padding:32px; max-width:700px; }
+.campo-grupo { margin-bottom:18px; }
+.campo-grupo label { display:block; font-size:12px; font-weight:600; color:var(--cinza-esc); margin-bottom:6px; text-transform:uppercase; letter-spacing:.5px; }
+.campo-grupo input,
+.campo-grupo select,
+.campo-grupo textarea {
+  width:100%; padding:11px 14px; border:2px solid var(--borda);
+  border-radius:10px; font-family:'Inter',sans-serif; font-size:13px;
+  color:var(--cinza-esc); background:var(--branco); outline:none;
+  transition:border-color .18s; resize:vertical;
+}
+.campo-grupo input:focus, .campo-grupo select:focus, .campo-grupo textarea:focus { border-color:var(--verde); }
+.linha-campos { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+
+.btn-gerar {
+  width:100%; padding:14px; background:var(--verde); color:#fff;
+  border:none; border-radius:12px; font-family:'Sora',sans-serif;
+  font-size:15px; font-weight:700; cursor:pointer; transition:all .2s; margin-top:6px;
+}
+.btn-gerar:hover { background:#0F3D28; box-shadow:0 6px 20px rgba(26,107,74,.3); }
+
+.resultado-plano { display:none; margin-top:28px; background:var(--branco); border:2px solid var(--verde-cl); border-radius:20px; padding:32px; max-width:700px; }
+.resultado-plano.visivel { display:block; }
+.plano-titulo { font-family:'Sora',sans-serif; font-size:18px; font-weight:700; color:var(--verde); margin-bottom:18px; padding-bottom:14px; border-bottom:2px solid var(--verde-cl); }
+
+.sugestao-ferramenta { background:var(--verde-cl); border-radius:12px; padding:14px 18px; margin:14px 0; display:flex; align-items:center; gap:14px; }
+.sugestao-ferramenta .icone-sug { font-size:26px; }
+.sugestao-ferramenta h4 { font-family:'Sora',sans-serif; font-weight:600; font-size:14px; color:var(--verde); margin-bottom:2px; }
+.sugestao-ferramenta p  { font-size:12px; color:var(--cinza-med); }
+
+.etapa-ciclo { display:flex; gap:14px; margin-bottom:16px; align-items:flex-start; }
+.etapa-numero { width:34px; height:34px; border-radius:50%; background:var(--verde); color:#fff; font-family:'Sora',sans-serif; font-weight:700; font-size:13px; display:flex; align-items:center; justify-content:center; flex-shrink:0; margin-top:2px; }
+.etapa-corpo h4 { font-family:'Sora',sans-serif; font-size:14px; font-weight:600; margin-bottom:3px; }
+.etapa-corpo p  { font-size:13px; color:var(--cinza-med); line-height:1.6; }
+
+.btn-registrar {
+  width:100%; padding:13px; background:transparent; color:var(--verde);
+  border:2px solid var(--verde); border-radius:12px;
+  font-family:'Sora',sans-serif; font-size:14px; font-weight:700;
+  cursor:pointer; transition:all .2s; margin-top:14px;
+}
+.btn-registrar:hover { background:var(--verde); color:#fff; }
+
+/* ═══════════════════════════════════
+   PROMPTS
+═══════════════════════════════════ */
+.prompts-topo { display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; flex-wrap:wrap; gap:12px; }
+.btn-novo-prompt {
+  padding:10px 20px; background:var(--roxo); color:#fff; border:none;
+  border-radius:10px; font-family:'Sora',sans-serif; font-size:13px; font-weight:700;
+  cursor:pointer; transition:all .2s;
+}
+.btn-novo-prompt:hover { background:#6D28D9; box-shadow:0 4px 16px rgba(124,58,237,.3); }
+
+.grid-prompts { display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:18px; }
+.card-prompt {
+  background:var(--branco); border:2px solid var(--borda); border-radius:16px;
+  padding:22px; transition:all .22s;
+}
+.card-prompt:hover { border-color:#C4B5FD; box-shadow:0 4px 16px rgba(124,58,237,.08); }
+.prompt-head { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:10px; }
+.prompt-head h3 { font-family:'Sora',sans-serif; font-size:14px; font-weight:600; line-height:1.3; }
+.prompt-badges { display:flex; gap:5px; flex-wrap:wrap; margin-bottom:10px; }
+.prompt-body {
+  font-size:12px; color:var(--cinza-med); line-height:1.6;
+  background:var(--cinza-cl); border-radius:8px; padding:10px 12px;
+  margin-bottom:12px; font-family:monospace;
+}
+.prompt-meta { font-size:11px; color:var(--cinza-med); display:flex; gap:12px; }
+.btn-copiar {
+  padding:7px 14px; background:var(--roxo-cl); color:var(--roxo);
+  border:none; border-radius:8px; font-size:12px; font-weight:700;
+  cursor:pointer; transition:all .18s;
+}
+.btn-copiar:hover { background:var(--roxo); color:#fff; }
+
+/* modal novo prompt */
+.form-prompt input,
+.form-prompt select,
+.form-prompt textarea {
+  width:100%; padding:10px 14px; border:2px solid var(--borda); border-radius:10px;
+  font-family:'Inter',sans-serif; font-size:13px; color:var(--cinza-esc);
+  background:var(--branco); outline:none; transition:border-color .18s;
+  resize:vertical; margin-top:6px; margin-bottom:14px;
+}
+.form-prompt input:focus, .form-prompt select:focus, .form-prompt textarea:focus { border-color:var(--roxo); }
+.form-prompt label { font-size:12px; font-weight:600; text-transform:uppercase; letter-spacing:.5px; color:var(--cinza-esc); }
+.btn-publicar {
+  width:100%; padding:13px; background:var(--roxo); color:#fff;
+  border:none; border-radius:12px; font-family:'Sora',sans-serif;
+  font-size:14px; font-weight:700; cursor:pointer; transition:all .2s;
+}
+.btn-publicar:hover { background:#6D28D9; }
+
+/* ═══════════════════════════════════
+   DIÁRIO
+═══════════════════════════════════ */
+.layout-diario { display:grid; grid-template-columns:1fr 320px; gap:24px; align-items:start; }
+.form-diario { background:var(--branco); border:2px solid var(--borda); border-radius:20px; padding:32px; }
+.estrelas-avaliacao { display:flex; gap:7px; margin-top:4px; }
+.estrela-btn { background:none; border:none; font-size:26px; cursor:pointer; color:var(--borda); transition:color .15s, transform .15s; line-height:1; }
+.estrela-btn:hover, .estrela-btn.selecionada { color:var(--amarelo); transform:scale(1.1); }
+.btn-salvar {
+  width:100%; padding:13px; background:var(--amarelo); color:var(--cinza-esc);
+  border:none; border-radius:12px; font-family:'Sora',sans-serif;
+  font-size:14px; font-weight:700; cursor:pointer; transition:all .2s; margin-top:6px;
+}
+.btn-salvar:hover { background:#e6b800; box-shadow:0 6px 20px rgba(245,200,66,.4); }
+
+.painel-historico { background:var(--branco); border:2px solid var(--borda); border-radius:20px; padding:24px; }
+.painel-historico h3 { font-family:'Sora',sans-serif; font-size:14px; font-weight:700; margin-bottom:14px; color:var(--cinza-esc); }
+.registro-item { border-bottom:1px solid var(--borda); padding:12px 0; }
+.registro-item:last-child { border-bottom:none; }
+.reg-data   { font-size:10px; color:var(--cinza-med); margin-bottom:3px; font-weight:600; text-transform:uppercase; letter-spacing:.5px; }
+.reg-titulo { font-size:13px; font-weight:600; color:var(--cinza-esc); margin-bottom:3px; }
+.reg-estrelas { font-size:12px; color:var(--amarelo); }
+
+/* ═══════════════════════════════════
+   TOAST
+═══════════════════════════════════ */
+.toast {
+  position:fixed; bottom:32px; left:50%;
+  transform:translateX(-50%) translateY(80px);
+  background:var(--cinza-esc); color:#fff;
+  font-family:'Sora',sans-serif; font-size:13px; font-weight:600;
+  padding:12px 24px; border-radius:50px;
+  box-shadow:0 8px 24px rgba(0,0,0,.25);
+  z-index:400; transition:transform .4s cubic-bezier(.34,1.56,.64,1); pointer-events:none;
+}
+.toast.visivel { transform:translateX(-50%) translateY(0); }
+
+/* ═══════════════════════════════════
+   RESPONSIVO
+═══════════════════════════════════ */
+@media (max-width:720px) {
+  .layout-diario    { grid-template-columns:1fr; }
+  .criterios-grid   { grid-template-columns:1fr; }
+  .linha-campos     { grid-template-columns:1fr; }
+  .navbar           { padding:0 14px; }
+  .conteudo         { padding:24px 14px; }
+  .home-card        { width:140px; }
+  .modal-btns       { flex-direction:column; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════
+     HOME
+═══════════════════════════════════ -->
+<div id="t-home" class="tela ativa">
+  <div class="home-badge">UNESCO · AI CFT · Ensino Básico · Inclusão</div>
+  <h1 class="home-titulo">EducAI<span>Prof</span></h1>
+  <p class="home-sub">Plataforma de apoio pedagógico ao uso ético, inclusivo e consciente de ferramentas de IA para professores do Ensino Básico e Fundamental.</p>
+
+  <div class="home-cards">
+    <div class="home-card" onclick="irPara('t-repositorio')">
+      <span class="icone">🗂️</span>
+      <h3>Repositório</h3>
+      <p>Ferramentas avaliadas eticamente com filtro de acessibilidade</p>
+    </div>
+    <div class="home-card" onclick="irPara('t-planejador')">
+      <span class="icone">📋</span>
+      <h3>Planejador</h3>
+      <p>Monte planos de aula com sugestões de IA pedagógica</p>
+    </div>
+    <div class="home-card" onclick="irPara('t-prompts')">
+      <span class="icone">💬</span>
+      <h3>Prompts</h3>
+      <p>Banco colaborativo de prompts validados por professores</p>
+    </div>
+    <div class="home-card" onclick="irPara('t-diario')">
+      <span class="icone">📓</span>
+      <h3>Diário</h3>
+      <p>Registre e avalie sua experiência em sala de aula</p>
+    </div>
+  </div>
+
+  <button class="btn-primario" onclick="irPara('t-repositorio')">Começar agora</button>
+  <p class="home-rodape">Baseado no Quadro de Competências em IA para Professores · UNESCO 2024</p>
+</div>
+
+<!-- ═══════════════════════════════════
+     LOGIN / CADASTRO
+═══════════════════════════════════ -->
+<div id="t-login" class="tela" style="align-items:center;justify-content:center;">
+  <div class="form-planejador" style="width:100%;max-width:380px;">
+    <h1 class="titulo-pag" id="login-titulo" style="text-align:center;">Entrar</h1>
+    <p class="subtitulo-pag" style="text-align:center;">Acesse com seu e-mail de professor(a) para usar o EducAI Prof.</p>
+
+    <div class="campo-grupo" id="login-campo-nome" style="display:none;">
+      <label>Nome</label>
+      <input type="text" id="lg-nome" placeholder="Seu nome completo">
+    </div>
+    <div class="campo-grupo">
+      <label>E-mail</label>
+      <input type="email" id="lg-email" placeholder="voce@escola.com.br">
+    </div>
+    <div class="campo-grupo">
+      <label>Senha</label>
+      <input type="password" id="lg-senha" placeholder="Mínimo 6 caracteres">
+    </div>
+
+    <button class="btn-gerar" id="login-btn-acao" onclick="acaoLogin()">Entrar</button>
+
+    <p style="text-align:center;font-size:12px;color:var(--cinza-med);margin-top:14px;">
+      <span id="login-troca-texto">Ainda não tem conta?</span>
+      <a href="#" onclick="alternarModoLogin();return false;" style="color:var(--verde);font-weight:600;text-decoration:none;" id="login-troca-link">Cadastre-se</a>
+    </p>
+    <p style="text-align:center;margin-top:10px;">
+      <a href="#" onclick="irPara('t-home');return false;" style="color:var(--cinza-med);font-size:12px;text-decoration:none;">← Voltar</a>
+    </p>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════
+     REPOSITÓRIO
+═══════════════════════════════════ -->
+<div id="t-repositorio" class="tela">
+  <nav class="navbar">
+    <div class="nav-logo" onclick="irPara('t-home')">EducAI<span class="ponto">.</span>Prof</div>
+    <div class="nav-links">
+      <button class="nav-btn ativo"  onclick="irPara('t-repositorio')">🗂️ Repositório</button>
+      <button class="nav-btn"        onclick="irPara('t-planejador')">📋 Planejador</button>
+      <button class="nav-btn"        onclick="irPara('t-prompts')">💬 Prompts</button>
+      <button class="nav-btn"        onclick="irPara('t-diario')">📓 Diário</button>
+    </div>
+    <div class="nav-usuario-box" style="display:none;align-items:center;gap:10px;">
+      <span class="nav-usuario-nome" style="font-size:12px;color:var(--cinza-med);"></span>
+      <button class="nav-btn" onclick="logout()">Sair</button>
+    </div>
+  </nav>
+
+  <div class="conteudo">
+    <h1 class="titulo-pag">Repositório de Ferramentas</h1>
+    <p class="subtitulo-pag">Ferramentas de IA avaliadas com critérios éticos da UNESCO. Clique em qualquer card para ver a ficha completa, aplicar a Bússola Ética ou registrar um alerta de viés.</p>
+
+    <div class="barra-filtros">
+      <input type="text" placeholder="🔍  Buscar ferramenta…" oninput="aplicarFiltros()" id="busca-input">
+      <select onchange="aplicarFiltros()" id="f-disciplina">
+        <option value="">Todas as disciplinas</option>
+        <option>Matemática</option>
+        <option>Português</option>
+        <option>Ciências</option>
+        <option>Artes</option>
+      </select>
+      <select onchange="aplicarFiltros()" id="f-nivel">
+        <option value="">Todos os anos</option>
+        <option value="1-3">1º ao 3º ano</option>
+        <option value="4-5">4º ao 5º ano</option>
+        <option value="6-9">6º ao 9º ano</option>
+      </select>
+      <label class="filtro-acc">
+        <input type="checkbox" id="f-nee" onchange="aplicarFiltros()">
+        ♿ Acessibilidade / NEE
+      </label>
+      <label class="filtro-acc" style="background:var(--azul-cl);border-color:#93C5FD;color:var(--azul);">
+        <input type="checkbox" id="f-open" onchange="aplicarFiltros()">
+        🔓 Código Aberto
+      </label>
+    </div>
+
+    <div class="grid-ferramentas" id="grid-ferramentas"></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════
+     MODAL — FICHA FERRAMENTA
+═══════════════════════════════════ -->
+<div class="overlay" id="overlay-ficha" onclick="fecharModalFicha(event)">
+  <div class="modal" id="modal-ficha">
+    <button class="modal-fechar" onclick="fecharModalDireto('overlay-ficha')">✕</button>
+    <h2 id="m-nome"></h2>
+    <div class="card-badges" id="m-badges-topo" style="margin-bottom:10px;"></div>
+    <p class="modal-desc" id="m-desc"></p>
+    <div class="modal-nivel" id="m-nivel"></div>
+
+    <!-- ABAS -->
+    <div class="modal-abas">
+      <button class="modal-aba ativa" onclick="trocarAba(0)">📊 Avaliação</button>
+      <button class="modal-aba"       onclick="trocarAba(1)">🧭 Bússola Ética</button>
+      <button class="modal-aba"       onclick="trocarAba(2)">🚩 Reportar Viés</button>
+    </div>
+
+    <!-- PAINEL 0: critérios -->
+    <div class="modal-painel ativo" id="painel-0">
+      <div class="criterios-grid" id="m-criterios"></div>
+      <div id="m-chips" style="display:flex;gap:7px;flex-wrap:wrap;margin-bottom:0;"></div>
+    </div>
+
+    <!-- PAINEL 1: bússola ética -->
+    <div class="modal-painel" id="painel-1">
+      <div class="bussola-intro">
+        ⚠️ Use esta bússola <strong>antes de adotar</strong> a ferramenta com sua turma. Marque cada critério que a ferramenta atende.
+      </div>
+      <div id="bussola-checks"></div>
+      <div class="bussola-score" id="bussola-score"></div>
+    </div>
+
+    <!-- PAINEL 2: denúncia -->
+    <div class="modal-painel" id="painel-2">
+      <div class="denuncia-form">
+        <p style="font-size:13px;color:var(--cinza-med);margin-bottom:14px;line-height:1.6;">
+          Identificou preconceito, exclusão ou risco para grupos vulneráveis? Registre abaixo. Relatos contribuem para a curadoria coletiva.
+        </p>
+        <label style="font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;">Tipo de problema</label>
+        <select id="d-tipo">
+          <option value="">Selecione…</option>
+          <option>Viés de gênero</option>
+          <option>Exclusão cultural / linguística</option>
+          <option>Barreira de acessibilidade (NEE)</option>
+          <option>Coleta indevida de dados</option>
+          <option>Conteúdo inadequado para a faixa etária</option>
+          <option>Outro</option>
+        </select>
+        <label style="font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;">Descreva o problema observado</label>
+        <textarea id="d-descricao" rows="4" placeholder="Ex: A ferramenta gerou exemplos de profissões associando sempre mulheres a funções domésticas…"></textarea>
+        <button class="btn-denunciar" onclick="enviarDenuncia()">🚩 Registrar alerta</button>
+      </div>
+    </div>
+
+    <div class="modal-btns">
+      <button class="btn-usar" onclick="usarFerramenta()">Usar no Planejador →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════
+     PLANEJADOR
+═══════════════════════════════════ -->
+<div id="t-planejador" class="tela">
+  <nav class="navbar">
+    <div class="nav-logo" onclick="irPara('t-home')">EducAI<span class="ponto">.</span>Prof</div>
+    <div class="nav-links">
+      <button class="nav-btn"        onclick="irPara('t-repositorio')">🗂️ Repositório</button>
+      <button class="nav-btn ativo"  onclick="irPara('t-planejador')">📋 Planejador</button>
+      <button class="nav-btn"        onclick="irPara('t-prompts')">💬 Prompts</button>
+      <button class="nav-btn"        onclick="irPara('t-diario')">📓 Diário</button>
+    </div>
+    <div class="nav-usuario-box" style="display:none;align-items:center;gap:10px;">
+      <span class="nav-usuario-nome" style="font-size:12px;color:var(--cinza-med);"></span>
+      <button class="nav-btn" onclick="logout()">Sair</button>
+    </div>
+  </nav>
+
+  <div class="conteudo">
+    <h1 class="titulo-pag">Planejador de Aulas</h1>
+    <p class="subtitulo-pag">Preencha os dados da sua aula e receba um roteiro pedagógico com sugestão de ferramenta, seguindo o ciclo <strong>design → implementação → reflexão</strong> da UNESCO.</p>
+
+    <div class="form-planejador">
+      <div class="linha-campos">
+        <div class="campo-grupo">
+          <label>Disciplina</label>
+          <select id="pl-disciplina">
+            <option value="">Selecione…</option>
+            <option>Matemática</option>
+            <option>Língua Portuguesa</option>
+            <option>Ciências</option>
+            <option>Artes</option>
+            <option>História</option>
+            <option>Geografia</option>
+          </select>
+        </div>
+        <div class="campo-grupo">
+          <label>Ano escolar</label>
+          <select id="pl-ano">
+            <option value="">Selecione…</option>
+            <option>1º ano</option><option>2º ano</option><option>3º ano</option>
+            <option>4º ano</option><option>5º ano</option><option>6º ano</option>
+            <option>7º ano</option><option>8º ano</option><option>9º ano</option>
+          </select>
+        </div>
+      </div>
+      <div class="campo-grupo">
+        <label>Objetivo de aprendizagem</label>
+        <input type="text" id="pl-objetivo" placeholder="Ex: Compreender frações com representações visuais">
+      </div>
+      <div class="linha-campos">
+        <div class="campo-grupo">
+          <label>Duração</label>
+          <select id="pl-duracao">
+            <option>1 aula (50 min)</option>
+            <option>2 aulas</option>
+            <option>Sequência didática (1 semana)</option>
+          </select>
+        </div>
+        <div class="campo-grupo">
+          <label>Turma tem alunos com NEE?</label>
+          <select id="pl-nee">
+            <option value="nao">Não</option>
+            <option value="sim">Sim — priorizar ferramentas acessíveis</option>
+          </select>
+        </div>
+      </div>
+      <div class="campo-grupo">
+        <label>Descreva a atividade planejada</label>
+        <textarea id="pl-atividade" rows="3" placeholder="Ex: Os alunos irão explorar frações usando blocos virtuais…"></textarea>
+      </div>
+      <button class="btn-gerar" onclick="gerarPlano()">✦ Gerar plano de aula</button>
+    </div>
+
+    <div class="resultado-plano" id="resultado-plano">
+      <div class="plano-titulo" id="plano-titulo-texto"></div>
+      <div class="sugestao-ferramenta" id="sugestao-box">
+        <div class="icone-sug" id="sug-icone"></div>
+        <div>
+          <h4 id="sug-nome"></h4>
+          <p  id="sug-motivo"></p>
+        </div>
+      </div>
+      <div class="etapa-ciclo"><div class="etapa-numero">1</div><div class="etapa-corpo"><h4>Design</h4><p id="et-design"></p></div></div>
+      <div class="etapa-ciclo"><div class="etapa-numero">2</div><div class="etapa-corpo"><h4>Implementação</h4><p id="et-impl"></p></div></div>
+      <div class="etapa-ciclo"><div class="etapa-numero">3</div><div class="etapa-corpo"><h4>Reflexão</h4><p id="et-refl"></p></div></div>
+      <button class="btn-registrar" onclick="irPara('t-diario')">📓 Registrar no Diário após aplicar →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════
+     PROMPTS
+═══════════════════════════════════ -->
+<div id="t-prompts" class="tela">
+  <nav class="navbar">
+    <div class="nav-logo" onclick="irPara('t-home')">EducAI<span class="ponto">.</span>Prof</div>
+    <div class="nav-links">
+      <button class="nav-btn"       onclick="irPara('t-repositorio')">🗂️ Repositório</button>
+      <button class="nav-btn"       onclick="irPara('t-planejador')">📋 Planejador</button>
+      <button class="nav-btn ativo" onclick="irPara('t-prompts')">💬 Prompts</button>
+      <button class="nav-btn"       onclick="irPara('t-diario')">📓 Diário</button>
+    </div>
+    <div class="nav-usuario-box" style="display:none;align-items:center;gap:10px;">
+      <span class="nav-usuario-nome" style="font-size:12px;color:var(--cinza-med);"></span>
+      <button class="nav-btn" onclick="logout()">Sair</button>
+    </div>
+  </nav>
+
+  <div class="conteudo">
+    <div class="prompts-topo">
+      <div>
+        <h1 class="titulo-pag" style="margin-bottom:4px;">Banco de Prompts Validados</h1>
+        <p class="subtitulo-pag" style="margin-bottom:0;">Prompts compartilhados por professores, organizados por disciplina e ano escolar.</p>
+      </div>
+      <button class="btn-novo-prompt" onclick="abrirModalPrompt()">+ Compartilhar prompt</button>
+    </div>
+
+    <div class="barra-filtros" style="margin-bottom:20px;">
+      <input type="text" placeholder="🔍  Buscar prompt…" oninput="filtrarPrompts(this.value)" id="busca-prompt">
+      <select onchange="filtrarPromptsDisciplina(this.value)">
+        <option value="">Todas as disciplinas</option>
+        <option>Matemática</option>
+        <option>Português</option>
+        <option>Ciências</option>
+        <option>Artes</option>
+        <option>Geral</option>
+      </select>
+      <label class="filtro-acc">
+        <input type="checkbox" id="fp-inc" onchange="filtrarPromptsInc(this.checked)">
+        ♿ Prompts inclusivos
+      </label>
+    </div>
+
+    <div class="grid-prompts" id="grid-prompts"></div>
+  </div>
+</div>
+
+<!-- Modal novo prompt -->
+<div class="overlay" id="overlay-prompt" onclick="fecharModalPrompt(event)">
+  <div class="modal" style="max-width:540px;">
+    <button class="modal-fechar" onclick="fecharModalDireto('overlay-prompt')">✕</button>
+    <h2 style="margin-bottom:20px;">Compartilhar Prompt</h2>
+    <div class="form-prompt">
+      <label>Título do prompt</label>
+      <input type="text" id="np-titulo" placeholder="Ex: Gerar questões abertas sobre frações">
+      <label>Disciplina</label>
+      <select id="np-disciplina">
+        <option>Matemática</option><option>Português</option>
+        <option>Ciências</option><option>Artes</option><option>Geral</option>
+      </select>
+      <label>Ano escolar</label>
+      <select id="np-ano">
+        <option>1º ao 3º ano</option><option>4º ao 5º ano</option><option>6º ao 9º ano</option>
+      </select>
+      <label>Ferramenta indicada</label>
+      <input type="text" id="np-ferramenta" placeholder="Ex: ChatGPT, Khanmigo…">
+      <label>O prompt</label>
+      <textarea id="np-prompt" rows="5" placeholder="Cole aqui o prompt completo que você usa com seus alunos…"></textarea>
+      <label>
+        <input type="checkbox" id="np-inc" style="margin-right:6px; accent-color:var(--roxo);">
+        Este prompt foi pensado para alunos com necessidades especiais (NEE)
+      </label>
+    </div>
+    <button class="btn-publicar" style="margin-top:16px;" onclick="publicarPrompt()">💬 Publicar prompt</button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════
+     DIÁRIO
+═══════════════════════════════════ -->
+<div id="t-diario" class="tela">
+  <nav class="navbar">
+    <div class="nav-logo" onclick="irPara('t-home')">EducAI<span class="ponto">.</span>Prof</div>
+    <div class="nav-links">
+      <button class="nav-btn"       onclick="irPara('t-repositorio')">🗂️ Repositório</button>
+      <button class="nav-btn"       onclick="irPara('t-planejador')">📋 Planejador</button>
+      <button class="nav-btn"       onclick="irPara('t-prompts')">💬 Prompts</button>
+      <button class="nav-btn ativo" onclick="irPara('t-diario')">📓 Diário</button>
+    </div>
+    <div class="nav-usuario-box" style="display:none;align-items:center;gap:10px;">
+      <span class="nav-usuario-nome" style="font-size:12px;color:var(--cinza-med);"></span>
+      <button class="nav-btn" onclick="logout()">Sair</button>
+    </div>
+  </nav>
+
+  <div class="conteudo">
+    <h1 class="titulo-pag">Diário de Reflexão</h1>
+    <p class="subtitulo-pag">Registre sua experiência após aplicar uma aula com IA. Sua avaliação contribui para o repositório coletivo.</p>
+
+    <div class="layout-diario">
+      <div class="form-diario">
+        <div class="campo-grupo">
+          <label>Ferramenta utilizada</label>
+          <select id="d-ferramenta">
+            <option value="">Selecione…</option>
+            <option>Khan Academy (Khanmigo)</option>
+            <option>Canva IA</option>
+            <option>Duolingo</option>
+            <option>Book Creator IA</option>
+            <option>Scratch</option>
+            <option>Google Read Along</option>
+            <option>Mathway</option>
+            <option>Outra</option>
+          </select>
+        </div>
+        <div class="campo-grupo">
+          <label>O que funcionou bem?</label>
+          <textarea id="d-funcionou" rows="3" placeholder="Descreva os aspectos positivos da experiência…"></textarea>
+        </div>
+        <div class="campo-grupo">
+          <label>O que poderia melhorar?</label>
+          <textarea id="d-melhorar" rows="3" placeholder="Dificuldades ou riscos observados…"></textarea>
+        </div>
+        <div class="campo-grupo">
+          <label>Os alunos permaneceram protagonistas?</label>
+          <select id="d-agencia">
+            <option value="">Selecione…</option>
+            <option>Sim, completamente</option>
+            <option>Sim, na maior parte do tempo</option>
+            <option>Parcialmente</option>
+            <option>Não, a IA conduziu demais</option>
+          </select>
+        </div>
+        <div class="campo-grupo">
+          <label>Observou barreiras para alunos com NEE?</label>
+          <select id="d-nee">
+            <option value="">Selecione…</option>
+            <option>Não observei barreiras</option>
+            <option>Barreiras leves, contornáveis</option>
+            <option>Sim, a ferramenta excluiu alunos com NEE</option>
+            <option>Não aplica à minha turma</option>
+          </select>
+        </div>
+        <div class="campo-grupo">
+          <label>Avaliação geral</label>
+          <div class="estrelas-avaliacao" id="estrelas-container">
+            <button class="estrela-btn" onclick="selecionarEstrela(1)">★</button>
+            <button class="estrela-btn" onclick="selecionarEstrela(2)">★</button>
+            <button class="estrela-btn" onclick="selecionarEstrela(3)">★</button>
+            <button class="estrela-btn" onclick="selecionarEstrela(4)">★</button>
+            <button class="estrela-btn" onclick="selecionarEstrela(5)">★</button>
+          </div>
+        </div>
+        <button class="btn-salvar" onclick="salvarRegistro()">💾 Salvar no diário</button>
+      </div>
+
+      <div class="painel-historico">
+        <h3>📋 Registros recentes</h3>
+        <div id="lista-historico"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+<script src="config.js"></script>
+<script>
+/* ═══════════════════════════════════
+   SUPABASE — cliente e modo demo
+═══════════════════════════════════ */
+const supabaseConfigurado = typeof SUPABASE_URL !== 'undefined'
+  && SUPABASE_URL && !SUPABASE_URL.includes('SUA_URL')
+  && SUPABASE_ANON_KEY && !SUPABASE_ANON_KEY.includes('SUA_ANON_KEY');
+
+const sb = supabaseConfigurado
+  ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
+  : null;
+
+let usuarioAtual = null; // { id, nome, email }
+let destinoPosLogin = 't-repositorio';
+
+/* ═══════════════════════════════════
+   DADOS — FERRAMENTAS (mock usado no modo demo
+   e como fallback antes do primeiro carregamento)
+═══════════════════════════════════ */
+const ferramentasMock = [
+  {
+    id:1, nome:"Khan Academy (Khanmigo)", disciplina:"Matemática",
+    anos:"1-9", icone:"🧮", nee:true, open:false,
+    desc:"Tutor de IA socrático que guia o aluno com perguntas, sem dar respostas prontas. Suporte de acessibilidade para diferentes ritmos de aprendizagem.",
+    nivel:"Nível UNESCO: Adquirir → Aprofundar · Aspecto 4 (Pedagogia da IA)",
+    estrelas:4.8,
+    criterios:[
+      {nome:"Segurança de Dados",val:90,c:""},
+      {nome:"Adequação à Faixa Etária",val:95,c:""},
+      {nome:"Agência do Aluno",val:85,c:""},
+      {nome:"Sem Viés",val:80,c:""},
+      {nome:"Transparência",val:70,c:"media"},
+      {nome:"Acessibilidade NEE",val:82,c:""},
+    ],
+    chips:["Gratuito","Português disponível","Sem anúncios","♿ Acessível"],
+    badges:["badge-mat","badge-inc"],
+    badgeLabels:["Matemática","Pró-Inclusão"],
+  },
+  {
+    id:2, nome:"Canva IA", disciplina:"Artes",
+    anos:"4-9", icone:"🎨", nee:false, open:false,
+    desc:"Geração de imagens e layouts com IA. Ótimo para projetos visuais, mas requer supervisão ética — pode reproduzir estereótipos visuais.",
+    nivel:"Nível UNESCO: Adquirir · Aspecto 3 (Fundamentos e Aplicações)",
+    estrelas:4.3,
+    criterios:[
+      {nome:"Segurança de Dados",val:72,c:"media"},
+      {nome:"Adequação à Faixa Etária",val:78,c:"media"},
+      {nome:"Agência do Aluno",val:90,c:""},
+      {nome:"Sem Viés",val:58,c:"baixa"},
+      {nome:"Transparência",val:55,c:"baixa"},
+      {nome:"Acessibilidade NEE",val:60,c:"media"},
+    ],
+    chips:["Versão gratuita","Conta educacional","⚠️ Monitorar viés"],
+    badges:["badge-arte"],
+    badgeLabels:["Artes"],
+  },
+  {
+    id:3, nome:"Scratch", disciplina:"Todas",
+    anos:"4-9", icone:"🐱", nee:true, open:true,
+    desc:"Programação criativa com blocos. Código aberto, sem coleta de dados comercial. Referência em agência do aluno e pensamento computacional.",
+    nivel:"Nível UNESCO: Aprofundar → Criar · Aspecto 3 (Fundamentos e Aplicações)",
+    estrelas:4.9,
+    criterios:[
+      {nome:"Segurança de Dados",val:95,c:""},
+      {nome:"Adequação à Faixa Etária",val:95,c:""},
+      {nome:"Agência do Aluno",val:98,c:""},
+      {nome:"Sem Viés",val:95,c:""},
+      {nome:"Transparência",val:90,c:""},
+      {nome:"Acessibilidade NEE",val:80,c:""},
+    ],
+    chips:["100% Gratuito","Código aberto","MIT License","♿ Acessível"],
+    badges:["badge-todos","badge-open","badge-nee"],
+    badgeLabels:["Todas as disciplinas","Código Aberto","NEE"],
+  },
+  {
+    id:4, nome:"Book Creator IA", disciplina:"Português",
+    anos:"1-5", icone:"📖", nee:true, open:false,
+    desc:"Criação de livros digitais com suporte de IA. Perfeito para produção textual e narrativas criativas. Recursos de acessibilidade para leitores iniciantes.",
+    nivel:"Nível UNESCO: Adquirir → Aprofundar · Aspecto 4 (Pedagogia da IA)",
+    estrelas:4.6,
+    criterios:[
+      {nome:"Segurança de Dados",val:85,c:""},
+      {nome:"Adequação à Faixa Etária",val:92,c:""},
+      {nome:"Agência do Aluno",val:95,c:""},
+      {nome:"Sem Viés",val:80,c:""},
+      {nome:"Transparência",val:75,c:"media"},
+      {nome:"Acessibilidade NEE",val:78,c:"media"},
+    ],
+    chips:["Plano escola","COPPA compliant","Colaborativo","♿ Parcial"],
+    badges:["badge-port","badge-inc"],
+    badgeLabels:["Português","Pró-Inclusão"],
+  },
+  {
+    id:5, nome:"Google Read Along", disciplina:"Português",
+    anos:"1-3", icone:"📚", nee:true, open:false,
+    desc:"App de leitura com tutor de IA que ouve a criança ler em voz alta. Foco na alfabetização. Disponível offline e em Português BR.",
+    nivel:"Nível UNESCO: Adquirir · Aspecto 4 (Pedagogia da IA)",
+    estrelas:4.4,
+    criterios:[
+      {nome:"Segurança de Dados",val:68,c:"media"},
+      {nome:"Adequação à Faixa Etária",val:90,c:""},
+      {nome:"Agência do Aluno",val:80,c:""},
+      {nome:"Sem Viés",val:74,c:"media"},
+      {nome:"Transparência",val:60,c:"media"},
+      {nome:"Acessibilidade NEE",val:75,c:"media"},
+    ],
+    chips:["Gratuito","Offline","Português BR","♿ Parcial"],
+    badges:["badge-port","badge-nee"],
+    badgeLabels:["Português","NEE"],
+  },
+  {
+    id:6, nome:"Kolibri (LE)", disciplina:"Todas",
+    anos:"1-9", icone:"🕊️", nee:true, open:true,
+    desc:"Plataforma de aprendizagem offline de código aberto, pensada para contextos de baixa conectividade. Sem coleta de dados e totalmente personalizável.",
+    nivel:"Nível UNESCO: Adquirir · Aspecto 5 (Desenvolvimento Profissional)",
+    estrelas:4.7,
+    criterios:[
+      {nome:"Segurança de Dados",val:98,c:""},
+      {nome:"Adequação à Faixa Etária",val:90,c:""},
+      {nome:"Agência do Aluno",val:85,c:""},
+      {nome:"Sem Viés",val:90,c:""},
+      {nome:"Transparência",val:95,c:""},
+      {nome:"Acessibilidade NEE",val:88,c:""},
+    ],
+    chips:["100% Gratuito","Código aberto","Funciona offline","♿ Acessível"],
+    badges:["badge-todos","badge-open","badge-nee","badge-inc"],
+    badgeLabels:["Todas as disciplinas","Código Aberto","NEE","Pró-Inclusão"],
+  },
+];
+
+let ferramentas = ferramentasMock.slice();
+
+/* ═══════════════════════════════════
+   DADOS — PROMPTS (mock usado no modo demo)
+═══════════════════════════════════ */
+const promptsMock = [
+  {
+    titulo:"Questões abertas para raciocínio matemático",
+    disciplina:"Matemática", ano:"4º ao 5º ano",
+    ferramenta:"Khanmigo / ChatGPT", inclusivo:false,
+    prompt:'Você é um tutor de matemática. Nunca dê a resposta direta. Quando o aluno enviar uma questão, responda com 2 perguntas que o ajudem a pensar no caminho da solução por conta própria. Nível: 4º ano do Ensino Fundamental.',
+    autor:"Prof. Ana Souza", curtidas:24,
+  },
+  {
+    titulo:"Roteiro de escrita criativa inclusivo",
+    disciplina:"Português", ano:"1º ao 3º ano",
+    ferramenta:"Book Creator / ChatGPT", inclusivo:true,
+    prompt:'Crie um roteiro de 5 perguntas para guiar uma criança de 7 anos a inventar uma história curta. Use linguagem simples. Adapte as perguntas para uma criança com dificuldade de leitura: use frases curtas, sem jargões, e ofereça exemplos concretos em cada pergunta.',
+    autor:"Prof. Carlos Lima", curtidas:31,
+  },
+  {
+    titulo:"Experimento científico com hipóteses",
+    disciplina:"Ciências", ano:"6º ao 9º ano",
+    ferramenta:"ChatGPT", inclusivo:false,
+    prompt:'Atue como orientador de um experimento científico. O aluno vai descrever uma observação e você deve ajudá-lo a formular uma hipótese testável, listar os materiais necessários e sugerir como registrar os resultados. Não execute o experimento — guie o aluno a planejar.',
+    autor:"Prof. Beatriz Neves", curtidas:18,
+  },
+  {
+    titulo:"Feedback de produção textual sem fazer pelo aluno",
+    disciplina:"Português", ano:"6º ao 9º ano",
+    ferramenta:"ChatGPT / Gemini", inclusivo:false,
+    prompt:'Leia o texto do aluno a seguir e dê feedback em 3 tópicos: (1) o que está bom, (2) uma sugestão de melhoria estrutural, (3) uma pergunta que provoque o aluno a expandir uma ideia. Não reescreva nenhuma parte do texto.',
+    autor:"Prof. Marcos Alves", curtidas:42,
+  },
+];
+
+let prompts = promptsMock.slice();
+
+/* ═══════════════════════════════════
+   DADOS — BÚSSOLA ÉTICA
+═══════════════════════════════════ */
+const bussolaItens = [
+  { label:"Não causa danos", desc:"A ferramenta não expõe dados sensíveis dos alunos nem gera conteúdo prejudicial." },
+  { label:"Adequada à faixa etária", desc:"O conteúdo, linguagem e interações são apropriados para a idade da turma." },
+  { label:"Preserva a agência do aluno", desc:"A IA apoia, mas não substitui o raciocínio e a criatividade dos estudantes." },
+  { label:"Transparente sobre seus limites", desc:"A ferramenta indica quando pode errar ou quando não sabe a resposta." },
+  { label:"Sem viés identificado", desc:"Não reproduz estereótipos de gênero, raça, cultura ou capacidades." },
+  { label:"Acessível para alunos com NEE", desc:"Oferece recursos de acessibilidade ou não cria barreiras para alunos com necessidades especiais." },
+  { label:"Dados protegidos", desc:"Coleta apenas dados necessários e com consentimento; não vende informações dos alunos." },
+];
+
+/* ═══════════════════════════════════
+   DADOS — HISTÓRICO DIÁRIO (mock usado no modo demo)
+═══════════════════════════════════ */
+const historicoMock = [
+  { data:"14 jun 2025", ferramenta:"Khan Academy (Khanmigo)", estrelas:5, resumo:"Alunos muito engajados com as perguntas guiadas." },
+  { data:"07 jun 2025", ferramenta:"Canva IA",                estrelas:4, resumo:"Boa para produção visual, mas requer supervisão." },
+  { data:"28 mai 2025", ferramenta:"Scratch",                 estrelas:5, resumo:"Melhor experiência do semestre — todos participaram!" },
+];
+
+let historico = supabaseConfigurado ? [] : historicoMock.slice();
+
+/* ═══════════════════════════════════
+   ESTADO
+═══════════════════════════════════ */
+let abaAtiva = 0;
+let estrelaSelecionada = 0;
+let ferramentaSelecionada = null;
+
+/* ═══════════════════════════════════
+   AUTENTICAÇÃO
+═══════════════════════════════════ */
+let modoCadastro = false;
+
+function alternarModoLogin() {
+  modoCadastro = !modoCadastro;
+  document.getElementById('login-campo-nome').style.display = modoCadastro ? 'block' : 'none';
+  document.getElementById('login-titulo').textContent = modoCadastro ? 'Criar conta' : 'Entrar';
+  document.getElementById('login-btn-acao').textContent = modoCadastro ? 'Cadastrar' : 'Entrar';
+  document.getElementById('login-troca-texto').textContent = modoCadastro ? 'Já tem conta?' : 'Ainda não tem conta?';
+  document.getElementById('login-troca-link').textContent = modoCadastro ? 'Entrar' : 'Cadastre-se';
+}
+
+async function acaoLogin() {
+  const email = document.getElementById('lg-email').value.trim();
+  const senha = document.getElementById('lg-senha').value;
+  const nome  = document.getElementById('lg-nome').value.trim();
+
+  if (!email || !senha) { mostrarToast('Preencha e-mail e senha ✏️'); return; }
+  if (modoCadastro && !nome) { mostrarToast('Informe seu nome ✏️'); return; }
+
+  if (modoCadastro) {
+    const { data, error } = await sb.auth.signUp({
+      email, password: senha, options: { data: { nome } },
+    });
+    if (error) { mostrarToast('Erro ao cadastrar: ' + error.message); return; }
+    if (data.user && !data.session) {
+      mostrarToast('Cadastro criado! Verifique seu e-mail para confirmar o acesso ✉️');
+      return;
+    }
+  } else {
+    const { error } = await sb.auth.signInWithPassword({ email, password: senha });
+    if (error) { mostrarToast('Erro ao entrar: ' + error.message); return; }
+  }
+
+  document.getElementById('lg-email').value = '';
+  document.getElementById('lg-senha').value = '';
+  document.getElementById('lg-nome').value = '';
+}
+
+async function logout() {
+  await sb.auth.signOut();
+  usuarioAtual = null;
+  atualizarUiUsuario();
+  irPara('t-home');
+}
+
+function atualizarUiUsuario() {
+  document.querySelectorAll('.nav-usuario-box').forEach(box => {
+    box.style.display = usuarioAtual ? 'flex' : 'none';
+    const nomeEl = box.querySelector('.nav-usuario-nome');
+    if (nomeEl) nomeEl.textContent = usuarioAtual ? '👋 ' + usuarioAtual.nome : '';
+  });
+}
+
+async function inicializarAuth() {
+  if (!supabaseConfigurado) return;
+
+  const { data: { session } } = await sb.auth.getSession();
+  if (session) {
+    await definirUsuarioDaSessao(session);
+  }
+
+  sb.auth.onAuthStateChange(async (event, session) => {
+    if (event === 'SIGNED_IN' && session) {
+      await definirUsuarioDaSessao(session);
+      mostrarToast(`Bem-vindo(a), ${usuarioAtual.nome}! 👋`);
+      irPara(destinoPosLogin);
+    }
+    if (event === 'SIGNED_OUT') {
+      usuarioAtual = null;
+      atualizarUiUsuario();
+    }
+  });
+}
+
+async function definirUsuarioDaSessao(session) {
+  const { data: perfil } = await sb.from('professores').select('nome').eq('id', session.user.id).single();
+  usuarioAtual = {
+    id: session.user.id,
+    email: session.user.email,
+    nome: perfil?.nome || session.user.email,
+  };
+  atualizarUiUsuario();
+}
+
+/* ═══════════════════════════════════
+   CARREGAMENTO DE DADOS (Supabase ou mock)
+═══════════════════════════════════ */
+async function carregarFerramentas() {
+  if (!supabaseConfigurado) { ferramentas = ferramentasMock.slice(); return; }
+  const { data, error } = await sb.from('ferramentas').select('*').order('id');
+  if (error) { mostrarToast('Erro ao carregar ferramentas: ' + error.message); return; }
+  ferramentas = data.map(f => ({
+    id: f.id, nome: f.nome, disciplina: f.disciplina, anos: f.anos, icone: f.icone,
+    nee: f.nee, open: f.open_source, desc: f.descricao, nivel: f.nivel_unesco,
+    estrelas: f.estrelas, criterios: f.criterios, chips: f.chips,
+    badges: f.badges, badgeLabels: f.badge_labels,
+  }));
+}
+
+async function carregarPrompts() {
+  if (!supabaseConfigurado) { prompts = promptsMock.slice(); return; }
+  const { data, error } = await sb.from('prompts').select('*, professores(nome)').order('criado_em', { ascending:false });
+  if (error) { mostrarToast('Erro ao carregar prompts: ' + error.message); return; }
+  prompts = data.map(p => ({
+    id: p.id, titulo: p.titulo, disciplina: p.disciplina, ano: p.ano,
+    ferramenta: p.ferramenta, inclusivo: p.inclusivo, prompt: p.prompt,
+    autor: p.professores?.nome || 'Professor(a)', curtidas: p.curtidas,
+  }));
+}
+
+async function carregarHistorico() {
+  if (!supabaseConfigurado || !usuarioAtual) return;
+  const { data, error } = await sb.from('diario_registros').select('*')
+    .eq('professor_id', usuarioAtual.id).order('criado_em', { ascending:false });
+  if (error) { mostrarToast('Erro ao carregar diário: ' + error.message); return; }
+  historico = data.map(r => ({
+    data: new Date(r.criado_em).toLocaleDateString('pt-BR', {day:'2-digit',month:'short',year:'numeric'}),
+    ferramenta: r.ferramenta, estrelas: r.estrelas, resumo: r.funcionou,
+  }));
+}
+
+/* ═══════════════════════════════════
+   NAVEGAÇÃO
+═══════════════════════════════════ */
+const telasComLogin = ['t-repositorio','t-planejador','t-prompts','t-diario'];
+
+function irPara(id) {
+  if (supabaseConfigurado && !usuarioAtual && telasComLogin.includes(id)) {
+    destinoPosLogin = id;
+    id = 't-login';
+  }
+
+  document.querySelectorAll('.tela').forEach(t => t.classList.remove('ativa'));
+  document.getElementById(id).classList.add('ativa');
+  window.scrollTo(0,0);
+  // atualiza nav ativo
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('ativo'));
+  const mapa = { 't-repositorio':0, 't-planejador':1, 't-prompts':2, 't-diario':3 };
+  if (id in mapa) {
+    document.querySelectorAll('#'+id+' .nav-btn')[mapa[id]];
+    document.querySelectorAll('#'+id+' .nav-btn').forEach((b,i) => {
+      b.classList.toggle('ativo', i === mapa[id]);
+    });
+  }
+  if (id==='t-repositorio') carregarFerramentas().then(()=>renderizarFerramentas(ferramentas));
+  if (id==='t-prompts')     carregarPrompts().then(()=>renderizarPrompts(prompts));
+  if (id==='t-diario')      carregarHistorico().then(renderizarHistorico);
+}
+
+/* ═══════════════════════════════════
+   REPOSITÓRIO — render & filtros
+═══════════════════════════════════ */
+function renderizarFerramentas(lista) {
+  const grid = document.getElementById('grid-ferramentas');
+  if (!lista.length) { grid.innerHTML='<p style="color:var(--cinza-med);grid-column:1/-1">Nenhuma ferramenta encontrada para esses filtros.</p>'; return; }
+  grid.innerHTML = lista.map(f => `
+    <div class="card-ferramenta" onclick="abrirFicha(${f.id})">
+      <span class="estrelas-card">★ ${f.estrelas}</span>
+      <div class="card-badges">
+        ${f.badges.map((b,i)=>`<span class="badge ${b}">${f.badgeLabels[i]}</span>`).join('')}
+      </div>
+      <h3>${f.icone} ${f.nome}</h3>
+      <p>${f.desc}</p>
+      <div class="chips-row">
+        ${f.chips.map(c=>`<span class="chip ${c.includes('♿')?'chip-roxo':'chip-verde'}">${c}</span>`).join('')}
+      </div>
+    </div>`).join('');
+}
+
+function aplicarFiltros() {
+  const q    = document.getElementById('busca-input').value.toLowerCase();
+  const disc = document.getElementById('f-disciplina').value;
+  const niv  = document.getElementById('f-nivel').value;
+  const nee  = document.getElementById('f-nee').checked;
+  const open = document.getElementById('f-open').checked;
+
+  const r = ferramentas.filter(f => {
+    const matchQ    = !q    || f.nome.toLowerCase().includes(q) || f.desc.toLowerCase().includes(q);
+    const matchDisc = !disc || f.disciplina === disc || f.disciplina === 'Todas';
+    const matchNiv  = !niv  || f.anos === niv || f.anos === '1-9';
+    const matchNEE  = !nee  || f.nee;
+    const matchOpen = !open || f.open;
+    return matchQ && matchDisc && matchNiv && matchNEE && matchOpen;
+  });
+  renderizarFerramentas(r);
+}
+
+/* ═══════════════════════════════════
+   MODAL FICHA
+═══════════════════════════════════ */
+function abrirFicha(id) {
+  const f = ferramentas.find(x=>x.id===id);
+  ferramentaSelecionada = f;
+
+  document.getElementById('m-nome').textContent = f.icone+' '+f.nome;
+  document.getElementById('m-desc').textContent = f.desc;
+  document.getElementById('m-nivel').textContent = '📌 '+f.nivel;
+
+  document.getElementById('m-badges-topo').innerHTML =
+    f.badges.map((b,i)=>`<span class="badge ${b}">${f.badgeLabels[i]}</span>`).join('');
+
+  document.getElementById('m-criterios').innerHTML = f.criterios.map(c=>`
+    <div class="criterio">
+      <label>${c.nome}</label>
+      <div class="barra-criterio"><div class="barra-fill ${c.c}" style="width:${c.val}%"></div></div>
+      <span>${c.val}%</span>
+    </div>`).join('');
+
+  document.getElementById('m-chips').innerHTML =
+    f.chips.map(c=>`<span class="chip ${c.includes('♿')?'chip-roxo':'chip-verde'}">${c}</span>`).join('');
+
+  // bússola
+  document.getElementById('bussola-checks').innerHTML = bussolaItens.map((item,i)=>`
+    <div class="check-item">
+      <input type="checkbox" id="bc${i}" onchange="atualizarBussola()">
+      <div class="check-texto">
+        <h4>${item.label}</h4>
+        <p>${item.desc}</p>
+      </div>
+    </div>`).join('');
+  document.getElementById('bussola-score').className = 'bussola-score';
+  document.getElementById('bussola-score').textContent = '';
+
+  // reset denuncia
+  document.getElementById('d-tipo').value = '';
+  document.getElementById('d-descricao').value = '';
+
+  trocarAba(0);
+  document.getElementById('overlay-ficha').classList.add('aberto');
+}
+
+function trocarAba(n) {
+  abaAtiva = n;
+  document.querySelectorAll('.modal-aba').forEach((b,i)=>b.classList.toggle('ativa',i===n));
+  document.querySelectorAll('.modal-painel').forEach((p,i)=>p.classList.toggle('ativo',i===n));
+}
+
+function atualizarBussola() {
+  const total   = bussolaItens.length;
+  const marcados = document.querySelectorAll('#bussola-checks input:checked').length;
+  const pct = Math.round((marcados/total)*100);
+  const el  = document.getElementById('bussola-score');
+  el.textContent = '';
+  if (marcados===0) { el.className='bussola-score'; return; }
+  if (pct>=80)      { el.className='bussola-score verde';   el.textContent=`✅ Ferramenta recomendada — ${pct}% dos critérios atendidos`; }
+  else if (pct>=50) { el.className='bussola-score amarelo'; el.textContent=`⚠️ Use com atenção — ${pct}% dos critérios atendidos`; }
+  else              { el.className='bussola-score vermelho'; el.textContent=`🚫 Uso não recomendado — apenas ${pct}% dos critérios atendidos`; }
+}
+
+async function enviarDenuncia() {
+  const tipo = document.getElementById('d-tipo').value;
+  const desc = document.getElementById('d-descricao').value;
+  if (!tipo||!desc) { mostrarToast('Preencha o tipo e a descrição do problema ✏️'); return; }
+
+  if (supabaseConfigurado) {
+    const { error } = await sb.from('denuncias').insert({
+      ferramenta_id: ferramentaSelecionada.id,
+      professor_id: usuarioAtual.id,
+      tipo, descricao: desc,
+    });
+    if (error) { mostrarToast('Erro ao registrar alerta: ' + error.message); return; }
+  }
+
+  document.getElementById('d-tipo').value='';
+  document.getElementById('d-descricao').value='';
+  fecharModalDireto('overlay-ficha');
+  mostrarToast(`🚩 Alerta registrado para "${ferramentaSelecionada.nome}". Obrigado!`);
+}
+
+function fecharModalFicha(e) { if(e.target.id==='overlay-ficha') fecharModalDireto('overlay-ficha'); }
+function fecharModalDireto(id) { document.getElementById(id).classList.remove('aberto'); }
+
+function usarFerramenta() {
+  fecharModalDireto('overlay-ficha');
+  irPara('t-planejador');
+  if(ferramentaSelecionada) mostrarToast(`"${ferramentaSelecionada.nome}" levada ao Planejador ✓`);
+}
+
+/* ═══════════════════════════════════
+   PLANEJADOR
+═══════════════════════════════════ */
+const planosBase = {
+  "Matemática": {
+    icone:"🧮", ferramenta:"Khan Academy (Khanmigo)",
+    motivo:"Promove raciocínio ativo — o aluno constrói a resposta, não a recebe pronta. Acessível para diferentes ritmos.",
+    design:"Defina o conceito e selecione exercícios de pré-avaliação no Khanmigo. Prepare perguntas norteadoras para a descoberta guiada.",
+    impl:"Apresente o problema sem dar a solução. Alunos interagem com o tutor em duplas; você circula fazendo perguntas mediadoras.",
+    refl:"Peça que expliquem com suas palavras o que aprenderam. Registre onde a IA acertou e errou ao adaptar-se ao nível da turma.",
+  },
+  "Língua Portuguesa": {
+    icone:"📖", ferramenta:"Book Creator IA",
+    motivo:"Perfeita para produção textual — a IA auxilia na estrutura, mas o conteúdo e as ideias partem dos alunos.",
+    design:"Escolha o gênero textual. Defina a proposta criativa e prepare perguntas para provocar ideias nos alunos.",
+    impl:"Alunos criam seus livros usando a IA apenas para sugestões de estrutura. O texto final deve ser totalmente deles.",
+    refl:"Leitura em voz alta ou roda de conversa. Discussão: onde a IA ajudou? Onde foi preciso desconsiderar a sugestão?",
+  },
+  "Ciências": {
+    icone:"🔬", ferramenta:"Kolibri (offline)",
+    motivo:"Plataforma de código aberto sem coleta de dados, ideal para estimular o pensamento investigativo com segurança.",
+    design:"Formule a pergunta investigativa central. Mapeie os conceitos prévios e prepare experimentos ou vídeos introdutórios.",
+    impl:"Divida em grupos. Cada grupo usa o Kolibri para pesquisar hipóteses e registrar observações com autonomia.",
+    refl:"Plenária de conclusões: compare hipóteses iniciais com finais. Avalie em que momento a IA ajudou ou atrapalhava o pensamento autônomo.",
+  },
+  "Artes": {
+    icone:"🎨", ferramenta:"Canva IA (com supervisão)",
+    motivo:"Amplia o repertório visual, mas é essencial que a criação final seja dos alunos — a IA como inspiração, não substituição.",
+    design:"Defina o tema e o movimento artístico de referência. Oriente a pesquisa de artistas antes de usar qualquer IA.",
+    impl:"Alunos usam o Canva IA para referências visuais de partida. Em seguida, criam suas próprias obras.",
+    refl:"Exposição virtual das obras. Discussão: o que é criação humana? Como dar crédito quando a IA participa?",
+  },
+};
+
+function gerarPlano() {
+  const disciplina = document.getElementById('pl-disciplina').value;
+  const ano        = document.getElementById('pl-ano').value;
+  const objetivo   = document.getElementById('pl-objetivo').value;
+  const nee        = document.getElementById('pl-nee').value;
+
+  if(!disciplina||!ano||!objetivo){ mostrarToast('Preencha disciplina, ano e objetivo ✏️'); return; }
+
+  const plano = planosBase[disciplina] || planosBase["Ciências"];
+  const ferrSug = nee==='sim' && disciplina!=='Ciências'
+    ? '🕊️ Kolibri (código aberto, offline e acessível)'
+    : plano.icone+' '+plano.ferramenta;
+
+  document.getElementById('plano-titulo-texto').textContent = `Plano · ${disciplina} · ${ano} · "${objetivo}"`;
+  document.getElementById('sug-icone').textContent  = nee==='sim' ? '🕊️' : plano.icone;
+  document.getElementById('sug-nome').textContent   = '✦ Sugestão: '+(nee==='sim'?'Kolibri (acessível, código aberto)':plano.ferramenta);
+  document.getElementById('sug-motivo').textContent = nee==='sim'
+    ? 'Turma com NEE: priorizando ferramenta de código aberto, offline e sem coleta de dados comercial.'
+    : plano.motivo;
+  document.getElementById('et-design').textContent  = plano.design;
+  document.getElementById('et-impl').textContent    = plano.impl;
+  document.getElementById('et-refl').textContent    = plano.refl;
+
+  const res = document.getElementById('resultado-plano');
+  res.classList.add('visivel');
+  res.scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+/* ═══════════════════════════════════
+   PROMPTS
+═══════════════════════════════════ */
+let listaPromptsFiltrada = [...prompts];
+
+function renderizarPrompts(lista) {
+  const grid = document.getElementById('grid-prompts');
+  if(!lista.length){ grid.innerHTML='<p style="color:var(--cinza-med);grid-column:1/-1">Nenhum prompt encontrado.</p>'; return; }
+  grid.innerHTML = lista.map((p,i)=>`
+    <div class="card-prompt">
+      <div class="prompt-head">
+        <h3>${p.titulo}</h3>
+        <button class="btn-copiar" onclick="copiarPrompt(${i})">Copiar</button>
+      </div>
+      <div class="prompt-badges">
+        <span class="badge badge-todos">${p.disciplina}</span>
+        <span class="badge badge-mat">${p.ano}</span>
+        ${p.inclusivo?'<span class="badge badge-nee">♿ Inclusivo</span>':''}
+      </div>
+      <div class="prompt-body">${p.prompt.substring(0,180)}${p.prompt.length>180?'…':''}</div>
+      <div class="prompt-meta">
+        <span>🧑‍🏫 ${p.autor}</span>
+        <span>👍 ${p.curtidas}</span>
+        <span>🔧 ${p.ferramenta}</span>
+      </div>
+    </div>`).join('');
+}
+
+function filtrarPrompts(q) {
+  const r = prompts.filter(p=>
+    p.titulo.toLowerCase().includes(q.toLowerCase())||
+    p.prompt.toLowerCase().includes(q.toLowerCase())
+  );
+  renderizarPrompts(r);
+}
+function filtrarPromptsDisciplina(d) {
+  const inc = document.getElementById('fp-inc').checked;
+  const r   = prompts.filter(p=>(!d||p.disciplina===d)&&(!inc||p.inclusivo));
+  renderizarPrompts(r);
+}
+function filtrarPromptsInc(v) {
+  const r = v ? prompts.filter(p=>p.inclusivo) : prompts;
+  renderizarPrompts(r);
+}
+
+function copiarPrompt(i) {
+  const p = prompts[i];
+  navigator.clipboard.writeText(p.prompt).catch(()=>{});
+  mostrarToast('Prompt copiado para a área de transferência ✓');
+}
+
+function abrirModalPrompt() { document.getElementById('overlay-prompt').classList.add('aberto'); }
+function fecharModalPrompt(e) { if(e.target.id==='overlay-prompt') fecharModalDireto('overlay-prompt'); }
+
+async function publicarPrompt() {
+  const titulo     = document.getElementById('np-titulo').value;
+  const disciplina = document.getElementById('np-disciplina').value;
+  const ano        = document.getElementById('np-ano').value;
+  const ferramenta = document.getElementById('np-ferramenta').value;
+  const prompt     = document.getElementById('np-prompt').value;
+  const inclusivo  = document.getElementById('np-inc').checked;
+
+  if(!titulo||!prompt){ mostrarToast('Preencha pelo menos título e prompt ✏️'); return; }
+
+  if (supabaseConfigurado) {
+    const { error } = await sb.from('prompts').insert({
+      autor_id: usuarioAtual.id, titulo, disciplina, ano,
+      ferramenta: ferramenta || 'Não especificada', inclusivo, prompt,
+    });
+    if (error) { mostrarToast('Erro ao publicar prompt: ' + error.message); return; }
+    await carregarPrompts();
+  } else {
+    prompts.unshift({ titulo, disciplina, ano, ferramenta:ferramenta||'Não especificada', inclusivo, prompt, autor:'Você', curtidas:0 });
+  }
+  renderizarPrompts(prompts);
+  fecharModalDireto('overlay-prompt');
+
+  // limpar
+  ['np-titulo','np-ferramenta','np-prompt'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('np-inc').checked=false;
+
+  mostrarToast('Prompt publicado no banco colaborativo! 💬');
+}
+
+/* ═══════════════════════════════════
+   DIÁRIO
+═══════════════════════════════════ */
+function selecionarEstrela(n) {
+  estrelaSelecionada = n;
+  document.querySelectorAll('.estrela-btn').forEach((b,i)=>b.classList.toggle('selecionada',i<n));
+}
+
+async function salvarRegistro() {
+  const ferramenta = document.getElementById('d-ferramenta').value;
+  const funcionou  = document.getElementById('d-funcionou').value;
+  const melhorar   = document.getElementById('d-melhorar').value;
+  const agencia    = document.getElementById('d-agencia').value;
+  const nee        = document.getElementById('d-nee').value;
+  if(!ferramenta||!funcionou||!estrelaSelecionada){ mostrarToast('Preencha ferramenta, reflexão e avaliação ✏️'); return; }
+
+  if (supabaseConfigurado) {
+    const { error } = await sb.from('diario_registros').insert({
+      professor_id: usuarioAtual.id, ferramenta, funcionou, melhorar,
+      agencia_aluno: agencia, barreiras_nee: nee, estrelas: estrelaSelecionada,
+    });
+    if (error) { mostrarToast('Erro ao salvar registro: ' + error.message); return; }
+    await carregarHistorico();
+  } else {
+    const hoje = new Date().toLocaleDateString('pt-BR',{day:'2-digit',month:'short',year:'numeric'});
+    historico.unshift({data:hoje, ferramenta, estrelas:estrelaSelecionada, resumo:funcionou});
+  }
+  renderizarHistorico();
+
+  ['d-ferramenta','d-agencia','d-nee'].forEach(id=>document.getElementById(id).value='');
+  ['d-funcionou','d-melhorar'].forEach(id=>document.getElementById(id).value='');
+  estrelaSelecionada=0;
+  document.querySelectorAll('.estrela-btn').forEach(b=>b.classList.remove('selecionada'));
+  mostrarToast('Registro salvo e enviado ao repositório! 🎉');
+}
+
+function renderizarHistorico() {
+  document.getElementById('lista-historico').innerHTML = historico.map(r=>`
+    <div class="registro-item">
+      <div class="reg-data">${r.data}</div>
+      <div class="reg-titulo">${r.ferramenta}</div>
+      <div class="reg-estrelas">${'★'.repeat(r.estrelas)}${'☆'.repeat(5-r.estrelas)}</div>
+      <div style="font-size:11px;color:var(--cinza-med);margin-top:3px;">${r.resumo.substring(0,60)}…</div>
+    </div>`).join('');
+}
+
+/* ═══════════════════════════════════
+   TOAST
+═══════════════════════════════════ */
+function mostrarToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('visivel');
+  setTimeout(()=>t.classList.remove('visivel'), 3200);
+}
+
+/* INIT */
+inicializarAuth().then(() => {
+  carregarFerramentas().then(() => renderizarFerramentas(ferramentas));
+  carregarPrompts().then(() => renderizarPrompts(prompts));
+  renderizarHistorico();
+  if (!supabaseConfigurado) mostrarToast('Modo demo: configure config.js para salvar dados de verdade 🔧');
+});
+</script>
+</body>
+</html>
