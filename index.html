@@ -387,6 +387,22 @@ body { font-family: 'Inter', sans-serif; background: var(--cinza-cl); color: var
 .reg-estrelas { font-size:12px; color:var(--amarelo); }
 
 /* ═══════════════════════════════════
+   GLOSSÁRIO
+═══════════════════════════════════ */
+.letras-az { display:flex; gap:5px; flex-wrap:wrap; margin-bottom:16px; }
+.letra-btn {
+  min-width:32px; height:32px; padding:0 8px;
+  border:2px solid var(--borda); border-radius:8px; background:var(--branco);
+  font-family:'Sora',sans-serif; font-size:12px; font-weight:600;
+  color:var(--cinza-med); cursor:pointer; transition:all .15s;
+}
+.letra-btn:hover { border-color:var(--verde-m); color:var(--verde); }
+.letra-btn.ativa { background:var(--verde); border-color:var(--verde); color:#fff; }
+.card-glossario h3 { font-family:'Sora',sans-serif; font-size:14px; font-weight:600; margin-bottom:8px; }
+.card-glossario p  { font-size:12px; color:var(--cinza-med); line-height:1.6; }
+.badge-glossario   { background:var(--verde-cl); color:var(--verde); display:inline-block; margin-bottom:8px; }
+
+/* ═══════════════════════════════════
    TOAST
 ═══════════════════════════════════ */
 .toast {
@@ -461,6 +477,11 @@ body { font-family: 'Inter', sans-serif; background: var(--cinza-cl); color: var
       <h3>Prompts</h3>
       <p>Banco colaborativo de prompts validados por professores</p>
     </div>
+    <div class="home-card" onclick="irPara('t-glossario')">
+      <span class="icone">📖</span>
+      <h3>Glossário de IAs</h3>
+      <p>Catálogo A–Z de ferramentas de IA para conhecer e explorar</p>
+    </div>
     <div class="home-card" onclick="irPara('t-diario')">
       <span class="icone">📓</span>
       <h3>Diário</h3>
@@ -515,6 +536,7 @@ body { font-family: 'Inter', sans-serif; background: var(--cinza-cl); color: var
       <button class="nav-btn ativo"  onclick="irPara('t-repositorio')">🗂️ Repositório</button>
       <button class="nav-btn"        onclick="irPara('t-planejador')">📋 Planejador</button>
       <button class="nav-btn"        onclick="irPara('t-prompts')">💬 Prompts</button>
+      <button class="nav-btn"        onclick="irPara('t-glossario')">📖 Glossário</button>
       <button class="nav-btn"        onclick="irPara('t-diario')">📓 Diário</button>
     </div>
     <div class="nav-usuario-box" style="display:none;align-items:center;gap:10px;">
@@ -627,6 +649,7 @@ body { font-family: 'Inter', sans-serif; background: var(--cinza-cl); color: var
       <button class="nav-btn"        onclick="irPara('t-repositorio')">🗂️ Repositório</button>
       <button class="nav-btn ativo"  onclick="irPara('t-planejador')">📋 Planejador</button>
       <button class="nav-btn"        onclick="irPara('t-prompts')">💬 Prompts</button>
+      <button class="nav-btn"        onclick="irPara('t-glossario')">📖 Glossário</button>
       <button class="nav-btn"        onclick="irPara('t-diario')">📓 Diário</button>
     </div>
     <div class="nav-usuario-box" style="display:none;align-items:center;gap:10px;">
@@ -723,6 +746,7 @@ body { font-family: 'Inter', sans-serif; background: var(--cinza-cl); color: var
       <button class="nav-btn"       onclick="irPara('t-repositorio')">🗂️ Repositório</button>
       <button class="nav-btn"       onclick="irPara('t-planejador')">📋 Planejador</button>
       <button class="nav-btn ativo" onclick="irPara('t-prompts')">💬 Prompts</button>
+      <button class="nav-btn"       onclick="irPara('t-glossario')">📖 Glossário</button>
       <button class="nav-btn"       onclick="irPara('t-diario')">📓 Diário</button>
     </div>
     <div class="nav-usuario-box" style="display:none;align-items:center;gap:10px;">
@@ -794,6 +818,39 @@ body { font-family: 'Inter', sans-serif; background: var(--cinza-cl); color: var
 </div>
 
 <!-- ═══════════════════════════════════
+     GLOSSÁRIO DE IAs
+═══════════════════════════════════ -->
+<div id="t-glossario" class="tela">
+  <nav class="navbar">
+    <div class="nav-logo" onclick="irPara('t-home')">EducAI<span class="ponto">.</span>Prof</div>
+    <div class="nav-links">
+      <button class="nav-btn"       onclick="irPara('t-repositorio')">🗂️ Repositório</button>
+      <button class="nav-btn"       onclick="irPara('t-planejador')">📋 Planejador</button>
+      <button class="nav-btn"       onclick="irPara('t-prompts')">💬 Prompts</button>
+      <button class="nav-btn ativo" onclick="irPara('t-glossario')">📖 Glossário</button>
+      <button class="nav-btn"       onclick="irPara('t-diario')">📓 Diário</button>
+    </div>
+    <div class="nav-usuario-box" style="display:none;align-items:center;gap:10px;">
+      <span class="nav-usuario-nome" style="font-size:12px;color:var(--cinza-med);"></span>
+      <button class="nav-btn" onclick="logout()">Sair</button>
+    </div>
+  </nav>
+
+  <div class="conteudo">
+    <h1 class="titulo-pag">Glossário de IAs</h1>
+    <p class="subtitulo-pag">Catálogo A–Z de ferramentas de inteligência artificial com potencial pedagógico. Este glossário é informativo: antes de adotar uma ferramenta com sua turma, avalie-a com a <strong>Bússola Ética</strong> do Repositório.</p>
+
+    <div class="barra-filtros">
+      <input type="text" placeholder="🔍  Buscar ferramenta ou categoria…" oninput="filtrarGlossario()" id="busca-glossario">
+    </div>
+    <div class="letras-az" id="letras-az"></div>
+
+    <p style="font-size:12px;color:var(--cinza-med);margin-bottom:14px;" id="glossario-contagem"></p>
+    <div class="grid-prompts" id="grid-glossario"></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════
      DIÁRIO
 ═══════════════════════════════════ -->
 <div id="t-diario" class="tela">
@@ -803,6 +860,7 @@ body { font-family: 'Inter', sans-serif; background: var(--cinza-cl); color: var
       <button class="nav-btn"       onclick="irPara('t-repositorio')">🗂️ Repositório</button>
       <button class="nav-btn"       onclick="irPara('t-planejador')">📋 Planejador</button>
       <button class="nav-btn"       onclick="irPara('t-prompts')">💬 Prompts</button>
+      <button class="nav-btn"       onclick="irPara('t-glossario')">📖 Glossário</button>
       <button class="nav-btn ativo" onclick="irPara('t-diario')">📓 Diário</button>
     </div>
     <div class="nav-usuario-box" style="display:none;align-items:center;gap:10px;">
@@ -1197,6 +1255,61 @@ async function carregarPrompts() {
   }));
 }
 
+let glossario = [];
+let glossarioCarregado = false;
+let letraGlossario = '';
+
+async function carregarGlossario() {
+  if (!supabaseConfigurado) { glossario = []; return; }
+  if (glossarioCarregado) return;
+  const { data, error } = await sb.from('glossario').select('*').order('nome');
+  if (error) { mostrarToast('Erro ao carregar glossário: ' + error.message); return; }
+  glossario = data;
+  glossarioCarregado = true;
+  montarLetrasAZ();
+}
+
+function montarLetrasAZ() {
+  const letras = [...new Set(glossario.map(g => g.nome.charAt(0).toUpperCase()))].sort();
+  document.getElementById('letras-az').innerHTML =
+    `<button class="letra-btn ${letraGlossario===''?'ativa':''}" onclick="selecionarLetra('')">Todas</button>` +
+    letras.map(l => `<button class="letra-btn ${letraGlossario===l?'ativa':''}" onclick="selecionarLetra('${l}')">${l}</button>`).join('');
+}
+
+function selecionarLetra(l) {
+  letraGlossario = l;
+  montarLetrasAZ();
+  filtrarGlossario();
+}
+
+function filtrarGlossario() {
+  const q = (document.getElementById('busca-glossario').value || '').toLowerCase();
+  const lista = glossario.filter(g => {
+    const matchQ = !q || g.nome.toLowerCase().includes(q) || g.categoria.toLowerCase().includes(q) || g.descricao.toLowerCase().includes(q);
+    const matchL = !letraGlossario || g.nome.charAt(0).toUpperCase() === letraGlossario;
+    return matchQ && matchL;
+  });
+  renderizarGlossario(lista);
+}
+
+function renderizarGlossario(lista) {
+  const grid = document.getElementById('grid-glossario');
+  const cont = document.getElementById('glossario-contagem');
+  if (!supabaseConfigurado) {
+    grid.innerHTML = '<p style="color:var(--cinza-med);grid-column:1/-1">O glossário está disponível na versão online da plataforma.</p>';
+    cont.textContent = '';
+    return;
+  }
+  cont.textContent = `${lista.length} ferramenta${lista.length===1?'':'s'} encontrada${lista.length===1?'':'s'}`;
+  if (!lista.length) { grid.innerHTML = '<p style="color:var(--cinza-med);grid-column:1/-1">Nenhuma ferramenta encontrada para essa busca.</p>'; return; }
+  grid.innerHTML = lista.map(g => `
+    <div class="card-prompt card-glossario">
+      <span class="badge badge-glossario">${g.categoria}</span>
+      <h3>${g.nome}</h3>
+      <p>${g.descricao}</p>
+    </div>`).join('');
+}
+
 async function carregarHistorico() {
   if (!supabaseConfigurado || !usuarioAtual) return;
   const { data, error } = await sb.from('diario_registros').select('*')
@@ -1211,7 +1324,7 @@ async function carregarHistorico() {
 /* ═══════════════════════════════════
    NAVEGAÇÃO
 ═══════════════════════════════════ */
-const telasComLogin = ['t-repositorio','t-planejador','t-prompts','t-diario'];
+const telasComLogin = ['t-repositorio','t-planejador','t-prompts','t-glossario','t-diario'];
 
 function irPara(id) {
   if (supabaseConfigurado && !usuarioAtual && telasComLogin.includes(id)) {
@@ -1224,7 +1337,7 @@ function irPara(id) {
   window.scrollTo(0,0);
   // atualiza nav ativo
   document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('ativo'));
-  const mapa = { 't-repositorio':0, 't-planejador':1, 't-prompts':2, 't-diario':3 };
+  const mapa = { 't-repositorio':0, 't-planejador':1, 't-prompts':2, 't-glossario':3, 't-diario':4 };
   if (id in mapa) {
     document.querySelectorAll('#'+id+' .nav-btn')[mapa[id]];
     document.querySelectorAll('#'+id+' .nav-btn').forEach((b,i) => {
@@ -1233,6 +1346,7 @@ function irPara(id) {
   }
   if (id==='t-repositorio') carregarFerramentas().then(()=>renderizarFerramentas(ferramentas));
   if (id==='t-prompts')     carregarPrompts().then(()=>renderizarPrompts(prompts));
+  if (id==='t-glossario')   carregarGlossario().then(filtrarGlossario);
   if (id==='t-diario')      carregarHistorico().then(renderizarHistorico);
 }
 
