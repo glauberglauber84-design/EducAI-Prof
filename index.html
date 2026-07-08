@@ -67,7 +67,13 @@ body { font-family: 'Inter', sans-serif; background: var(--cinza-cl); color: var
   font-weight:700; color:#fff; line-height:1.1; margin-bottom:8px;
 }
 .home-titulo span { color:var(--amarelo); }
-.home-sub { font-size:17px; color:rgba(255,255,255,.72); max-width:500px; margin:16px auto 40px; line-height:1.6; }
+.home-sub { font-size:17px; color:rgba(255,255,255,.72); max-width:500px; margin:16px auto 32px; line-height:1.6; }
+.home-hero-img {
+  width:100%; max-width:640px; border-radius:20px;
+  border:1px solid rgba(255,255,255,.25);
+  box-shadow:0 16px 48px rgba(0,0,0,.35);
+  margin:0 auto 36px; display:block;
+}
 
 .home-cards { display:flex; gap:16px; flex-wrap:wrap; justify-content:center; margin-bottom:40px; max-width:900px; }
 .home-card {
@@ -460,6 +466,8 @@ body { font-family: 'Inter', sans-serif; background: var(--cinza-cl); color: var
   <div class="home-badge">UNESCO · AI CFT · Ensino Básico · Inclusão</div>
   <h1 class="home-titulo">EducAI<span>Prof</span></h1>
   <p class="home-sub">Plataforma de apoio pedagógico para o uso crítico de ferramentas de IA para professores da Educação Básica</p>
+
+  <img src="educai-hero.jpeg" alt="Dois professores com asas digitais voando sobre um mar de dados, cercados por livros" class="home-hero-img">
 
   <div class="home-cards">
     <div class="home-card" onclick="irPara('t-repositorio')">
