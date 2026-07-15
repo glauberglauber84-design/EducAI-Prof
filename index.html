@@ -184,6 +184,11 @@ body { font-family: 'Inter', sans-serif; background: var(--cinza-cl); color: var
 .chip-azul    { background:var(--azul-cl);    color:var(--azul); }
 .chip-laranja { background:var(--laranja-cl); color:var(--laranja); }
 
+.badge-preco        { font-size:11px; font-weight:700; padding:4px 11px; border-radius:20px; display:inline-block; margin-bottom:10px; }
+.badge-preco-gratis   { background:var(--verde-cl);   color:var(--verde); }
+.badge-preco-freemium { background:var(--amarelo-cl); color:#9B6D00; }
+.badge-preco-pago     { background:var(--laranja-cl); color:var(--laranja); }
+
 /* ═══════════════════════════════════
    MODAL FICHA
 ═══════════════════════════════════ */
@@ -408,6 +413,31 @@ body { font-family: 'Inter', sans-serif; background: var(--cinza-cl); color: var
 .card-glossario p  { font-size:12px; color:var(--cinza-med); line-height:1.6; }
 .badge-glossario   { background:var(--verde-cl); color:var(--verde); display:inline-block; margin-bottom:8px; }
 
+/* card completo (ferramentas avaliadas eticamente, migradas do Repositório) */
+.card-glossario.completo { cursor:pointer; border:2px solid var(--borda); transition:all .22s; position:relative; }
+.card-glossario.completo:hover { border-color:var(--verde-m); box-shadow:var(--sombra); transform:translateY(-2px); }
+.card-glossario.completo .estrelas-card { position:absolute; top:18px; right:18px; font-size:12px; color:var(--amarelo); font-weight:700; background:var(--amarelo-cl); padding:3px 9px; border-radius:20px; }
+.card-glossario.completo h3 { padding-right:70px; }
+
+/* ═══════════════════════════════════
+   REPOSITÓRIO DE MATERIAIS (PDFs, áudios, podcasts)
+═══════════════════════════════════ */
+.form-material { background:var(--branco); border:2px solid var(--borda); border-radius:20px; padding:28px; margin-bottom:28px; }
+.card-material {
+  background:var(--branco); border:2px solid var(--borda);
+  border-radius:16px; padding:22px; transition:all .22s;
+}
+.card-material:hover { border-color:var(--verde-m); box-shadow:var(--sombra); }
+.material-icone { font-size:26px; margin-bottom:8px; display:block; }
+.card-material h3 { font-family:'Sora',sans-serif; font-size:14px; font-weight:600; margin-bottom:6px; }
+.card-material p  { font-size:12px; color:var(--cinza-med); line-height:1.5; margin-bottom:12px; }
+.material-player audio { width:100%; height:36px; }
+.material-baixar {
+  display:inline-block; padding:8px 16px; background:var(--verde-cl); color:var(--verde);
+  border-radius:8px; font-size:12px; font-weight:700; text-decoration:none; transition:all .18s;
+}
+.material-baixar:hover { background:var(--verde); color:#fff; }
+
 /* ═══════════════════════════════════
    TOAST
 ═══════════════════════════════════ */
@@ -471,9 +501,9 @@ body { font-family: 'Inter', sans-serif; background: var(--cinza-cl); color: var
 
   <div class="home-cards">
     <div class="home-card" onclick="irPara('t-repositorio')">
-      <span class="icone">🗂️</span>
+      <span class="icone">📁</span>
       <h3>Repositório</h3>
-      <p>Ferramentas avaliadas eticamente com filtro de acessibilidade</p>
+      <p>Banco de materiais: PDFs, áudios e podcasts para sua prática</p>
     </div>
     <div class="home-card" onclick="irPara('t-planejador')">
       <span class="icone">📋</span>
@@ -488,7 +518,7 @@ body { font-family: 'Inter', sans-serif; background: var(--cinza-cl); color: var
     <div class="home-card" onclick="irPara('t-glossario')">
       <span class="icone">📖</span>
       <h3>Glossário de IAs</h3>
-      <p>Catálogo A–Z de ferramentas de IA para conhecer e explorar</p>
+      <p>Catálogo A–Z avaliado eticamente, com Bússola Ética e critérios da UNESCO</p>
     </div>
     <div class="home-card" onclick="irPara('t-diario')">
       <span class="icone">📓</span>
@@ -541,7 +571,7 @@ body { font-family: 'Inter', sans-serif; background: var(--cinza-cl); color: var
   <nav class="navbar">
     <div class="nav-logo" onclick="irPara('t-home')">EducAI<span class="ponto">.</span>Prof</div>
     <div class="nav-links">
-      <button class="nav-btn ativo"  onclick="irPara('t-repositorio')">🗂️ Repositório</button>
+      <button class="nav-btn ativo"  onclick="irPara('t-repositorio')">📁 Repositório</button>
       <button class="nav-btn"        onclick="irPara('t-planejador')">📋 Planejador</button>
       <button class="nav-btn"        onclick="irPara('t-prompts')">💬 Prompts</button>
       <button class="nav-btn"        onclick="irPara('t-glossario')">📖 Glossário</button>
@@ -554,35 +584,70 @@ body { font-family: 'Inter', sans-serif; background: var(--cinza-cl); color: var
   </nav>
 
   <div class="conteudo">
-    <h1 class="titulo-pag">Repositório de Ferramentas</h1>
-    <p class="subtitulo-pag">Ferramentas de IA avaliadas com critérios éticos da UNESCO. Clique em qualquer card para ver a ficha completa, aplicar a Bússola Ética ou registrar um alerta de viés.</p>
+    <h1 class="titulo-pag">Repositório de Materiais</h1>
+    <p class="subtitulo-pag">Banco de materiais de apoio à prática pedagógica: PDFs, áudios e podcasts enviados por professores. Envie um material abaixo ou explore o que já foi compartilhado.</p>
 
-    <div class="barra-filtros">
-      <input type="text" placeholder="🔍  Buscar ferramenta…" oninput="aplicarFiltros()" id="busca-input">
-      <select onchange="aplicarFiltros()" id="f-disciplina">
-        <option value="">Todas as disciplinas</option>
-        <option>Matemática</option>
-        <option>Português</option>
-        <option>Ciências</option>
-        <option>Artes</option>
-      </select>
-      <select onchange="aplicarFiltros()" id="f-nivel">
-        <option value="">Todos os anos</option>
-        <option value="1-3">1º ao 3º ano</option>
-        <option value="4-5">4º ao 5º ano</option>
-        <option value="6-9">6º ao 9º ano</option>
-      </select>
-      <label class="filtro-acc">
-        <input type="checkbox" id="f-nee" onchange="aplicarFiltros()">
-        ♿ Acessibilidade / NEE
-      </label>
-      <label class="filtro-acc" style="background:var(--azul-cl);border-color:#93C5FD;color:var(--azul);">
-        <input type="checkbox" id="f-open" onchange="aplicarFiltros()">
-        🔓 Código Aberto
-      </label>
+    <div class="form-material">
+      <h3 style="font-family:'Sora',sans-serif;font-size:15px;font-weight:700;margin-bottom:16px;color:var(--cinza-esc);">📤 Enviar novo material</h3>
+      <div class="linha-campos">
+        <div class="campo-grupo">
+          <label>Título</label>
+          <input type="text" id="mat-titulo" placeholder="Ex: Podcast sobre IA na alfabetização">
+        </div>
+        <div class="campo-grupo">
+          <label>Tipo de arquivo</label>
+          <select id="mat-tipo" onchange="atualizarAceiteArquivo()">
+            <option value="pdf">📄 PDF</option>
+            <option value="audio">🔊 Áudio</option>
+            <option value="podcast">🎙️ Podcast</option>
+          </select>
+        </div>
+      </div>
+      <div class="linha-campos">
+        <div class="campo-grupo">
+          <label>Disciplina</label>
+          <select id="mat-disciplina">
+            <option value="">Geral / Todas</option>
+            <option>Língua Portuguesa</option>
+            <option>Matemática</option>
+            <option>Ciências</option>
+            <option>Artes</option>
+            <option>História</option>
+            <option>Geografia</option>
+          </select>
+        </div>
+        <div class="campo-grupo">
+          <label>Arquivo</label>
+          <input type="file" id="mat-arquivo" accept=".pdf">
+        </div>
+      </div>
+      <div class="campo-grupo">
+        <label>Descrição</label>
+        <textarea id="mat-descricao" rows="2" placeholder="Do que se trata este material?"></textarea>
+      </div>
+      <button class="btn-gerar" onclick="enviarMaterial()" id="btn-enviar-material">📤 Enviar material</button>
     </div>
 
-    <div class="grid-ferramentas" id="grid-ferramentas"></div>
+    <div class="barra-filtros">
+      <input type="text" placeholder="🔍  Buscar material…" oninput="aplicarFiltrosMateriais()" id="busca-material">
+      <select onchange="aplicarFiltrosMateriais()" id="f-tipo-material">
+        <option value="">Todos os tipos</option>
+        <option value="pdf">📄 PDF</option>
+        <option value="audio">🔊 Áudio</option>
+        <option value="podcast">🎙️ Podcast</option>
+      </select>
+      <select onchange="aplicarFiltrosMateriais()" id="f-disciplina-material">
+        <option value="">Todas as disciplinas</option>
+        <option>Língua Portuguesa</option>
+        <option>Matemática</option>
+        <option>Ciências</option>
+        <option>Artes</option>
+        <option>História</option>
+        <option>Geografia</option>
+      </select>
+    </div>
+
+    <div class="grid-ferramentas" id="grid-materiais"></div>
   </div>
 </div>
 
@@ -654,7 +719,7 @@ body { font-family: 'Inter', sans-serif; background: var(--cinza-cl); color: var
   <nav class="navbar">
     <div class="nav-logo" onclick="irPara('t-home')">EducAI<span class="ponto">.</span>Prof</div>
     <div class="nav-links">
-      <button class="nav-btn"        onclick="irPara('t-repositorio')">🗂️ Repositório</button>
+      <button class="nav-btn"        onclick="irPara('t-repositorio')">📁 Repositório</button>
       <button class="nav-btn ativo"  onclick="irPara('t-planejador')">📋 Planejador</button>
       <button class="nav-btn"        onclick="irPara('t-prompts')">💬 Prompts</button>
       <button class="nav-btn"        onclick="irPara('t-glossario')">📖 Glossário</button>
@@ -751,7 +816,7 @@ body { font-family: 'Inter', sans-serif; background: var(--cinza-cl); color: var
   <nav class="navbar">
     <div class="nav-logo" onclick="irPara('t-home')">EducAI<span class="ponto">.</span>Prof</div>
     <div class="nav-links">
-      <button class="nav-btn"       onclick="irPara('t-repositorio')">🗂️ Repositório</button>
+      <button class="nav-btn"       onclick="irPara('t-repositorio')">📁 Repositório</button>
       <button class="nav-btn"       onclick="irPara('t-planejador')">📋 Planejador</button>
       <button class="nav-btn ativo" onclick="irPara('t-prompts')">💬 Prompts</button>
       <button class="nav-btn"       onclick="irPara('t-glossario')">📖 Glossário</button>
@@ -832,7 +897,7 @@ body { font-family: 'Inter', sans-serif; background: var(--cinza-cl); color: var
   <nav class="navbar">
     <div class="nav-logo" onclick="irPara('t-home')">EducAI<span class="ponto">.</span>Prof</div>
     <div class="nav-links">
-      <button class="nav-btn"       onclick="irPara('t-repositorio')">🗂️ Repositório</button>
+      <button class="nav-btn"       onclick="irPara('t-repositorio')">📁 Repositório</button>
       <button class="nav-btn"       onclick="irPara('t-planejador')">📋 Planejador</button>
       <button class="nav-btn"       onclick="irPara('t-prompts')">💬 Prompts</button>
       <button class="nav-btn ativo" onclick="irPara('t-glossario')">📖 Glossário</button>
@@ -846,7 +911,7 @@ body { font-family: 'Inter', sans-serif; background: var(--cinza-cl); color: var
 
   <div class="conteudo">
     <h1 class="titulo-pag">Glossário de IAs</h1>
-    <p class="subtitulo-pag">Catálogo A–Z de ferramentas de inteligência artificial com potencial pedagógico. Este glossário é informativo: antes de adotar uma ferramenta com sua turma, avalie-a com a <strong>Bússola Ética</strong> do Repositório.</p>
+    <p class="subtitulo-pag">Catálogo A–Z de ferramentas de inteligência artificial com potencial pedagógico. Ferramentas com ficha completa (⭐ nota e critérios) já foram avaliadas com a <strong>Bússola Ética</strong> da UNESCO — clique no card para ver os detalhes, aplicar a bússola ou reportar viés.</p>
 
     <div class="barra-filtros">
       <input type="text" placeholder="🔍  Buscar ferramenta ou categoria…" oninput="filtrarGlossario()" id="busca-glossario">
@@ -865,7 +930,7 @@ body { font-family: 'Inter', sans-serif; background: var(--cinza-cl); color: var
   <nav class="navbar">
     <div class="nav-logo" onclick="irPara('t-home')">EducAI<span class="ponto">.</span>Prof</div>
     <div class="nav-links">
-      <button class="nav-btn"       onclick="irPara('t-repositorio')">🗂️ Repositório</button>
+      <button class="nav-btn"       onclick="irPara('t-repositorio')">📁 Repositório</button>
       <button class="nav-btn"       onclick="irPara('t-planejador')">📋 Planejador</button>
       <button class="nav-btn"       onclick="irPara('t-prompts')">💬 Prompts</button>
       <button class="nav-btn"       onclick="irPara('t-glossario')">📖 Glossário</button>
@@ -967,15 +1032,15 @@ let usuarioAtual = null; // { id, nome, email }
 let destinoPosLogin = 't-repositorio';
 
 /* ═══════════════════════════════════
-   DADOS — FERRAMENTAS (mock usado no modo demo
-   e como fallback antes do primeiro carregamento)
+   DADOS — GLOSSÁRIO (mock usado no modo demo, com as 6 ferramentas
+   que antes viviam no Repositório, agora com ficha completa)
 ═══════════════════════════════════ */
-const ferramentasMock = [
+const glossarioMock = [
   {
-    id:1, nome:"Khan Academy (Khanmigo)", disciplina:"Matemática",
-    anos:"1-9", icone:"🧮", nee:true, open:false,
-    desc:"Tutor de IA socrático que guia o aluno com perguntas, sem dar respostas prontas. Suporte de acessibilidade para diferentes ritmos de aprendizagem.",
-    nivel:"Nível UNESCO: Adquirir → Aprofundar · Aspecto 4 (Pedagogia da IA)",
+    id:1, nome:"Khan Academy (Khanmigo)", categoria:"Matemática", disciplina:"Matemática",
+    anos:"1-9", icone:"🧮", nee:true, open_source:false, preco:"Grátis",
+    descricao:"Tutor de IA socrático que guia o aluno com perguntas, sem dar respostas prontas. Suporte de acessibilidade para diferentes ritmos de aprendizagem.",
+    nivel_unesco:"Nível UNESCO: Adquirir → Aprofundar · Aspecto 4 (Pedagogia da IA)",
     estrelas:4.8,
     criterios:[
       {nome:"Segurança de Dados",val:90,c:""},
@@ -987,13 +1052,13 @@ const ferramentasMock = [
     ],
     chips:["Gratuito","Português disponível","Sem anúncios","♿ Acessível"],
     badges:["badge-mat","badge-inc"],
-    badgeLabels:["Matemática","Pró-Inclusão"],
+    badge_labels:["Matemática","Pró-Inclusão"],
   },
   {
-    id:2, nome:"Canva IA", disciplina:"Artes",
-    anos:"4-9", icone:"🎨", nee:false, open:false,
-    desc:"Geração de imagens e layouts com IA. Ótimo para projetos visuais, mas requer supervisão ética — pode reproduzir estereótipos visuais.",
-    nivel:"Nível UNESCO: Adquirir · Aspecto 3 (Fundamentos e Aplicações)",
+    id:2, nome:"Canva IA", categoria:"Artes", disciplina:"Artes",
+    anos:"4-9", icone:"🎨", nee:false, open_source:false, preco:"Freemium",
+    descricao:"Geração de imagens e layouts com IA. Ótimo para projetos visuais, mas requer supervisão ética — pode reproduzir estereótipos visuais.",
+    nivel_unesco:"Nível UNESCO: Adquirir · Aspecto 3 (Fundamentos e Aplicações)",
     estrelas:4.3,
     criterios:[
       {nome:"Segurança de Dados",val:72,c:"media"},
@@ -1005,13 +1070,13 @@ const ferramentasMock = [
     ],
     chips:["Versão gratuita","Conta educacional","⚠️ Monitorar viés"],
     badges:["badge-arte"],
-    badgeLabels:["Artes"],
+    badge_labels:["Artes"],
   },
   {
-    id:3, nome:"Scratch", disciplina:"Todas",
-    anos:"4-9", icone:"🐱", nee:true, open:true,
-    desc:"Programação criativa com blocos. Código aberto, sem coleta de dados comercial. Referência em agência do aluno e pensamento computacional.",
-    nivel:"Nível UNESCO: Aprofundar → Criar · Aspecto 3 (Fundamentos e Aplicações)",
+    id:3, nome:"Scratch", categoria:"Todas", disciplina:"Todas",
+    anos:"4-9", icone:"🐱", nee:true, open_source:true, preco:"Grátis",
+    descricao:"Programação criativa com blocos. Código aberto, sem coleta de dados comercial. Referência em agência do aluno e pensamento computacional.",
+    nivel_unesco:"Nível UNESCO: Aprofundar → Criar · Aspecto 3 (Fundamentos e Aplicações)",
     estrelas:4.9,
     criterios:[
       {nome:"Segurança de Dados",val:95,c:""},
@@ -1023,13 +1088,13 @@ const ferramentasMock = [
     ],
     chips:["100% Gratuito","Código aberto","MIT License","♿ Acessível"],
     badges:["badge-todos","badge-open","badge-nee"],
-    badgeLabels:["Todas as disciplinas","Código Aberto","NEE"],
+    badge_labels:["Todas as disciplinas","Código Aberto","NEE"],
   },
   {
-    id:4, nome:"Book Creator IA", disciplina:"Português",
-    anos:"1-5", icone:"📖", nee:true, open:false,
-    desc:"Criação de livros digitais com suporte de IA. Perfeito para produção textual e narrativas criativas. Recursos de acessibilidade para leitores iniciantes.",
-    nivel:"Nível UNESCO: Adquirir → Aprofundar · Aspecto 4 (Pedagogia da IA)",
+    id:4, nome:"Book Creator IA", categoria:"Português", disciplina:"Português",
+    anos:"1-5", icone:"📖", nee:true, open_source:false, preco:"Freemium",
+    descricao:"Criação de livros digitais com suporte de IA. Perfeito para produção textual e narrativas criativas. Recursos de acessibilidade para leitores iniciantes.",
+    nivel_unesco:"Nível UNESCO: Adquirir → Aprofundar · Aspecto 4 (Pedagogia da IA)",
     estrelas:4.6,
     criterios:[
       {nome:"Segurança de Dados",val:85,c:""},
@@ -1041,13 +1106,13 @@ const ferramentasMock = [
     ],
     chips:["Plano escola","COPPA compliant","Colaborativo","♿ Parcial"],
     badges:["badge-port","badge-inc"],
-    badgeLabels:["Português","Pró-Inclusão"],
+    badge_labels:["Português","Pró-Inclusão"],
   },
   {
-    id:5, nome:"Google Read Along", disciplina:"Português",
-    anos:"1-3", icone:"📚", nee:true, open:false,
-    desc:"App de leitura com tutor de IA que ouve a criança ler em voz alta. Foco na alfabetização. Disponível offline e em Português BR.",
-    nivel:"Nível UNESCO: Adquirir · Aspecto 4 (Pedagogia da IA)",
+    id:5, nome:"Google Read Along", categoria:"Português", disciplina:"Português",
+    anos:"1-3", icone:"📚", nee:true, open_source:false, preco:"Grátis",
+    descricao:"App de leitura com tutor de IA que ouve a criança ler em voz alta. Foco na alfabetização. Disponível offline e em Português BR.",
+    nivel_unesco:"Nível UNESCO: Adquirir · Aspecto 4 (Pedagogia da IA)",
     estrelas:4.4,
     criterios:[
       {nome:"Segurança de Dados",val:68,c:"media"},
@@ -1059,13 +1124,13 @@ const ferramentasMock = [
     ],
     chips:["Gratuito","Offline","Português BR","♿ Parcial"],
     badges:["badge-port","badge-nee"],
-    badgeLabels:["Português","NEE"],
+    badge_labels:["Português","NEE"],
   },
   {
-    id:6, nome:"Kolibri (LE)", disciplina:"Todas",
-    anos:"1-9", icone:"🕊️", nee:true, open:true,
-    desc:"Plataforma de aprendizagem offline de código aberto, pensada para contextos de baixa conectividade. Sem coleta de dados e totalmente personalizável.",
-    nivel:"Nível UNESCO: Adquirir · Aspecto 5 (Desenvolvimento Profissional)",
+    id:6, nome:"Kolibri (LE)", categoria:"Todas", disciplina:"Todas",
+    anos:"1-9", icone:"🕊️", nee:true, open_source:true, preco:"Grátis",
+    descricao:"Plataforma de aprendizagem offline de código aberto, pensada para contextos de baixa conectividade. Sem coleta de dados e totalmente personalizável.",
+    nivel_unesco:"Nível UNESCO: Adquirir · Aspecto 5 (Desenvolvimento Profissional)",
     estrelas:4.7,
     criterios:[
       {nome:"Segurança de Dados",val:98,c:""},
@@ -1077,11 +1142,19 @@ const ferramentasMock = [
     ],
     chips:["100% Gratuito","Código aberto","Funciona offline","♿ Acessível"],
     badges:["badge-todos","badge-open","badge-nee","badge-inc"],
-    badgeLabels:["Todas as disciplinas","Código Aberto","NEE","Pró-Inclusão"],
+    badge_labels:["Todas as disciplinas","Código Aberto","NEE","Pró-Inclusão"],
   },
 ];
 
-let ferramentas = ferramentasMock.slice();
+/* ═══════════════════════════════════
+   DADOS — MATERIAIS (mock usado no modo demo)
+═══════════════════════════════════ */
+const materiaisMock = [
+  { id:1, titulo:"Guia rápido: IA generativa na sala de aula", tipo:"pdf", disciplina:"", descricao:"Resumo em PDF com os principais cuidados éticos ao usar IA generativa com estudantes.", arquivo_url:"#" },
+  { id:2, titulo:"Podcast: Ensinar com IA sem perder a autoria do aluno", tipo:"podcast", disciplina:"Língua Portuguesa", descricao:"Episódio sobre como manter a agência do estudante ao usar ferramentas de IA na escrita.", arquivo_url:"" },
+];
+
+let materiais = materiaisMock.slice();
 
 /* ═══════════════════════════════════
    DADOS — PROMPTS (mock usado no modo demo)
@@ -1240,16 +1313,11 @@ async function definirUsuarioDaSessao(session) {
 /* ═══════════════════════════════════
    CARREGAMENTO DE DADOS (Supabase ou mock)
 ═══════════════════════════════════ */
-async function carregarFerramentas() {
-  if (!supabaseConfigurado) { ferramentas = ferramentasMock.slice(); return; }
-  const { data, error } = await sb.from('ferramentas').select('*').order('id');
-  if (error) { mostrarToast('Erro ao carregar ferramentas: ' + error.message); return; }
-  ferramentas = data.map(f => ({
-    id: f.id, nome: f.nome, disciplina: f.disciplina, anos: f.anos, icone: f.icone,
-    nee: f.nee, open: f.open_source, desc: f.descricao, nivel: f.nivel_unesco,
-    estrelas: f.estrelas, criterios: f.criterios, chips: f.chips,
-    badges: f.badges, badgeLabels: f.badge_labels,
-  }));
+async function carregarMateriais() {
+  if (!supabaseConfigurado) { materiais = materiaisMock.slice(); return; }
+  const { data, error } = await sb.from('materiais').select('*').order('criado_em', { ascending:false });
+  if (error) { mostrarToast('Erro ao carregar materiais: ' + error.message); return; }
+  materiais = data;
 }
 
 async function carregarPrompts() {
@@ -1268,7 +1336,7 @@ let glossarioCarregado = false;
 let letraGlossario = '';
 
 async function carregarGlossario() {
-  if (!supabaseConfigurado) { glossario = []; return; }
+  if (!supabaseConfigurado) { glossario = glossarioMock.slice(); montarLetrasAZ(); return; }
   if (glossarioCarregado) return;
   const { data, error } = await sb.from('glossario').select('*').order('nome');
   if (error) { mostrarToast('Erro ao carregar glossário: ' + error.message); return; }
@@ -1300,22 +1368,36 @@ function filtrarGlossario() {
   renderizarGlossario(lista);
 }
 
+const precoClasse = { 'Grátis':'badge-preco-gratis', 'Freemium':'badge-preco-freemium', 'Pago':'badge-preco-pago' };
+
 function renderizarGlossario(lista) {
   const grid = document.getElementById('grid-glossario');
   const cont = document.getElementById('glossario-contagem');
-  if (!supabaseConfigurado) {
-    grid.innerHTML = '<p style="color:var(--cinza-med);grid-column:1/-1">O glossário está disponível na versão online da plataforma.</p>';
-    cont.textContent = '';
-    return;
-  }
   cont.textContent = `${lista.length} ferramenta${lista.length===1?'':'s'} encontrada${lista.length===1?'':'s'}`;
   if (!lista.length) { grid.innerHTML = '<p style="color:var(--cinza-med);grid-column:1/-1">Nenhuma ferramenta encontrada para essa busca.</p>'; return; }
-  grid.innerHTML = lista.map(g => `
-    <div class="card-prompt card-glossario">
-      <span class="badge badge-glossario">${g.categoria}</span>
-      <h3>${g.nome}</h3>
-      <p>${g.descricao}</p>
-    </div>`).join('');
+  grid.innerHTML = lista.map(g => {
+    const completo = g.criterios && g.criterios.length;
+    if (completo) {
+      const badges = g.badges || [];
+      const labels = g.badge_labels || [];
+      return `
+      <div class="card-prompt card-glossario completo" onclick="abrirFicha(${g.id})">
+        <span class="estrelas-card">★ ${g.estrelas}</span>
+        <div class="card-badges">
+          ${badges.map((b,i)=>`<span class="badge ${b}">${labels[i]||''}</span>`).join('')}
+        </div>
+        <h3>${g.icone||'🤖'} ${g.nome}</h3>
+        ${g.preco && g.preco!=='Não informado' ? `<span class="badge-preco ${precoClasse[g.preco]||''}">${g.preco}</span>` : ''}
+        <p>${g.descricao}</p>
+      </div>`;
+    }
+    return `
+      <div class="card-prompt card-glossario">
+        <span class="badge badge-glossario">${g.categoria}</span>
+        <h3>${g.nome}</h3>
+        <p>${g.descricao}</p>
+      </div>`;
+  }).join('');
 }
 
 async function carregarHistorico() {
@@ -1352,63 +1434,108 @@ function irPara(id) {
       b.classList.toggle('ativo', i === mapa[id]);
     });
   }
-  if (id==='t-repositorio') carregarFerramentas().then(()=>renderizarFerramentas(ferramentas));
+  if (id==='t-repositorio') carregarMateriais().then(()=>renderizarMateriais(materiais));
   if (id==='t-prompts')     carregarPrompts().then(()=>renderizarPrompts(prompts));
   if (id==='t-glossario')   carregarGlossario().then(filtrarGlossario);
   if (id==='t-diario')      carregarHistorico().then(renderizarHistorico);
 }
 
 /* ═══════════════════════════════════
-   REPOSITÓRIO — render & filtros
+   REPOSITÓRIO DE MATERIAIS — render, filtros & envio
 ═══════════════════════════════════ */
-function renderizarFerramentas(lista) {
-  const grid = document.getElementById('grid-ferramentas');
-  if (!lista.length) { grid.innerHTML='<p style="color:var(--cinza-med);grid-column:1/-1">Nenhuma ferramenta encontrada para esses filtros.</p>'; return; }
-  grid.innerHTML = lista.map(f => `
-    <div class="card-ferramenta" onclick="abrirFicha(${f.id})">
-      <span class="estrelas-card">★ ${f.estrelas}</span>
-      <div class="card-badges">
-        ${f.badges.map((b,i)=>`<span class="badge ${b}">${f.badgeLabels[i]}</span>`).join('')}
+const iconeTipoMaterial = { pdf:'📄', audio:'🔊', podcast:'🎙️' };
+const labelTipoMaterial = { pdf:'PDF', audio:'Áudio', podcast:'Podcast' };
+
+function renderizarMateriais(lista) {
+  const grid = document.getElementById('grid-materiais');
+  if (!lista.length) { grid.innerHTML='<p style="color:var(--cinza-med);grid-column:1/-1">Nenhum material encontrado. Seja o(a) primeiro(a) a enviar um! 📤</p>'; return; }
+  grid.innerHTML = lista.map(m => `
+    <div class="card-material">
+      <span class="material-icone">${iconeTipoMaterial[m.tipo]||'📎'}</span>
+      <div class="card-badges" style="margin-bottom:8px;">
+        <span class="badge badge-todos">${labelTipoMaterial[m.tipo]||m.tipo}</span>
+        ${m.disciplina ? `<span class="badge badge-mat">${m.disciplina}</span>` : ''}
       </div>
-      <h3>${f.icone} ${f.nome}</h3>
-      <p>${f.desc}</p>
-      <div class="chips-row">
-        ${f.chips.map(c=>`<span class="chip ${c.includes('♿')?'chip-roxo':'chip-verde'}">${c}</span>`).join('')}
-      </div>
+      <h3>${m.titulo}</h3>
+      ${m.descricao ? `<p>${m.descricao}</p>` : ''}
+      ${m.tipo==='pdf'
+        ? `<a class="material-baixar" href="${m.arquivo_url}" target="_blank" rel="noopener">📥 Baixar PDF</a>`
+        : `<div class="material-player"><audio controls src="${m.arquivo_url}"></audio></div>`}
     </div>`).join('');
 }
 
-function aplicarFiltros() {
-  const q    = document.getElementById('busca-input').value.toLowerCase();
-  const disc = document.getElementById('f-disciplina').value;
-  const niv  = document.getElementById('f-nivel').value;
-  const nee  = document.getElementById('f-nee').checked;
-  const open = document.getElementById('f-open').checked;
+function aplicarFiltrosMateriais() {
+  const q     = document.getElementById('busca-material').value.toLowerCase();
+  const tipo  = document.getElementById('f-tipo-material').value;
+  const disc  = document.getElementById('f-disciplina-material').value;
 
-  const r = ferramentas.filter(f => {
-    const matchQ    = !q    || f.nome.toLowerCase().includes(q) || f.desc.toLowerCase().includes(q);
-    const matchDisc = !disc || f.disciplina === disc || f.disciplina === 'Todas';
-    const matchNiv  = !niv  || f.anos === niv || f.anos === '1-9';
-    const matchNEE  = !nee  || f.nee;
-    const matchOpen = !open || f.open;
-    return matchQ && matchDisc && matchNiv && matchNEE && matchOpen;
+  const r = materiais.filter(m => {
+    const matchQ    = !q || m.titulo.toLowerCase().includes(q) || (m.descricao||'').toLowerCase().includes(q);
+    const matchTipo = !tipo || m.tipo === tipo;
+    const matchDisc = !disc || m.disciplina === disc;
+    return matchQ && matchTipo && matchDisc;
   });
-  renderizarFerramentas(r);
+  renderizarMateriais(r);
+}
+
+function atualizarAceiteArquivo() {
+  const tipo = document.getElementById('mat-tipo').value;
+  document.getElementById('mat-arquivo').accept = tipo === 'pdf' ? '.pdf' : 'audio/*';
+}
+
+async function enviarMaterial() {
+  const titulo     = document.getElementById('mat-titulo').value.trim();
+  const tipo       = document.getElementById('mat-tipo').value;
+  const disciplina = document.getElementById('mat-disciplina').value;
+  const descricao  = document.getElementById('mat-descricao').value.trim();
+  const arquivo    = document.getElementById('mat-arquivo').files[0];
+
+  if (!titulo || !arquivo) { mostrarToast('Preencha o título e escolha um arquivo ✏️'); return; }
+
+  if (!supabaseConfigurado) {
+    materiais.unshift({ id: Date.now(), titulo, tipo, disciplina, descricao, arquivo_url: '' });
+    renderizarMateriais(materiais);
+    mostrarToast('Modo demo: material adicionado só nesta sessão 🔧');
+  } else {
+    const btn = document.getElementById('btn-enviar-material');
+    btn.disabled = true; btn.textContent = 'Enviando…';
+
+    const caminho = `${usuarioAtual.id}/${Date.now()}_${arquivo.name}`;
+    const { error: erroUpload } = await sb.storage.from('materiais').upload(caminho, arquivo);
+    if (erroUpload) { mostrarToast('Erro ao enviar arquivo: ' + erroUpload.message); btn.disabled = false; btn.textContent = '📤 Enviar material'; return; }
+
+    const { data: { publicUrl } } = sb.storage.from('materiais').getPublicUrl(caminho);
+
+    const { error } = await sb.from('materiais').insert({
+      titulo, tipo, disciplina: disciplina || null, descricao,
+      arquivo_url: publicUrl, arquivo_nome: arquivo.name, autor_id: usuarioAtual.id,
+    });
+    btn.disabled = false; btn.textContent = '📤 Enviar material';
+    if (error) { mostrarToast('Erro ao salvar material: ' + error.message); return; }
+
+    await carregarMateriais();
+    renderizarMateriais(materiais);
+    mostrarToast('Material enviado ao repositório! 🎉');
+  }
+
+  document.getElementById('mat-titulo').value = '';
+  document.getElementById('mat-descricao').value = '';
+  document.getElementById('mat-arquivo').value = '';
 }
 
 /* ═══════════════════════════════════
    MODAL FICHA
 ═══════════════════════════════════ */
 function abrirFicha(id) {
-  const f = ferramentas.find(x=>x.id===id);
+  const f = glossario.find(x=>x.id===id);
   ferramentaSelecionada = f;
 
-  document.getElementById('m-nome').textContent = f.icone+' '+f.nome;
-  document.getElementById('m-desc').textContent = f.desc;
-  document.getElementById('m-nivel').textContent = '📌 '+f.nivel;
+  document.getElementById('m-nome').textContent = (f.icone||'🤖')+' '+f.nome;
+  document.getElementById('m-desc').textContent = f.descricao;
+  document.getElementById('m-nivel').textContent = '📌 '+f.nivel_unesco;
 
   document.getElementById('m-badges-topo').innerHTML =
-    f.badges.map((b,i)=>`<span class="badge ${b}">${f.badgeLabels[i]}</span>`).join('');
+    (f.badges||[]).map((b,i)=>`<span class="badge ${b}">${(f.badge_labels||[])[i]||''}</span>`).join('');
 
   document.getElementById('m-criterios').innerHTML = f.criterios.map(c=>`
     <div class="criterio">
@@ -1701,7 +1828,7 @@ function mostrarToast(msg) {
 
 /* INIT */
 inicializarAuth().then(() => {
-  carregarFerramentas().then(() => renderizarFerramentas(ferramentas));
+  carregarMateriais().then(() => renderizarMateriais(materiais));
   carregarPrompts().then(() => renderizarPrompts(prompts));
   renderizarHistorico();
   if (!supabaseConfigurado) mostrarToast('Modo demo: configure config.js para salvar dados de verdade 🔧');
