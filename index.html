@@ -422,7 +422,6 @@ body { font-family: 'Inter', sans-serif; background: var(--cinza-cl); color: var
 /* ═══════════════════════════════════
    REPOSITÓRIO DE MATERIAIS (PDFs, áudios, podcasts)
 ═══════════════════════════════════ */
-.form-material { background:var(--branco); border:2px solid var(--borda); border-radius:20px; padding:28px; margin-bottom:28px; }
 .card-material {
   background:var(--branco); border:2px solid var(--borda);
   border-radius:16px; padding:22px; transition:all .22s;
@@ -585,48 +584,7 @@ body { font-family: 'Inter', sans-serif; background: var(--cinza-cl); color: var
 
   <div class="conteudo">
     <h1 class="titulo-pag">Repositório de Materiais</h1>
-    <p class="subtitulo-pag">Banco de materiais de apoio à prática pedagógica: PDFs, áudios e podcasts enviados por professores. Envie um material abaixo ou explore o que já foi compartilhado.</p>
-
-    <div class="form-material">
-      <h3 style="font-family:'Sora',sans-serif;font-size:15px;font-weight:700;margin-bottom:16px;color:var(--cinza-esc);">📤 Enviar novo material</h3>
-      <div class="linha-campos">
-        <div class="campo-grupo">
-          <label>Título</label>
-          <input type="text" id="mat-titulo" placeholder="Ex: Podcast sobre IA na alfabetização">
-        </div>
-        <div class="campo-grupo">
-          <label>Tipo de arquivo</label>
-          <select id="mat-tipo" onchange="atualizarAceiteArquivo()">
-            <option value="pdf">📄 PDF</option>
-            <option value="audio">🔊 Áudio</option>
-            <option value="podcast">🎙️ Podcast</option>
-          </select>
-        </div>
-      </div>
-      <div class="linha-campos">
-        <div class="campo-grupo">
-          <label>Disciplina</label>
-          <select id="mat-disciplina">
-            <option value="">Geral / Todas</option>
-            <option>Língua Portuguesa</option>
-            <option>Matemática</option>
-            <option>Ciências</option>
-            <option>Artes</option>
-            <option>História</option>
-            <option>Geografia</option>
-          </select>
-        </div>
-        <div class="campo-grupo">
-          <label>Arquivo</label>
-          <input type="file" id="mat-arquivo" accept=".pdf">
-        </div>
-      </div>
-      <div class="campo-grupo">
-        <label>Descrição</label>
-        <textarea id="mat-descricao" rows="2" placeholder="Do que se trata este material?"></textarea>
-      </div>
-      <button class="btn-gerar" onclick="enviarMaterial()" id="btn-enviar-material">📤 Enviar material</button>
-    </div>
+    <p class="subtitulo-pag">Banco de materiais de apoio à prática pedagógica: PDFs, áudios, podcasts e vídeos selecionados para você.</p>
 
     <div class="barra-filtros">
       <input type="text" placeholder="🔍  Buscar material…" oninput="aplicarFiltrosMateriais()" id="busca-material">
@@ -635,6 +593,7 @@ body { font-family: 'Inter', sans-serif; background: var(--cinza-cl); color: var
         <option value="pdf">📄 PDF</option>
         <option value="audio">🔊 Áudio</option>
         <option value="podcast">🎙️ Podcast</option>
+        <option value="video">🎬 Vídeo</option>
       </select>
       <select onchange="aplicarFiltrosMateriais()" id="f-disciplina-material">
         <option value="">Todas as disciplinas</option>
@@ -1443,12 +1402,12 @@ function irPara(id) {
 /* ═══════════════════════════════════
    REPOSITÓRIO DE MATERIAIS — render, filtros & envio
 ═══════════════════════════════════ */
-const iconeTipoMaterial = { pdf:'📄', audio:'🔊', podcast:'🎙️' };
-const labelTipoMaterial = { pdf:'PDF', audio:'Áudio', podcast:'Podcast' };
+const iconeTipoMaterial = { pdf:'📄', audio:'🔊', podcast:'🎙️', video:'🎬' };
+const labelTipoMaterial = { pdf:'PDF', audio:'Áudio', podcast:'Podcast', video:'Vídeo' };
 
 function renderizarMateriais(lista) {
   const grid = document.getElementById('grid-materiais');
-  if (!lista.length) { grid.innerHTML='<p style="color:var(--cinza-med);grid-column:1/-1">Nenhum material encontrado. Seja o(a) primeiro(a) a enviar um! 📤</p>'; return; }
+  if (!lista.length) { grid.innerHTML='<p style="color:var(--cinza-med);grid-column:1/-1">Nenhum material disponível no momento.</p>'; return; }
   grid.innerHTML = lista.map(m => `
     <div class="card-material">
       <span class="material-icone">${iconeTipoMaterial[m.tipo]||'📎'}</span>
@@ -1460,6 +1419,8 @@ function renderizarMateriais(lista) {
       ${m.descricao ? `<p>${m.descricao}</p>` : ''}
       ${m.tipo==='pdf'
         ? `<a class="material-baixar" href="${m.arquivo_url}" target="_blank" rel="noopener">📥 Baixar PDF</a>`
+        : m.tipo==='video'
+        ? `<div class="material-player"><video controls src="${m.arquivo_url}" style="width:100%;border-radius:10px;"></video></div>`
         : `<div class="material-player"><audio controls src="${m.arquivo_url}"></audio></div>`}
     </div>`).join('');
 }
@@ -1476,51 +1437,6 @@ function aplicarFiltrosMateriais() {
     return matchQ && matchTipo && matchDisc;
   });
   renderizarMateriais(r);
-}
-
-function atualizarAceiteArquivo() {
-  const tipo = document.getElementById('mat-tipo').value;
-  document.getElementById('mat-arquivo').accept = tipo === 'pdf' ? '.pdf' : 'audio/*';
-}
-
-async function enviarMaterial() {
-  const titulo     = document.getElementById('mat-titulo').value.trim();
-  const tipo       = document.getElementById('mat-tipo').value;
-  const disciplina = document.getElementById('mat-disciplina').value;
-  const descricao  = document.getElementById('mat-descricao').value.trim();
-  const arquivo    = document.getElementById('mat-arquivo').files[0];
-
-  if (!titulo || !arquivo) { mostrarToast('Preencha o título e escolha um arquivo ✏️'); return; }
-
-  if (!supabaseConfigurado) {
-    materiais.unshift({ id: Date.now(), titulo, tipo, disciplina, descricao, arquivo_url: '' });
-    renderizarMateriais(materiais);
-    mostrarToast('Modo demo: material adicionado só nesta sessão 🔧');
-  } else {
-    const btn = document.getElementById('btn-enviar-material');
-    btn.disabled = true; btn.textContent = 'Enviando…';
-
-    const caminho = `${usuarioAtual.id}/${Date.now()}_${arquivo.name}`;
-    const { error: erroUpload } = await sb.storage.from('materiais').upload(caminho, arquivo);
-    if (erroUpload) { mostrarToast('Erro ao enviar arquivo: ' + erroUpload.message); btn.disabled = false; btn.textContent = '📤 Enviar material'; return; }
-
-    const { data: { publicUrl } } = sb.storage.from('materiais').getPublicUrl(caminho);
-
-    const { error } = await sb.from('materiais').insert({
-      titulo, tipo, disciplina: disciplina || null, descricao,
-      arquivo_url: publicUrl, arquivo_nome: arquivo.name, autor_id: usuarioAtual.id,
-    });
-    btn.disabled = false; btn.textContent = '📤 Enviar material';
-    if (error) { mostrarToast('Erro ao salvar material: ' + error.message); return; }
-
-    await carregarMateriais();
-    renderizarMateriais(materiais);
-    mostrarToast('Material enviado ao repositório! 🎉');
-  }
-
-  document.getElementById('mat-titulo').value = '';
-  document.getElementById('mat-descricao').value = '';
-  document.getElementById('mat-arquivo').value = '';
 }
 
 /* ═══════════════════════════════════
