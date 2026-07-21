@@ -1405,10 +1405,17 @@ function irPara(id) {
 const iconeTipoMaterial = { pdf:'📄', audio:'🔊', podcast:'🎙️', video:'🎬' };
 const labelTipoMaterial = { pdf:'PDF', audio:'Áudio', podcast:'Podcast', video:'Vídeo' };
 
+function youtubeEmbedUrl(url) {
+  const m = String(url).match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|shorts\/))([\w-]{11})/);
+  return m ? `https://www.youtube.com/embed/${m[1]}` : null;
+}
+
 function renderizarMateriais(lista) {
   const grid = document.getElementById('grid-materiais');
   if (!lista.length) { grid.innerHTML='<p style="color:var(--cinza-med);grid-column:1/-1">Nenhum material disponível no momento.</p>'; return; }
-  grid.innerHTML = lista.map(m => `
+  grid.innerHTML = lista.map(m => {
+    const yt = m.tipo==='video' ? youtubeEmbedUrl(m.arquivo_url) : null;
+    return `
     <div class="card-material">
       <span class="material-icone">${iconeTipoMaterial[m.tipo]||'📎'}</span>
       <div class="card-badges" style="margin-bottom:8px;">
@@ -1419,10 +1426,13 @@ function renderizarMateriais(lista) {
       ${m.descricao ? `<p>${m.descricao}</p>` : ''}
       ${m.tipo==='pdf'
         ? `<a class="material-baixar" href="${m.arquivo_url}" target="_blank" rel="noopener">📥 Baixar PDF</a>`
+        : yt
+        ? `<div class="material-player"><iframe src="${yt}" style="width:100%;aspect-ratio:16/9;border:0;border-radius:10px;" allowfullscreen></iframe></div>`
         : m.tipo==='video'
         ? `<div class="material-player"><video controls src="${m.arquivo_url}" style="width:100%;border-radius:10px;"></video></div>`
         : `<div class="material-player"><audio controls src="${m.arquivo_url}"></audio></div>`}
-    </div>`).join('');
+    </div>`;
+  }).join('');
 }
 
 function aplicarFiltrosMateriais() {
