@@ -80,11 +80,11 @@ body { font-family: 'Inter', sans-serif; background: var(--cinza-cl); color: var
   margin:0 auto 36px; display:block;
 }
 
-.home-cards { display:flex; gap:16px; flex-wrap:wrap; justify-content:center; margin-bottom:40px; max-width:900px; }
+.home-cards { display:flex; gap:16px; flex-wrap:nowrap; justify-content:center; margin-bottom:40px; max-width:1100px; width:100%; }
 .home-card {
   background:rgba(255,255,255,.10); border:1px solid rgba(255,255,255,.18);
   backdrop-filter:blur(8px); border-radius:16px; padding:24px 20px;
-  width:175px; cursor:pointer; transition:all .25s ease; text-align:center;
+  width:175px; flex:1 1 175px; min-width:0; cursor:pointer; transition:all .25s ease; text-align:center;
 }
 .home-card:hover { background:rgba(255,255,255,.18); transform:translateY(-4px); box-shadow:0 12px 32px rgba(0,0,0,.25); }
 .home-card .icone { font-size:30px; margin-bottom:12px; display:block; }
@@ -465,7 +465,8 @@ body { font-family: 'Inter', sans-serif; background: var(--cinza-cl); color: var
   .linha-campos     { grid-template-columns:1fr; }
   .navbar           { padding:0 14px; }
   .conteudo         { padding:24px 14px; }
-  .home-card        { width:140px; }
+  .home-cards       { flex-wrap:wrap; }
+  .home-card        { width:140px; flex:1 1 100px; }
   .modal-btns       { flex-direction:column; }
 }
 
