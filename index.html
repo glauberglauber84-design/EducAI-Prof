@@ -443,6 +443,61 @@ body { font-family: 'Inter', sans-serif; background: var(--cinza-cl); color: var
 .material-baixar:hover { background:var(--verde); color:#fff; }
 
 /* ═══════════════════════════════════
+   DIAGNÓSTICA — EXAMINE-SE (QUIZ)
+═══════════════════════════════════ */
+.quiz-wrap { max-width:680px; margin:0 auto; }
+.quiz-badge {
+  display:inline-block; background:var(--azul-cl); color:var(--azul);
+  font-family:'Sora',sans-serif; font-size:11px; font-weight:700;
+  letter-spacing:2px; text-transform:uppercase;
+  padding:6px 16px; border-radius:20px; margin-bottom:18px;
+}
+.quiz-intro-titulo { font-family:'Sora',sans-serif; font-size:36px; font-weight:700; color:var(--cinza-esc); margin-bottom:10px; line-height:1.15; }
+.quiz-intro-sub { font-size:16px; color:var(--verde); font-weight:600; margin-bottom:18px; line-height:1.5; }
+.quiz-intro-nota {
+  background:var(--azul-cl); border-radius:14px; padding:16px 20px;
+  font-size:13px; color:var(--cinza-med); line-height:1.6; margin-bottom:28px;
+}
+
+.quiz-progress-wrap { margin-bottom:28px; }
+.quiz-progress-label {
+  display:block; font-family:'Sora',sans-serif; font-size:12px; font-weight:700;
+  color:var(--azul); text-transform:uppercase; letter-spacing:1px; margin-bottom:8px;
+}
+.quiz-progress-bar { height:8px; background:var(--borda); border-radius:6px; overflow:hidden; }
+.quiz-progress-fill { height:100%; background:var(--azul); border-radius:6px; transition:width .35s ease; width:0%; }
+
+.quiz-pergunta-texto {
+  font-family:'Sora',sans-serif; font-size:22px; font-weight:700; color:var(--cinza-esc);
+  line-height:1.35; margin-bottom:28px;
+}
+.quiz-opcoes { display:flex; flex-direction:column; gap:12px; }
+.quiz-opcao-btn {
+  width:100%; text-align:left; padding:18px 22px;
+  background:var(--branco); border:2px solid var(--borda); border-radius:14px;
+  font-family:'Inter',sans-serif; font-size:14.5px; color:var(--cinza-esc);
+  line-height:1.5; cursor:pointer; transition:all .18s;
+}
+.quiz-opcao-btn:hover:not(:disabled) { border-color:var(--azul); background:var(--azul-cl); }
+.quiz-opcao-btn:disabled { cursor:default; opacity:.55; }
+.quiz-opcao-btn.selecionada { border-color:var(--azul); background:var(--azul-cl); opacity:1; font-weight:600; }
+
+.quiz-resultado-box {
+  background:var(--branco); border:3px solid var(--azul); border-radius:24px;
+  padding:44px 36px; text-align:center;
+}
+.quiz-resultado-label {
+  font-family:'Sora',sans-serif; font-size:12px; font-weight:700; letter-spacing:1.5px;
+  text-transform:uppercase; color:var(--cinza-med); margin-bottom:12px;
+}
+.quiz-resultado-nivel {
+  font-family:'Sora',sans-serif; font-size:44px; font-weight:700; color:var(--azul);
+  margin-bottom:4px; line-height:1.1;
+}
+.quiz-resultado-subtitulo { font-family:'Sora',sans-serif; font-size:16px; font-weight:600; color:var(--cinza-med); margin-bottom:22px; }
+.quiz-resultado-mensagem { font-size:14.5px; color:var(--cinza-esc); line-height:1.7; margin-bottom:30px; max-width:480px; margin-left:auto; margin-right:auto; }
+
+/* ═══════════════════════════════════
    TOAST
 ═══════════════════════════════════ */
 .toast {
@@ -468,6 +523,10 @@ body { font-family: 'Inter', sans-serif; background: var(--cinza-cl); color: var
   .home-cards       { flex-wrap:wrap; }
   .home-card        { width:140px; flex:1 1 100px; }
   .modal-btns       { flex-direction:column; }
+  .quiz-intro-titulo { font-size:26px; }
+  .quiz-pergunta-texto { font-size:18px; }
+  .quiz-resultado-nivel { font-size:32px; }
+  .quiz-resultado-box { padding:30px 20px; }
 }
 
 /* ═══════════════════════════════════
@@ -530,6 +589,11 @@ body { font-family: 'Inter', sans-serif; background: var(--cinza-cl); color: var
       <h3>Laboratório de IA</h3>
       <p>Registre sua experiência após aplicar uma aula com IA. Sua avaliação contribui para o repositório coletivo de professores.</p>
     </div>
+    <div class="home-card" onclick="irPara('t-quiz')">
+      <span class="icone">🧭</span>
+      <h3>Diagnóstica</h3>
+      <p>Descubra em que nível você está na integração da IA à prática docente</p>
+    </div>
   </div>
 
   <button class="btn-primario" onclick="irPara('t-repositorio')">Começar agora</button>
@@ -581,6 +645,7 @@ body { font-family: 'Inter', sans-serif; background: var(--cinza-cl); color: var
       <button class="nav-btn"        onclick="irPara('t-prompts')">💬 Prompts</button>
       <button class="nav-btn"        onclick="irPara('t-glossario')">📖 Glossário</button>
       <button class="nav-btn"        onclick="irPara('t-diario')">📓 Laboratório de IA</button>
+      <button class="nav-btn"        onclick="irPara('t-quiz')">🧭 Diagnóstica</button>
     </div>
     <div class="nav-usuario-box" style="display:none;align-items:center;gap:10px;">
       <span class="nav-usuario-nome" style="font-size:12px;color:var(--cinza-med);"></span>
@@ -689,6 +754,7 @@ body { font-family: 'Inter', sans-serif; background: var(--cinza-cl); color: var
       <button class="nav-btn"        onclick="irPara('t-prompts')">💬 Prompts</button>
       <button class="nav-btn"        onclick="irPara('t-glossario')">📖 Glossário</button>
       <button class="nav-btn"        onclick="irPara('t-diario')">📓 Laboratório de IA</button>
+      <button class="nav-btn"        onclick="irPara('t-quiz')">🧭 Diagnóstica</button>
     </div>
     <div class="nav-usuario-box" style="display:none;align-items:center;gap:10px;">
       <span class="nav-usuario-nome" style="font-size:12px;color:var(--cinza-med);"></span>
@@ -786,6 +852,7 @@ body { font-family: 'Inter', sans-serif; background: var(--cinza-cl); color: var
       <button class="nav-btn ativo" onclick="irPara('t-prompts')">💬 Prompts</button>
       <button class="nav-btn"       onclick="irPara('t-glossario')">📖 Glossário</button>
       <button class="nav-btn"       onclick="irPara('t-diario')">📓 Laboratório de IA</button>
+      <button class="nav-btn"       onclick="irPara('t-quiz')">🧭 Diagnóstica</button>
     </div>
     <div class="nav-usuario-box" style="display:none;align-items:center;gap:10px;">
       <span class="nav-usuario-nome" style="font-size:12px;color:var(--cinza-med);"></span>
@@ -867,6 +934,7 @@ body { font-family: 'Inter', sans-serif; background: var(--cinza-cl); color: var
       <button class="nav-btn"       onclick="irPara('t-prompts')">💬 Prompts</button>
       <button class="nav-btn ativo" onclick="irPara('t-glossario')">📖 Glossário</button>
       <button class="nav-btn"       onclick="irPara('t-diario')">📓 Laboratório de IA</button>
+      <button class="nav-btn"       onclick="irPara('t-quiz')">🧭 Diagnóstica</button>
     </div>
     <div class="nav-usuario-box" style="display:none;align-items:center;gap:10px;">
       <span class="nav-usuario-nome" style="font-size:12px;color:var(--cinza-med);"></span>
@@ -900,6 +968,7 @@ body { font-family: 'Inter', sans-serif; background: var(--cinza-cl); color: var
       <button class="nav-btn"       onclick="irPara('t-prompts')">💬 Prompts</button>
       <button class="nav-btn"       onclick="irPara('t-glossario')">📖 Glossário</button>
       <button class="nav-btn ativo" onclick="irPara('t-diario')">📓 Laboratório de IA</button>
+      <button class="nav-btn"       onclick="irPara('t-quiz')">🧭 Diagnóstica</button>
     </div>
     <div class="nav-usuario-box" style="display:none;align-items:center;gap:10px;">
       <span class="nav-usuario-nome" style="font-size:12px;color:var(--cinza-med);"></span>
@@ -972,6 +1041,67 @@ body { font-family: 'Inter', sans-serif; background: var(--cinza-cl); color: var
         <h3>📋 Registros recentes</h3>
         <div id="lista-historico"></div>
       </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════
+     DIAGNÓSTICA — EXAMINE-SE (QUIZ)
+═══════════════════════════════════ -->
+<div id="t-quiz" class="tela">
+  <nav class="navbar">
+    <div class="nav-logo" onclick="irPara('t-home')">EducAI<span class="ponto">.</span>Prof</div>
+    <div class="nav-links">
+      <button class="nav-btn"       onclick="irPara('t-repositorio')">📁 Repositório</button>
+      <button class="nav-btn"       onclick="irPara('t-planejador')">📋 Planejador</button>
+      <button class="nav-btn"       onclick="irPara('t-prompts')">💬 Prompts</button>
+      <button class="nav-btn"       onclick="irPara('t-glossario')">📖 Glossário</button>
+      <button class="nav-btn"       onclick="irPara('t-diario')">📓 Laboratório de IA</button>
+      <button class="nav-btn ativo" onclick="irPara('t-quiz')">🧭 Diagnóstica</button>
+    </div>
+    <div class="nav-usuario-box" style="display:none;align-items:center;gap:10px;">
+      <span class="nav-usuario-nome" style="font-size:12px;color:var(--cinza-med);"></span>
+      <button class="nav-btn" onclick="logout()">Sair</button>
+    </div>
+  </nav>
+
+  <div class="conteudo">
+    <div class="quiz-wrap">
+
+      <!-- INTRO -->
+      <div id="quiz-intro">
+        <div class="quiz-badge">🧭 Diagnóstica — Examine-se</div>
+        <h1 class="quiz-intro-titulo">Em que nível você está no uso da IA na sua prática docente?</h1>
+        <p class="quiz-intro-sub">Descubra em que nível você está na integração da Inteligência Artificial à prática docente.</p>
+        <div class="quiz-intro-nota">
+          Este não é um teste ou uma avaliação de desempenho profissional — é uma ferramenta de <strong>autoconhecimento e orientação formativa</strong>. São 15 situações rápidas do dia a dia docente; responda com sinceridade, pensando em como você usa (ou usaria) a IA hoje.
+        </div>
+        <button class="btn-gerar" style="width:auto;padding:14px 32px;" onclick="iniciarQuiz()">Começar diagnóstico →</button>
+      </div>
+
+      <!-- PERGUNTA -->
+      <div id="quiz-pergunta" style="display:none;">
+        <div class="quiz-progress-wrap">
+          <span class="quiz-progress-label" id="quiz-progress-label">Questão 1 de 15</span>
+          <div class="quiz-progress-bar"><div class="quiz-progress-fill" id="quiz-progress-fill"></div></div>
+        </div>
+        <h2 class="quiz-pergunta-texto" id="quiz-pergunta-texto"></h2>
+        <div class="quiz-opcoes" id="quiz-opcoes"></div>
+      </div>
+
+      <!-- RESULTADO -->
+      <div id="quiz-resultado" style="display:none;">
+        <div class="quiz-resultado-box" id="quiz-resultado-box">
+          <div class="quiz-resultado-label">Seu nível de desenvolvimento docente com IA é:</div>
+          <h1 class="quiz-resultado-nivel" id="quiz-resultado-nivel"></h1>
+          <div class="quiz-resultado-subtitulo" id="quiz-resultado-subtitulo"></div>
+          <p class="quiz-resultado-mensagem" id="quiz-resultado-mensagem"></p>
+          <button class="btn-gerar" style="width:auto;padding:14px 32px;margin-bottom:12px;" id="quiz-resultado-btn" onclick="irPara('t-repositorio')"></button>
+          <br>
+          <button class="btn-registrar" style="width:auto;padding:10px 24px;" onclick="reiniciarQuiz()">🔄 Refazer diagnóstico</button>
+        </div>
+      </div>
+
     </div>
   </div>
 </div>
@@ -1379,7 +1509,7 @@ async function carregarHistorico() {
 /* ═══════════════════════════════════
    NAVEGAÇÃO
 ═══════════════════════════════════ */
-const telasComLogin = ['t-repositorio','t-planejador','t-prompts','t-glossario','t-diario'];
+const telasComLogin = ['t-repositorio','t-planejador','t-prompts','t-glossario','t-diario','t-quiz'];
 
 function irPara(id) {
   if (supabaseConfigurado && !usuarioAtual && telasComLogin.includes(id)) {
@@ -1392,7 +1522,7 @@ function irPara(id) {
   window.scrollTo(0,0);
   // atualiza nav ativo
   document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('ativo'));
-  const mapa = { 't-repositorio':0, 't-planejador':1, 't-prompts':2, 't-glossario':3, 't-diario':4 };
+  const mapa = { 't-repositorio':0, 't-planejador':1, 't-prompts':2, 't-glossario':3, 't-diario':4, 't-quiz':5 };
   if (id in mapa) {
     document.querySelectorAll('#'+id+' .nav-btn')[mapa[id]];
     document.querySelectorAll('#'+id+' .nav-btn').forEach((b,i) => {
@@ -1403,6 +1533,7 @@ function irPara(id) {
   if (id==='t-prompts')     carregarPrompts().then(()=>renderizarPrompts(prompts));
   if (id==='t-glossario')   carregarGlossario().then(filtrarGlossario);
   if (id==='t-diario')      carregarHistorico().then(renderizarHistorico);
+  if (id==='t-quiz')        reiniciarQuiz();
 }
 
 /* ═══════════════════════════════════
@@ -1756,6 +1887,182 @@ function mostrarToast(msg) {
   t.textContent = msg;
   t.classList.add('visivel');
   setTimeout(()=>t.classList.remove('visivel'), 3200);
+}
+
+/* ═══════════════════════════════════
+   DIAGNÓSTICA — EXAMINE-SE (QUIZ)
+   15 perguntas ancoradas nas competências do BNC-Formação IA
+   (cruzamento BNC-Formação Continuada × Quadro UNESCO de IA para
+   Professores), cada uma com 3 alternativas correspondendo aos
+   níveis de progressão Adquirir / Aprofundar / Criar.
+═══════════════════════════════════ */
+const quizPerguntas = [
+  { pergunta: "Sobre dominar os conteúdos da sua disciplina com apoio de IA:", opcoes: [
+    { letra:'A', nivel:'adquirir',  texto:"Peço à IA resumos e organização dos conteúdos da minha disciplina, sempre conferindo a precisão antes de repassar aos alunos." },
+    { letra:'B', nivel:'aprofundar',texto:"Uso a IA para cruzar os conteúdos com outras áreas e comparar as sugestões com a BNCC vigente." },
+    { letra:'C', nivel:'criar',     texto:"Elaboro, com apoio de IA, progressões curriculares e materiais de referência autorais para a minha disciplina." }
+  ]},
+  { pergunta: "Sobre planejar estratégias de ensino e avaliação:", opcoes: [
+    { letra:'A', nivel:'adquirir',  texto:"Peço à IA sugestões de estratégias e recursos para um conteúdo específico, avaliando se fazem sentido pedagógico antes de usar." },
+    { letra:'B', nivel:'aprofundar',texto:"Uso IA para comparar diferentes tipos de avaliação e gerar variações de atividades para os diferentes níveis da turma." },
+    { letra:'C', nivel:'criar',     texto:"Construo bancos próprios de estratégias e avaliações diferenciadas com apoio de IA, refinando os comandos a partir das dificuldades reais da turma." }
+  ]},
+  { pergunta: "Sobre conhecer seus alunos e usar dados com IA:", opcoes: [
+    { letra:'A', nivel:'adquirir',  texto:"Só uso IA com informações anonimizadas, para entender padrões gerais de aprendizagem por faixa etária." },
+    { letra:'B', nivel:'aprofundar',texto:"Uso IA para organizar evidências de desempenho sem expor dados sensíveis, sempre com validação humana da decisão final." },
+    { letra:'C', nivel:'criar',     texto:"Ajudo a projetar, com a equipe pedagógica, protocolos próprios e éticos de uso de IA para mapear perfis de aprendizagem da turma." }
+  ]},
+  { pergunta: "Sobre seu próprio desenvolvimento profissional com apoio de IA:", opcoes: [
+    { letra:'A', nivel:'adquirir',  texto:"Uso IA para gerar perguntas que me ajudam a refletir sobre minhas necessidades de desenvolvimento." },
+    { letra:'B', nivel:'aprofundar',texto:"Uso IA para analisar meus próprios planos de aula ou portfólio e identificar padrões de melhoria." },
+    { letra:'C', nivel:'criar',     texto:"Construo um portfólio reflexivo contínuo com apoio de IA, cruzando dados de aprendizagem dos alunos com minha autoavaliação." }
+  ]},
+  { pergunta: "Sobre planejar sequências didáticas com IA:", opcoes: [
+    { letra:'A', nivel:'adquirir',  texto:"Uso IA para gerar rascunhos de planos de aula alinhados aos objetivos, sempre revisando antes de usar em sala." },
+    { letra:'B', nivel:'aprofundar',texto:"Uso IA para criar variações de uma mesma sequência didática adaptadas a diferentes perfis de turma." },
+    { letra:'C', nivel:'criar',     texto:"Desenho, testo e itero sequências didáticas autorais, usando a IA como parceira de design instrucional." }
+  ]},
+  { pergunta: "Sobre usar IA no ciclo de avaliação da aprendizagem:", opcoes: [
+    { letra:'A', nivel:'adquirir',  texto:"Uso IA para gerar perguntas instigantes e rubricas simples, adaptando a linguagem ao nível da turma." },
+    { letra:'B', nivel:'aprofundar',texto:"Uso IA para montar bancos diversificados de questões e analisar padrões de erro, dando devolutivas mais precisas." },
+    { letra:'C', nivel:'criar',     texto:"Integro a IA a todo o ciclo de avaliação formativa — geração, análise e devolutiva —, mas a decisão pedagógica final é sempre minha." }
+  ]},
+  { pergunta: "Sobre adaptar o ensino a diferentes idades e níveis com IA:", opcoes: [
+    { letra:'A', nivel:'adquirir',  texto:"Uso IA para simplificar ou aprofundar um mesmo conteúdo para diferentes faixas etárias." },
+    { letra:'B', nivel:'aprofundar',texto:"Uso IA para desenhar situações desafiadoras diferenciadas por nível, ajustando com base na resposta real da turma." },
+    { letra:'C', nivel:'criar',     texto:"Desenvolvo trilhas de aprendizagem adaptativas, combinando diferentes níveis de desafio numa mesma sequência." }
+  ]},
+  { pergunta: "Sobre vieses culturais e inclusão em conteúdos gerados por IA:", opcoes: [
+    { letra:'A', nivel:'adquirir',  texto:"Reconheço vieses culturais em conteúdos gerados por IA e os revejo antes de usar com os alunos." },
+    { letra:'B', nivel:'aprofundar',texto:"Uso IA para adaptar materiais a necessidades específicas de aprendizagem, verificando se a adaptação funciona de verdade." },
+    { letra:'C', nivel:'criar',     texto:"Curo um repertório próprio de materiais inclusivos com apoio de IA, documentando como verifico os vieses." }
+  ]},
+  { pergunta: "Sobre usar dados de desempenho dos alunos para refletir sobre sua própria prática:", opcoes: [
+    { letra:'A', nivel:'adquirir',  texto:"Uso IA para organizar e resumir resultados de avaliações, tendo uma primeira ideia sobre minha prática." },
+    { letra:'B', nivel:'aprofundar',texto:"Uso IA para cruzar dados de desempenho ao longo do tempo e ajustar minha prática pedagógica." },
+    { letra:'C', nivel:'criar',     texto:"Construo um ciclo próprio de autoavaliação assistida por IA, integrando dados de aprendizagem e metas de desenvolvimento." }
+  ]},
+  { pergunta: "Sobre uso ético e institucional de ferramentas de IA na escola:", opcoes: [
+    { letra:'A', nivel:'adquirir',  texto:"Sigo uma checklist simples de uso seguro e ético antes de adotar qualquer ferramenta de IA." },
+    { letra:'B', nivel:'aprofundar',texto:"Participo da avaliação institucional de ferramentas de IA, contribuindo com critérios pedagógicos." },
+    { letra:'C', nivel:'criar',     texto:"Colaboro na elaboração de diretrizes institucionais próprias de uso ético e pedagógico de IA." }
+  ]},
+  { pergunta: "Sobre colaborar com outros professores usando IA:", opcoes: [
+    { letra:'A', nivel:'adquirir',  texto:"Uso IA para organizar registros e comunicações simples com colegas sobre práticas pedagógicas." },
+    { letra:'B', nivel:'aprofundar',texto:"Uso IA para sistematizar boas práticas compartilhadas entre os professores da escola." },
+    { letra:'C', nivel:'criar',     texto:"Ajudo a estruturar, com apoio de IA, uma comunidade de prática docente que documenta e redistribui esse conhecimento." }
+  ]},
+  { pergunta: "Sobre apoiar alunos com diferentes potenciais e dificuldades usando IA:", opcoes: [
+    { letra:'A', nivel:'adquirir',  texto:"Uso IA para gerar ideias de suporte diferenciado, sempre validando se as sugestões fazem sentido pedagógico." },
+    { letra:'B', nivel:'aprofundar',texto:"Uso IA para tratar erros como dados de aprendizagem, gerando alternativas a partir dos padrões que aparecem." },
+    { letra:'C', nivel:'criar',     texto:"Desenvolvo práticas próprias de acompanhamento equitativo, com trilhas de suporte diferenciadas apoiadas por IA." }
+  ]},
+  { pergunta: "Sobre se comunicar com famílias e comunidade usando IA:", opcoes: [
+    { letra:'A', nivel:'adquirir',  texto:"Uso IA como apoio para tornar minha comunicação com as famílias mais acessível." },
+    { letra:'B', nivel:'aprofundar',texto:"Uso IA para identificar e organizar parcerias que favoreçam a aprendizagem dos alunos." },
+    { letra:'C', nivel:'criar',     texto:"Construo, com apoio de IA, estratégias próprias de engajamento família-escola, avaliando o impacto real." }
+  ]},
+  { pergunta: "Sobre acompanhar políticas e normas educacionais com apoio de IA:", opcoes: [
+    { letra:'A', nivel:'adquirir',  texto:"Uso IA para entender melhor políticas e normas da minha instituição, sempre conferindo em fontes oficiais." },
+    { letra:'B', nivel:'aprofundar',texto:"Uso IA para analisar criticamente a realidade da minha escola à luz das políticas educacionais." },
+    { letra:'C', nivel:'criar',     texto:"Participo ativamente, com apoio analítico de IA, da construção coletiva de estratégias institucionais." }
+  ]},
+  { pergunta: "Sobre sua trajetória de aprendizagem contínua e bem-estar:", opcoes: [
+    { letra:'A', nivel:'adquirir',  texto:"Uso IA para identificar minhas necessidades de aprimoramento e montar um primeiro plano de estudos." },
+    { letra:'B', nivel:'aprofundar',texto:"Uso IA para pesquisar problemas da educação e organizar referências e evidências." },
+    { letra:'C', nivel:'criar',     texto:"Construo minha trajetória de aprendizagem contínua com IA, equilibrando produtividade com autocuidado, e compartilho o que aprendo com outros professores." }
+  ]}
+];
+
+const quizNiveisInfo = {
+  adquirir:   { titulo:"ADQUIRIR",   sub:"Literacia Básica",       cor:"#3B6FD4",
+    msg:"Você está construindo sua base de conhecimentos sobre Inteligência Artificial e seus usos na educação. O próximo passo é ampliar sua segurança, compreensão e capacidade de utilizar a IA de forma ética e pedagógica." },
+  aprofundar: { titulo:"APROFUNDAR", sub:"Integração Crítica",     cor:"#1E5AA8",
+    msg:"Você já utiliza a Inteligência Artificial em diferentes dimensões da prática docente. Agora, o desafio é aprofundar a integração crítica, pedagógica, ética e reflexiva da IA." },
+  criar:      { titulo:"CRIAR",      sub:"Autoria e Liderança",    cor:"#7C3AED",
+    msg:"Você demonstra maior autonomia e autoria no uso da Inteligência Artificial, desenvolvendo soluções, práticas e estratégias próprias. O próximo passo é ampliar sua capacidade de criação, colaboração e liderança." }
+};
+
+let quizOrdem = [];
+let quizIndice = 0;
+let quizRespostas = [];
+
+function reiniciarQuiz() {
+  quizOrdem = [];
+  quizIndice = 0;
+  quizRespostas = [];
+  document.getElementById('quiz-resultado').style.display = 'none';
+  document.getElementById('quiz-pergunta').style.display = 'none';
+  document.getElementById('quiz-intro').style.display = 'block';
+}
+
+function iniciarQuiz() {
+  quizOrdem = [...quizPerguntas];
+  for (let i = quizOrdem.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [quizOrdem[i], quizOrdem[j]] = [quizOrdem[j], quizOrdem[i]];
+  }
+  quizIndice = 0;
+  quizRespostas = [];
+  document.getElementById('quiz-intro').style.display = 'none';
+  document.getElementById('quiz-resultado').style.display = 'none';
+  document.getElementById('quiz-pergunta').style.display = 'block';
+  renderizarQuizPergunta();
+}
+
+function renderizarQuizPergunta() {
+  const total = quizOrdem.length;
+  const q = quizOrdem[quizIndice];
+  document.getElementById('quiz-progress-label').textContent = `Questão ${quizIndice + 1} de ${total}`;
+  document.getElementById('quiz-progress-fill').style.width = (quizIndice / total * 100) + '%';
+  document.getElementById('quiz-pergunta-texto').textContent = q.pergunta;
+  document.getElementById('quiz-opcoes').innerHTML = q.opcoes.map(op =>
+    `<button class="quiz-opcao-btn" onclick="responderQuiz('${op.nivel}', this)"><strong>${op.letra})</strong> ${op.texto}</button>`
+  ).join('');
+}
+
+function responderQuiz(nivel, btnEl) {
+  document.querySelectorAll('#quiz-opcoes .quiz-opcao-btn').forEach(b => b.disabled = true);
+  btnEl.classList.add('selecionada');
+  quizRespostas.push(nivel);
+  setTimeout(() => {
+    quizIndice++;
+    if (quizIndice < quizOrdem.length) {
+      document.getElementById('quiz-progress-fill').style.width = (quizIndice / quizOrdem.length * 100) + '%';
+      renderizarQuizPergunta();
+    } else {
+      mostrarResultadoQuiz();
+    }
+  }, 400);
+}
+
+function mostrarResultadoQuiz() {
+  document.getElementById('quiz-progress-fill').style.width = '100%';
+  const contagem = { adquirir: 0, aprofundar: 0, criar: 0 };
+  quizRespostas.forEach(n => contagem[n]++);
+  const ordemNiveis = ['adquirir', 'aprofundar', 'criar'];
+  let max = -1, nivelFinal = 'adquirir';
+  ordemNiveis.forEach(n => { if (contagem[n] >= max) { max = contagem[n]; nivelFinal = n; } });
+
+  const d = quizNiveisInfo[nivelFinal];
+  document.getElementById('quiz-resultado-nivel').textContent = d.titulo;
+  document.getElementById('quiz-resultado-subtitulo').textContent = d.sub;
+  document.getElementById('quiz-resultado-mensagem').textContent = d.msg;
+  const btn = document.getElementById('quiz-resultado-btn');
+  btn.textContent = 'COMEÇAR FORMAÇÃO — ' + d.titulo;
+  btn.onclick = () => irParaFormacao(nivelFinal);
+  const box = document.getElementById('quiz-resultado-box');
+  box.style.borderColor = d.cor;
+  document.getElementById('quiz-resultado-nivel').style.color = d.cor;
+
+  document.getElementById('quiz-pergunta').style.display = 'none';
+  document.getElementById('quiz-resultado').style.display = 'block';
+}
+
+function irParaFormacao(nivel) {
+  // Por enquanto os 3 níveis encaminham para o Repositório, onde estão
+  // os guias de formação (BNC-Formação IA, UNESCO, Caderno de Atividades etc.)
+  irPara('t-repositorio');
 }
 
 /* INIT */
