@@ -824,13 +824,8 @@ body { font-family: 'Inter', sans-serif; background: var(--cinza-cl); color: var
         <span id="plano-print-data"></span>
       </div>
       <div class="plano-titulo" id="plano-titulo-texto"></div>
-      <div class="sugestao-ferramenta" id="sugestao-box">
-        <div class="icone-sug" id="sug-icone"></div>
-        <div>
-          <h4 id="sug-nome"></h4>
-          <p  id="sug-motivo"></p>
-        </div>
-      </div>
+      <p style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--cinza-med);margin-bottom:8px;">✦ IAs do Glossário sugeridas para esta aula</p>
+      <div id="sugestoes-lista"></div>
       <div class="etapa-ciclo"><div class="etapa-numero">1</div><div class="etapa-corpo"><h4>Design</h4><p id="et-design"></p></div></div>
       <div class="etapa-ciclo"><div class="etapa-numero">2</div><div class="etapa-corpo"><h4>Implementação</h4><p id="et-impl"></p></div></div>
       <div class="etapa-ciclo"><div class="etapa-numero">3</div><div class="etapa-corpo"><h4>Reflexão</h4><p id="et-refl"></p></div></div>
@@ -1711,25 +1706,92 @@ const planosBase = {
   },
 };
 
-function gerarPlano() {
+/* ═══════════════════════════════════
+   BUSCA DE FERRAMENTAS DO GLOSSÁRIO
+   por palavras do objetivo/atividade
+═══════════════════════════════════ */
+const stopwordsPt = new Set([
+  'de','da','do','das','dos','com','para','em','no','na','nos','nas','os','as','um','uma','uns','umas',
+  'que','se','sua','seu','suas','seus','mais','muito','muita','sobre','como','ou','ao','aos','à','às',
+  'por','pelo','pela','pelos','pelas','é','ser','tem','têm','vai','vão','ir','the','and','of','to',
+  'aula','aulas','alunos','aluno','alunas','aluna','turma','turmas','atividade','atividades','professor',
+  'professora','usando','usar','use','criar','crie','fazer','faça','quero','gostaria','vamos','então',
+  'também','apenas','cada','entre','esse','essa','esses','essas','este','esta','estes','estas','isso',
+  'isto','aquele','aquela','nesta','neste','desta','deste','nossa','nosso','nossos','nossas','onde',
+  'quando','porque','pois','mas','sem','já','ainda','bem','são','ser','ter','foi','era','the','a','o',
+]);
+
+function normalizarTexto(s) {
+  return (s||'').toString().toLowerCase()
+    .normalize('NFD').replace(/[̀-ͯ]/g, '')
+    .replace(/[^a-z0-9\s]/g, ' ');
+}
+
+function extrairPalavrasChave(texto) {
+  return normalizarTexto(texto).split(/\s+/).filter(p => p.length >= 4 && !stopwordsPt.has(p));
+}
+
+function sugerirFerramentasGlossario(disciplina, nee, objetivo, atividade) {
+  const fonte = (glossario && glossario.length) ? glossario : glossarioMock;
+  const palavras = [...new Set([...extrairPalavrasChave(objetivo), ...extrairPalavrasChave(atividade)])];
+
+  const pontuadas = fonte.map(g => {
+    const textoFerramenta = normalizarTexto([
+      g.nome, g.descricao, g.categoria, g.disciplina,
+      (g.chips||[]).join(' '), g.nivel_unesco||''
+    ].join(' '));
+
+    let pontos = 0;
+    palavras.forEach(p => { if (textoFerramenta.includes(p)) pontos += 2; });
+    if (disciplina && (g.disciplina === disciplina || g.disciplina === 'Todas')) pontos += 1;
+    if (nee === 'sim' && g.nee) pontos += 2;
+
+    return { ferramenta: g, pontos };
+  });
+
+  pontuadas.sort((a,b) => b.pontos - a.pontos || (b.ferramenta.estrelas||0) - (a.ferramenta.estrelas||0));
+
+  // garante pelo menos 2 sugestões, mesmo sem correspondência forte de palavras
+  const selecionadas = pontuadas.filter(p => p.pontos > 0).slice(0, 3);
+  if (selecionadas.length < 2) {
+    pontuadas.forEach(p => {
+      if (selecionadas.length >= 2) return;
+      if (!selecionadas.includes(p)) selecionadas.push(p);
+    });
+  }
+  return selecionadas.slice(0, Math.max(2, selecionadas.length >= 3 ? 3 : 2)).map(p => p.ferramenta);
+}
+
+function renderizarSugestoesFerramentas(lista, palavrasUsadas) {
+  const cont = document.getElementById('sugestoes-lista');
+  cont.innerHTML = lista.map(g => `
+    <div class="sugestao-ferramenta">
+      <div class="icone-sug">${g.icone || '🤖'}</div>
+      <div>
+        <h4>${g.nome}</h4>
+        <p>${g.descricao}</p>
+        ${palavrasUsadas ? `<p style="font-size:11px;color:var(--cinza-med);margin-top:4px;">🔎 Combina com o que você descreveu na aula.</p>` : ''}
+      </div>
+    </div>`).join('');
+}
+
+async function gerarPlano() {
   const disciplina = document.getElementById('pl-disciplina').value;
   const ano        = document.getElementById('pl-ano').value;
   const objetivo   = document.getElementById('pl-objetivo').value;
+  const atividade  = document.getElementById('pl-atividade').value;
   const nee        = document.getElementById('pl-nee').value;
 
   if(!disciplina||!ano||!objetivo){ mostrarToast('Preencha disciplina, ano e objetivo ✏️'); return; }
 
+  await carregarGlossario();
+
   const plano = planosBase[disciplina] || planosBase["Ciências"];
-  const ferrSug = nee==='sim' && disciplina!=='Ciências'
-    ? '🕊️ Kolibri (código aberto, offline e acessível)'
-    : plano.icone+' '+plano.ferramenta;
+  const palavrasChave = [...new Set([...extrairPalavrasChave(objetivo), ...extrairPalavrasChave(atividade)])];
+  const sugeridas = sugerirFerramentasGlossario(disciplina, nee, objetivo, atividade);
 
   document.getElementById('plano-titulo-texto').textContent = `Plano · ${disciplina} · ${ano} · "${objetivo}"`;
-  document.getElementById('sug-icone').textContent  = nee==='sim' ? '🕊️' : plano.icone;
-  document.getElementById('sug-nome').textContent   = '✦ Sugestão: '+(nee==='sim'?'Kolibri (acessível, código aberto)':plano.ferramenta);
-  document.getElementById('sug-motivo').textContent = nee==='sim'
-    ? 'Turma com NEE: priorizando ferramenta de código aberto, offline e sem coleta de dados comercial.'
-    : plano.motivo;
+  renderizarSugestoesFerramentas(sugeridas, palavrasChave.length > 0);
   document.getElementById('et-design').textContent  = plano.design;
   document.getElementById('et-impl').textContent    = plano.impl;
   document.getElementById('et-refl').textContent    = plano.refl;
