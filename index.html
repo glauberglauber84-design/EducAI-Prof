@@ -498,6 +498,21 @@ body { font-family: 'Inter', sans-serif; background: var(--cinza-cl); color: var
 .quiz-resultado-mensagem { font-size:14.5px; color:var(--cinza-esc); line-height:1.7; margin-bottom:30px; max-width:480px; margin-left:auto; margin-right:auto; }
 
 /* ═══════════════════════════════════
+   BUSCADOR DE PROMPTS BNCC
+═══════════════════════════════════ */
+.bncc-form { background:var(--branco); border:2px solid var(--borda); border-radius:20px; padding:28px; max-width:760px; display:grid; grid-template-columns:1fr 1fr 1fr; gap:14px; align-items:end; }
+.bncc-form .campo-grupo { margin-bottom:0; }
+.bncc-form .btn-gerar { grid-column:1/-1; margin-top:4px; }
+.bncc-resultado { display:none; margin-top:24px; max-width:760px; }
+.bncc-resultado.visivel { display:block; }
+.bncc-resultado-card { background:var(--branco); border:2px solid var(--roxo-cl); border-radius:20px; padding:28px; }
+.bncc-resultado-codigo { display:inline-block; background:var(--roxo); color:#fff; font-family:'Sora',sans-serif; font-weight:700; font-size:13px; padding:5px 14px; border-radius:20px; margin-bottom:12px; }
+.bncc-resultado-card h3 { font-family:'Sora',sans-serif; font-size:16px; font-weight:700; margin:14px 0 6px 0; color:var(--cinza-esc); }
+.bncc-resultado-card p { font-size:13.5px; color:var(--cinza-med); line-height:1.65; }
+.bncc-resultado-prompt { background:var(--cinza-cl); border-radius:10px; padding:14px 16px; font-family:monospace; font-size:12.5px; color:var(--cinza-esc); line-height:1.6; white-space:pre-wrap; }
+.bncc-resultado-sintese { background:var(--amarelo-cl); border-radius:10px; padding:12px 16px; font-size:12.5px; color:#7A5F00; line-height:1.6; }
+
+/* ═══════════════════════════════════
    TOAST
 ═══════════════════════════════════ */
 .toast {
@@ -527,6 +542,7 @@ body { font-family: 'Inter', sans-serif; background: var(--cinza-cl); color: var
   .quiz-pergunta-texto { font-size:18px; }
   .quiz-resultado-nivel { font-size:32px; }
   .quiz-resultado-box { padding:30px 20px; }
+  .bncc-form { grid-template-columns:1fr; }
 }
 
 /* ═══════════════════════════════════
@@ -594,6 +610,11 @@ body { font-family: 'Inter', sans-serif; background: var(--cinza-cl); color: var
       <h3>Diagnóstica</h3>
       <p>Descubra em que nível você está na integração da IA à prática docente</p>
     </div>
+    <div class="home-card" onclick="irPara('t-buscador-bncc')">
+      <span class="icone">🔎</span>
+      <h3>Buscador BNCC</h3>
+      <p>Busque o prompt certo por disciplina, ano e habilidade da BNCC</p>
+    </div>
   </div>
 
   <button class="btn-primario" onclick="irPara('t-repositorio')">Começar agora</button>
@@ -646,6 +667,7 @@ body { font-family: 'Inter', sans-serif; background: var(--cinza-cl); color: var
       <button class="nav-btn"        onclick="irPara('t-glossario')">📖 Glossário</button>
       <button class="nav-btn"        onclick="irPara('t-diario')">📓 Laboratório de IA</button>
       <button class="nav-btn"        onclick="irPara('t-quiz')">🧭 Diagnóstica</button>
+      <button class="nav-btn"        onclick="irPara('t-buscador-bncc')">🔎 Buscador BNCC</button>
     </div>
     <div class="nav-usuario-box" style="display:none;align-items:center;gap:10px;">
       <span class="nav-usuario-nome" style="font-size:12px;color:var(--cinza-med);"></span>
@@ -755,6 +777,7 @@ body { font-family: 'Inter', sans-serif; background: var(--cinza-cl); color: var
       <button class="nav-btn"        onclick="irPara('t-glossario')">📖 Glossário</button>
       <button class="nav-btn"        onclick="irPara('t-diario')">📓 Laboratório de IA</button>
       <button class="nav-btn"        onclick="irPara('t-quiz')">🧭 Diagnóstica</button>
+      <button class="nav-btn"        onclick="irPara('t-buscador-bncc')">🔎 Buscador BNCC</button>
     </div>
     <div class="nav-usuario-box" style="display:none;align-items:center;gap:10px;">
       <span class="nav-usuario-nome" style="font-size:12px;color:var(--cinza-med);"></span>
@@ -848,6 +871,7 @@ body { font-family: 'Inter', sans-serif; background: var(--cinza-cl); color: var
       <button class="nav-btn"       onclick="irPara('t-glossario')">📖 Glossário</button>
       <button class="nav-btn"       onclick="irPara('t-diario')">📓 Laboratório de IA</button>
       <button class="nav-btn"       onclick="irPara('t-quiz')">🧭 Diagnóstica</button>
+      <button class="nav-btn"       onclick="irPara('t-buscador-bncc')">🔎 Buscador BNCC</button>
     </div>
     <div class="nav-usuario-box" style="display:none;align-items:center;gap:10px;">
       <span class="nav-usuario-nome" style="font-size:12px;color:var(--cinza-med);"></span>
@@ -930,6 +954,7 @@ body { font-family: 'Inter', sans-serif; background: var(--cinza-cl); color: var
       <button class="nav-btn ativo" onclick="irPara('t-glossario')">📖 Glossário</button>
       <button class="nav-btn"       onclick="irPara('t-diario')">📓 Laboratório de IA</button>
       <button class="nav-btn"       onclick="irPara('t-quiz')">🧭 Diagnóstica</button>
+      <button class="nav-btn"       onclick="irPara('t-buscador-bncc')">🔎 Buscador BNCC</button>
     </div>
     <div class="nav-usuario-box" style="display:none;align-items:center;gap:10px;">
       <span class="nav-usuario-nome" style="font-size:12px;color:var(--cinza-med);"></span>
@@ -964,6 +989,7 @@ body { font-family: 'Inter', sans-serif; background: var(--cinza-cl); color: var
       <button class="nav-btn"       onclick="irPara('t-glossario')">📖 Glossário</button>
       <button class="nav-btn ativo" onclick="irPara('t-diario')">📓 Laboratório de IA</button>
       <button class="nav-btn"       onclick="irPara('t-quiz')">🧭 Diagnóstica</button>
+      <button class="nav-btn"       onclick="irPara('t-buscador-bncc')">🔎 Buscador BNCC</button>
     </div>
     <div class="nav-usuario-box" style="display:none;align-items:center;gap:10px;">
       <span class="nav-usuario-nome" style="font-size:12px;color:var(--cinza-med);"></span>
@@ -1053,6 +1079,7 @@ body { font-family: 'Inter', sans-serif; background: var(--cinza-cl); color: var
       <button class="nav-btn"       onclick="irPara('t-glossario')">📖 Glossário</button>
       <button class="nav-btn"       onclick="irPara('t-diario')">📓 Laboratório de IA</button>
       <button class="nav-btn ativo" onclick="irPara('t-quiz')">🧭 Diagnóstica</button>
+      <button class="nav-btn"       onclick="irPara('t-buscador-bncc')">🔎 Buscador BNCC</button>
     </div>
     <div class="nav-usuario-box" style="display:none;align-items:center;gap:10px;">
       <span class="nav-usuario-nome" style="font-size:12px;color:var(--cinza-med);"></span>
@@ -1097,6 +1124,68 @@ body { font-family: 'Inter', sans-serif; background: var(--cinza-cl); color: var
         </div>
       </div>
 
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════
+     BUSCADOR DE PROMPTS BNCC
+═══════════════════════════════════ -->
+<div id="t-buscador-bncc" class="tela">
+  <nav class="navbar">
+    <div class="nav-logo" onclick="irPara('t-home')">EducAI<span class="ponto">.</span>Prof</div>
+    <div class="nav-links">
+      <button class="nav-btn"       onclick="irPara('t-repositorio')">📁 Repositório</button>
+      <button class="nav-btn"       onclick="irPara('t-planejador')">📋 Planejador</button>
+      <button class="nav-btn"       onclick="irPara('t-prompts')">💬 Prompts</button>
+      <button class="nav-btn"       onclick="irPara('t-glossario')">📖 Glossário</button>
+      <button class="nav-btn"       onclick="irPara('t-diario')">📓 Laboratório de IA</button>
+      <button class="nav-btn"       onclick="irPara('t-quiz')">🧭 Diagnóstica</button>
+      <button class="nav-btn ativo" onclick="irPara('t-buscador-bncc')">🔎 Buscador BNCC</button>
+    </div>
+    <div class="nav-usuario-box" style="display:none;align-items:center;gap:10px;">
+      <span class="nav-usuario-nome" style="font-size:12px;color:var(--cinza-med);"></span>
+      <button class="nav-btn" onclick="logout()">Sair</button>
+    </div>
+  </nav>
+
+  <div class="conteudo">
+    <h1 class="titulo-pag">Buscador de Prompts BNCC</h1>
+    <p class="subtitulo-pag">Selecione a disciplina, o ano e a habilidade da BNCC para buscar o prompt correspondente no <strong>Guia de Prompts para a BNCC</strong> (Repositório).</p>
+
+    <div class="bncc-form">
+      <div class="campo-grupo">
+        <label>Disciplina</label>
+        <select id="bncc-disciplina" onchange="atualizarAnosBncc()">
+          <option value="">Selecione…</option>
+        </select>
+      </div>
+      <div class="campo-grupo">
+        <label>Ano</label>
+        <select id="bncc-ano" onchange="atualizarHabilidadesBncc()">
+          <option value="">Selecione a disciplina primeiro</option>
+        </select>
+      </div>
+      <div class="campo-grupo">
+        <label>Habilidade (código BNCC)</label>
+        <select id="bncc-habilidade">
+          <option value="">Selecione o ano primeiro</option>
+        </select>
+      </div>
+      <button class="btn-gerar" onclick="buscarPromptBncc()">🔎 Buscar prompt</button>
+    </div>
+
+    <div class="bncc-resultado" id="bncc-resultado">
+      <div class="bncc-resultado-card">
+        <span class="bncc-resultado-codigo" id="bncc-r-codigo"></span>
+        <h3>📘 Habilidade da BNCC</h3>
+        <p id="bncc-r-habilidade"></p>
+        <h3>🤖 Prompt estruturado para IA</h3>
+        <div class="bncc-resultado-prompt" id="bncc-r-prompt"></div>
+        <button class="btn-copiar" style="margin-top:10px;" onclick="copiarPromptBncc()">📋 Copiar prompt</button>
+        <h3>⚠️ Síntese e gestão de risco pedagógico</h3>
+        <div class="bncc-resultado-sintese" id="bncc-r-sintese"></div>
+      </div>
     </div>
   </div>
 </div>
@@ -1504,7 +1593,7 @@ async function carregarHistorico() {
 /* ═══════════════════════════════════
    NAVEGAÇÃO
 ═══════════════════════════════════ */
-const telasComLogin = ['t-repositorio','t-planejador','t-prompts','t-glossario','t-diario','t-quiz'];
+const telasComLogin = ['t-repositorio','t-planejador','t-prompts','t-glossario','t-diario','t-quiz','t-buscador-bncc'];
 
 function irPara(id) {
   if (supabaseConfigurado && !usuarioAtual && telasComLogin.includes(id)) {
@@ -1517,7 +1606,7 @@ function irPara(id) {
   window.scrollTo(0,0);
   // atualiza nav ativo
   document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('ativo'));
-  const mapa = { 't-repositorio':0, 't-planejador':1, 't-prompts':2, 't-glossario':3, 't-diario':4, 't-quiz':5 };
+  const mapa = { 't-repositorio':0, 't-planejador':1, 't-prompts':2, 't-glossario':3, 't-diario':4, 't-quiz':5, 't-buscador-bncc':6 };
   if (id in mapa) {
     document.querySelectorAll('#'+id+' .nav-btn')[mapa[id]];
     document.querySelectorAll('#'+id+' .nav-btn').forEach((b,i) => {
@@ -1529,6 +1618,7 @@ function irPara(id) {
   if (id==='t-glossario')   carregarGlossario().then(filtrarGlossario);
   if (id==='t-diario')      carregarHistorico().then(renderizarHistorico);
   if (id==='t-quiz')        reiniciarQuiz();
+  if (id==='t-buscador-bncc') inicializarBuscadorBncc();
 }
 
 /* ═══════════════════════════════════
@@ -2125,6 +2215,91 @@ function irParaFormacao(nivel) {
   // Por enquanto os 3 níveis encaminham para o Repositório, onde estão
   // os guias de formação (BNC-Formação IA, UNESCO, Caderno de Atividades etc.)
   irPara('t-repositorio');
+}
+
+/* ═══════════════════════════════════
+   BUSCADOR DE PROMPTS BNCC
+   525 habilidades (Língua Portuguesa, Matemática, Geografia, História,
+   Ciências, Educação Física e Arte) extraídas do arquivo "Guia de Prompts
+   para a BNCC" do Repositório. Como o guia gera o prompt de cada
+   habilidade a partir de um template fixo por disciplina (só o código da
+   habilidade e o ano mudam), aqui guardamos só os 525 pares
+   código/ano/disciplina + os 7 templates, e montamos o texto na hora —
+   o resultado é idêntico ao do PDF original, só que sem precisar embutir
+   525 blocos de texto quase repetidos.
+═══════════════════════════════════ */
+const bnccTemplatesPorDisciplina = {"Língua Portuguesa":{"nome":"Língua Portuguesa","papel":"Língua Portuguesa","conector":"para os","eixo_fixo":"Desenvolvimento de práticas de leitura, escrita, oralidade ou análise linguística.","tarefa_tpl":"crie uma proposta de atividade pedagógica para a turma de {ANO}.","restricoes":"A atividade deve ser lúdica, usar linguagem clara e adequada à faixa etária, e incluir objetivo de aprendizagem, materiais, passo a passo e uma forma de avaliação. Ao final, aponte um possível risco pedagógico do uso de conteúdo gerado por IA e como o professor pode mitigá-lo."},"Matemática":{"nome":"Matemática","papel":"Educação Matemática","conector":"nos","eixo_fixo":"Desenvolvimento de pensamento matemático, números, geometria, grandezas e medidas ou estatística e probabilidade.","tarefa_tpl":"crie uma atividade prática e contextualizada para uma turma do {ANO}.","restricoes":"A atividade deve ser lúdica, incluir materiais concretos ou manipuláveis quando possível, passo a passo e critérios de avaliação. Ao final, aponte um possível risco pedagógico da IA e como mitigá-lo."},"Ciências":{"nome":"Ciências","papel":"Ensino de Ciências","conector":"nos","eixo_fixo":"Investigação científica, vida e evolução, matéria e energia ou Terra e Universo.","tarefa_tpl":"crie uma atividade investigativa ou experimento simples e seguro para uma turma do {ANO}.","restricoes":"Inclua objetivo, materiais de fácil acesso, passo a passo e registro de observação. Ao final, aponte um possível risco pedagógico do uso de IA e como mitigá-lo."},"Geografia":{"nome":"Geografia","papel":"Ensino de Geografia","conector":"nos","eixo_fixo":"O sujeito e seu lugar no mundo, conexões e escalas, mundo do trabalho ou formas de representação e pensamento espacial.","tarefa_tpl":"crie uma atividade que relacione o conteúdo ao espaço vivido pelos estudantes para uma turma do {ANO}.","restricoes":"Inclua objetivo, recursos cartográficos/visuais, passo a passo e proposta de registro. Ao final, aponte um risco da IA e sua mitigação."},"História":{"nome":"História","papel":"Ensino de História","conector":"nos","eixo_fixo":"Noções de tempo, memória, identidade, sujeitos históricos e cidadania.","tarefa_tpl":"crie uma atividade que trabalhe memória e fontes históricas simples para uma turma do {ANO}.","restricoes":"Inclua objetivo, passo a passo e avaliação. Ao final, aponte um risco do uso de IA e como mitigá-lo."},"Arte":{"nome":"Arte","papel":"Ensino de Arte","conector":"nos","eixo_fixo":"Artes visuais, dança, música, teatro e artes integradas.","tarefa_tpl":"crie uma proposta de experimentação artística para uma turma do {ANO}.","restricoes":"Inclua objetivo, materiais acessíveis, passo a passo e apreciação coletiva. Ao final, aponte um risco da IA e sua mitigação."},"Educação Física":{"nome":"Educação Física","papel":"Educação Física escolar","conector":"nos","eixo_fixo":"Brincadeiras, jogos, esportes, ginásticas, danças e lutas.","tarefa_tpl":"crie uma vivência corporal/lúdica para uma turma do {ANO}.","restricoes":"Inclua objetivo, espaço/materiais, passo a passo com variações e avaliação. Ao final, aponte um risco pedagógico da IA e sua mitigação."}};
+
+const bnccHabilidadesBanco = [{"c":"EF01LP01","a":"1º ano","d":"Língua Portuguesa"},{"c":"EF01LP02","a":"1º ano","d":"Língua Portuguesa"},{"c":"EF01LP03","a":"1º ano","d":"Língua Portuguesa"},{"c":"EF01LP04","a":"1º ano","d":"Língua Portuguesa"},{"c":"EF01LP05","a":"1º ano","d":"Língua Portuguesa"},{"c":"EF01LP06","a":"1º ano","d":"Língua Portuguesa"},{"c":"EF01LP07","a":"1º ano","d":"Língua Portuguesa"},{"c":"EF01LP08","a":"1º ano","d":"Língua Portuguesa"},{"c":"EF01LP09","a":"1º ano","d":"Língua Portuguesa"},{"c":"EF01LP10","a":"1º ano","d":"Língua Portuguesa"},{"c":"EF01LP11","a":"1º ano","d":"Língua Portuguesa"},{"c":"EF01LP12","a":"1º ano","d":"Língua Portuguesa"},{"c":"EF01LP13","a":"1º ano","d":"Língua Portuguesa"},{"c":"EF01LP14","a":"1º ano","d":"Língua Portuguesa"},{"c":"EF01LP15","a":"1º ano","d":"Língua Portuguesa"},{"c":"EF01LP16","a":"1º ano","d":"Língua Portuguesa"},{"c":"EF01LP17","a":"1º ano","d":"Língua Portuguesa"},{"c":"EF01LP18","a":"1º ano","d":"Língua Portuguesa"},{"c":"EF01LP19","a":"1º ano","d":"Língua Portuguesa"},{"c":"EF01LP20","a":"1º ano","d":"Língua Portuguesa"},{"c":"EF01LP21","a":"1º ano","d":"Língua Portuguesa"},{"c":"EF01LP22","a":"1º ano","d":"Língua Portuguesa"},{"c":"EF01LP23","a":"1º ano","d":"Língua Portuguesa"},{"c":"EF01LP24","a":"1º ano","d":"Língua Portuguesa"},{"c":"EF01LP25","a":"1º ano","d":"Língua Portuguesa"},{"c":"EF01LP26","a":"1º ano","d":"Língua Portuguesa"},{"c":"EF12LP01","a":"1º e 2º anos","d":"Língua Portuguesa"},{"c":"EF12LP02","a":"1º e 2º anos","d":"Língua Portuguesa"},{"c":"EF12LP03","a":"1º e 2º anos","d":"Língua Portuguesa"},{"c":"EF12LP04","a":"1º e 2º anos","d":"Língua Portuguesa"},{"c":"EF12LP05","a":"1º e 2º anos","d":"Língua Portuguesa"},{"c":"EF12LP06","a":"1º e 2º anos","d":"Língua Portuguesa"},{"c":"EF12LP07","a":"1º e 2º anos","d":"Língua Portuguesa"},{"c":"EF12LP08","a":"1º e 2º anos","d":"Língua Portuguesa"},{"c":"EF12LP09","a":"1º e 2º anos","d":"Língua Portuguesa"},{"c":"EF12LP10","a":"1º e 2º anos","d":"Língua Portuguesa"},{"c":"EF12LP11","a":"1º e 2º anos","d":"Língua Portuguesa"},{"c":"EF12LP12","a":"1º e 2º anos","d":"Língua Portuguesa"},{"c":"EF12LP13","a":"1º e 2º anos","d":"Língua Portuguesa"},{"c":"EF12LP14","a":"1º e 2º anos","d":"Língua Portuguesa"},{"c":"EF12LP15","a":"1º e 2º anos","d":"Língua Portuguesa"},{"c":"EF12LP16","a":"1º e 2º anos","d":"Língua Portuguesa"},{"c":"EF12LP17","a":"1º e 2º anos","d":"Língua Portuguesa"},{"c":"EF12LP18","a":"1º e 2º anos","d":"Língua Portuguesa"},{"c":"EF12LP19","a":"1º e 2º anos","d":"Língua Portuguesa"},{"c":"EF15LP01","a":"1º ao 5º ano","d":"Língua Portuguesa"},{"c":"EF15LP02","a":"1º ao 5º ano","d":"Língua Portuguesa"},{"c":"EF15LP03","a":"1º ao 5º ano","d":"Língua Portuguesa"},{"c":"EF15LP04","a":"1º ao 5º ano","d":"Língua Portuguesa"},{"c":"EF15LP05","a":"1º ao 5º ano","d":"Língua Portuguesa"},{"c":"EF15LP06","a":"1º ao 5º ano","d":"Língua Portuguesa"},{"c":"EF15LP07","a":"1º ao 5º ano","d":"Língua Portuguesa"},{"c":"EF15LP08","a":"1º ao 5º ano","d":"Língua Portuguesa"},{"c":"EF15LP09","a":"1º ao 5º ano","d":"Língua Portuguesa"},{"c":"EF15LP10","a":"1º ao 5º ano","d":"Língua Portuguesa"},{"c":"EF15LP11","a":"1º ao 5º ano","d":"Língua Portuguesa"},{"c":"EF15LP12","a":"1º ao 5º ano","d":"Língua Portuguesa"},{"c":"EF15LP13","a":"1º ao 5º ano","d":"Língua Portuguesa"},{"c":"EF15LP14","a":"1º ao 5º ano","d":"Língua Portuguesa"},{"c":"EF15LP15","a":"1º ao 5º ano","d":"Língua Portuguesa"},{"c":"EF15LP16","a":"1º ao 5º ano","d":"Língua Portuguesa"},{"c":"EF15LP17","a":"1º ao 5º ano","d":"Língua Portuguesa"},{"c":"EF15LP18","a":"1º ao 5º ano","d":"Língua Portuguesa"},{"c":"EF15LP19","a":"1º ao 5º ano","d":"Língua Portuguesa"},{"c":"EF02LP01","a":"2º ano","d":"Língua Portuguesa"},{"c":"EF02LP02","a":"2º ano","d":"Língua Portuguesa"},{"c":"EF02LP03","a":"2º ano","d":"Língua Portuguesa"},{"c":"EF02LP04","a":"2º ano","d":"Língua Portuguesa"},{"c":"EF02LP05","a":"2º ano","d":"Língua Portuguesa"},{"c":"EF02LP06","a":"2º ano","d":"Língua Portuguesa"},{"c":"EF02LP07","a":"2º ano","d":"Língua Portuguesa"},{"c":"EF02LP08","a":"2º ano","d":"Língua Portuguesa"},{"c":"EF02LP09","a":"2º ano","d":"Língua Portuguesa"},{"c":"EF02LP10","a":"2º ano","d":"Língua Portuguesa"},{"c":"EF02LP11","a":"2º ano","d":"Língua Portuguesa"},{"c":"EF02LP12","a":"2º ano","d":"Língua Portuguesa"},{"c":"EF02LP13","a":"2º ano","d":"Língua Portuguesa"},{"c":"EF02LP14","a":"2º ano","d":"Língua Portuguesa"},{"c":"EF02LP15","a":"2º ano","d":"Língua Portuguesa"},{"c":"EF02LP16","a":"2º ano","d":"Língua Portuguesa"},{"c":"EF02LP17","a":"2º ano","d":"Língua Portuguesa"},{"c":"EF02LP18","a":"2º ano","d":"Língua Portuguesa"},{"c":"EF02LP19","a":"2º ano","d":"Língua Portuguesa"},{"c":"EF02LP20","a":"2º ano","d":"Língua Portuguesa"},{"c":"EF02LP21","a":"2º ano","d":"Língua Portuguesa"},{"c":"EF02LP22","a":"2º ano","d":"Língua Portuguesa"},{"c":"EF02LP23","a":"2º ano","d":"Língua Portuguesa"},{"c":"EF02LP24","a":"2º ano","d":"Língua Portuguesa"},{"c":"EF02LP25","a":"2º ano","d":"Língua Portuguesa"},{"c":"EF02LP26","a":"2º ano","d":"Língua Portuguesa"},{"c":"EF02LP27","a":"2º ano","d":"Língua Portuguesa"},{"c":"EF02LP28","a":"2º ano","d":"Língua Portuguesa"},{"c":"EF02LP29","a":"2º ano","d":"Língua Portuguesa"},{"c":"EF03LP01","a":"3º ano","d":"Língua Portuguesa"},{"c":"EF03LP02","a":"3º ano","d":"Língua Portuguesa"},{"c":"EF03LP03","a":"3º ano","d":"Língua Portuguesa"},{"c":"EF03LP04","a":"3º ano","d":"Língua Portuguesa"},{"c":"EF03LP05","a":"3º ano","d":"Língua Portuguesa"},{"c":"EF03LP06","a":"3º ano","d":"Língua Portuguesa"},{"c":"EF03LP07","a":"3º ano","d":"Língua Portuguesa"},{"c":"EF03LP08","a":"3º ano","d":"Língua Portuguesa"},{"c":"EF03LP09","a":"3º ano","d":"Língua Portuguesa"},{"c":"EF03LP10","a":"3º ano","d":"Língua Portuguesa"},{"c":"EF03LP11","a":"3º ano","d":"Língua Portuguesa"},{"c":"EF03LP12","a":"3º ano","d":"Língua Portuguesa"},{"c":"EF03LP13","a":"3º ano","d":"Língua Portuguesa"},{"c":"EF03LP14","a":"3º ano","d":"Língua Portuguesa"},{"c":"EF03LP15","a":"3º ano","d":"Língua Portuguesa"},{"c":"EF03LP16","a":"3º ano","d":"Língua Portuguesa"},{"c":"EF03LP17","a":"3º ano","d":"Língua Portuguesa"},{"c":"EF03LP18","a":"3º ano","d":"Língua Portuguesa"},{"c":"EF03LP19","a":"3º ano","d":"Língua Portuguesa"},{"c":"EF03LP20","a":"3º ano","d":"Língua Portuguesa"},{"c":"EF03LP21","a":"3º ano","d":"Língua Portuguesa"},{"c":"EF03LP22","a":"3º ano","d":"Língua Portuguesa"},{"c":"EF03LP23","a":"3º ano","d":"Língua Portuguesa"},{"c":"EF03LP24","a":"3º ano","d":"Língua Portuguesa"},{"c":"EF03LP25","a":"3º ano","d":"Língua Portuguesa"},{"c":"EF03LP26","a":"3º ano","d":"Língua Portuguesa"},{"c":"EF35LP01","a":"3º ao 5º ano","d":"Língua Portuguesa"},{"c":"EF35LP02","a":"3º ao 5º ano","d":"Língua Portuguesa"},{"c":"EF35LP03","a":"3º ao 5º ano","d":"Língua Portuguesa"},{"c":"EF35LP04","a":"3º ao 5º ano","d":"Língua Portuguesa"},{"c":"EF35LP05","a":"3º ao 5º ano","d":"Língua Portuguesa"},{"c":"EF35LP06","a":"3º ao 5º ano","d":"Língua Portuguesa"},{"c":"EF35LP07","a":"3º ao 5º ano","d":"Língua Portuguesa"},{"c":"EF35LP08","a":"3º ao 5º ano","d":"Língua Portuguesa"},{"c":"EF35LP09","a":"3º ao 5º ano","d":"Língua Portuguesa"},{"c":"EF35LP10","a":"3º ao 5º ano","d":"Língua Portuguesa"},{"c":"EF35LP11","a":"3º ao 5º ano","d":"Língua Portuguesa"},{"c":"EF35LP12","a":"3º ao 5º ano","d":"Língua Portuguesa"},{"c":"EF35LP13","a":"3º ao 5º ano","d":"Língua Portuguesa"},{"c":"EF35LP14","a":"3º ao 5º ano","d":"Língua Portuguesa"},{"c":"EF35LP15","a":"3º ao 5º ano","d":"Língua Portuguesa"},{"c":"EF35LP16","a":"3º ao 5º ano","d":"Língua Portuguesa"},{"c":"EF35LP17","a":"3º ao 5º ano","d":"Língua Portuguesa"},{"c":"EF35LP18","a":"3º ao 5º ano","d":"Língua Portuguesa"},{"c":"EF35LP19","a":"3º ao 5º ano","d":"Língua Portuguesa"},{"c":"EF35LP20","a":"3º ao 5º ano","d":"Língua Portuguesa"},{"c":"EF04LP01","a":"4º ano","d":"Língua Portuguesa"},{"c":"EF04LP02","a":"4º ano","d":"Língua Portuguesa"},{"c":"EF04LP03","a":"4º ano","d":"Língua Portuguesa"},{"c":"EF04LP04","a":"4º ano","d":"Língua Portuguesa"},{"c":"EF04LP05","a":"4º ano","d":"Língua Portuguesa"},{"c":"EF04LP06","a":"4º ano","d":"Língua Portuguesa"},{"c":"EF04LP07","a":"4º ano","d":"Língua Portuguesa"},{"c":"EF04LP08","a":"4º ano","d":"Língua Portuguesa"},{"c":"EF04LP09","a":"4º ano","d":"Língua Portuguesa"},{"c":"EF04LP10","a":"4º ano","d":"Língua Portuguesa"},{"c":"EF04LP11","a":"4º ano","d":"Língua Portuguesa"},{"c":"EF04LP12","a":"4º ano","d":"Língua Portuguesa"},{"c":"EF04LP13","a":"4º ano","d":"Língua Portuguesa"},{"c":"EF04LP14","a":"4º ano","d":"Língua Portuguesa"},{"c":"EF04LP15","a":"4º ano","d":"Língua Portuguesa"},{"c":"EF04LP16","a":"4º ano","d":"Língua Portuguesa"},{"c":"EF04LP17","a":"4º ano","d":"Língua Portuguesa"},{"c":"EF04LP18","a":"4º ano","d":"Língua Portuguesa"},{"c":"EF04LP19","a":"4º ano","d":"Língua Portuguesa"},{"c":"EF04LP20","a":"4º ano","d":"Língua Portuguesa"},{"c":"EF04LP21","a":"4º ano","d":"Língua Portuguesa"},{"c":"EF04LP22","a":"4º ano","d":"Língua Portuguesa"},{"c":"EF04LP23","a":"4º ano","d":"Língua Portuguesa"},{"c":"EF04LP24","a":"4º ano","d":"Língua Portuguesa"},{"c":"EF05LP01","a":"5º ano","d":"Língua Portuguesa"},{"c":"EF05LP02","a":"5º ano","d":"Língua Portuguesa"},{"c":"EF05LP03","a":"5º ano","d":"Língua Portuguesa"},{"c":"EF05LP04","a":"5º ano","d":"Língua Portuguesa"},{"c":"EF05LP05","a":"5º ano","d":"Língua Portuguesa"},{"c":"EF05LP06","a":"5º ano","d":"Língua Portuguesa"},{"c":"EF05LP07","a":"5º ano","d":"Língua Portuguesa"},{"c":"EF05LP08","a":"5º ano","d":"Língua Portuguesa"},{"c":"EF05LP09","a":"5º ano","d":"Língua Portuguesa"},{"c":"EF05LP10","a":"5º ano","d":"Língua Portuguesa"},{"c":"EF05LP11","a":"5º ano","d":"Língua Portuguesa"},{"c":"EF05LP12","a":"5º ano","d":"Língua Portuguesa"},{"c":"EF05LP13","a":"5º ano","d":"Língua Portuguesa"},{"c":"EF05LP14","a":"5º ano","d":"Língua Portuguesa"},{"c":"EF05LP15","a":"5º ano","d":"Língua Portuguesa"},{"c":"EF05LP16","a":"5º ano","d":"Língua Portuguesa"},{"c":"EF05LP17","a":"5º ano","d":"Língua Portuguesa"},{"c":"EF05LP18","a":"5º ano","d":"Língua Portuguesa"},{"c":"EF05LP19","a":"5º ano","d":"Língua Portuguesa"},{"c":"EF05LP20","a":"5º ano","d":"Língua Portuguesa"},{"c":"EF05LP21","a":"5º ano","d":"Língua Portuguesa"},{"c":"EF05LP22","a":"5º ano","d":"Língua Portuguesa"},{"c":"EF05LP23","a":"5º ano","d":"Língua Portuguesa"},{"c":"EF05LP24","a":"5º ano","d":"Língua Portuguesa"},{"c":"EF05LP25","a":"5º ano","d":"Língua Portuguesa"},{"c":"EF05LP26","a":"5º ano","d":"Língua Portuguesa"},{"c":"EF05LP27","a":"5º ano","d":"Língua Portuguesa"},{"c":"EF01MA01","a":"1º ano","d":"Matemática"},{"c":"EF01MA02","a":"1º ano","d":"Matemática"},{"c":"EF01MA03","a":"1º ano","d":"Matemática"},{"c":"EF01MA04","a":"1º ano","d":"Matemática"},{"c":"EF01MA05","a":"1º ano","d":"Matemática"},{"c":"EF01MA06","a":"1º ano","d":"Matemática"},{"c":"EF01MA07","a":"1º ano","d":"Matemática"},{"c":"EF01MA08","a":"1º ano","d":"Matemática"},{"c":"EF01MA09","a":"1º ano","d":"Matemática"},{"c":"EF01MA10","a":"1º ano","d":"Matemática"},{"c":"EF01MA11","a":"1º ano","d":"Matemática"},{"c":"EF01MA12","a":"1º ano","d":"Matemática"},{"c":"EF01MA13","a":"1º ano","d":"Matemática"},{"c":"EF01MA14","a":"1º ano","d":"Matemática"},{"c":"EF01MA15","a":"1º ano","d":"Matemática"},{"c":"EF01MA16","a":"1º ano","d":"Matemática"},{"c":"EF01MA17","a":"1º ano","d":"Matemática"},{"c":"EF01MA18","a":"1º ano","d":"Matemática"},{"c":"EF01MA19","a":"1º ano","d":"Matemática"},{"c":"EF01MA20","a":"1º ano","d":"Matemática"},{"c":"EF01MA21","a":"1º ano","d":"Matemática"},{"c":"EF01MA22","a":"1º ano","d":"Matemática"},{"c":"EF02MA01","a":"2º ano","d":"Matemática"},{"c":"EF02MA02","a":"2º ano","d":"Matemática"},{"c":"EF02MA03","a":"2º ano","d":"Matemática"},{"c":"EF02MA04","a":"2º ano","d":"Matemática"},{"c":"EF02MA05","a":"2º ano","d":"Matemática"},{"c":"EF02MA06","a":"2º ano","d":"Matemática"},{"c":"EF02MA07","a":"2º ano","d":"Matemática"},{"c":"EF02MA08","a":"2º ano","d":"Matemática"},{"c":"EF02MA09","a":"2º ano","d":"Matemática"},{"c":"EF02MA10","a":"2º ano","d":"Matemática"},{"c":"EF02MA11","a":"2º ano","d":"Matemática"},{"c":"EF02MA12","a":"2º ano","d":"Matemática"},{"c":"EF02MA13","a":"2º ano","d":"Matemática"},{"c":"EF02MA14","a":"2º ano","d":"Matemática"},{"c":"EF02MA15","a":"2º ano","d":"Matemática"},{"c":"EF02MA16","a":"2º ano","d":"Matemática"},{"c":"EF02MA17","a":"2º ano","d":"Matemática"},{"c":"EF02MA18","a":"2º ano","d":"Matemática"},{"c":"EF02MA19","a":"2º ano","d":"Matemática"},{"c":"EF02MA20","a":"2º ano","d":"Matemática"},{"c":"EF02MA21","a":"2º ano","d":"Matemática"},{"c":"EF02MA22","a":"2º ano","d":"Matemática"},{"c":"EF02MA23","a":"2º ano","d":"Matemática"},{"c":"EF03MA01","a":"3º ano","d":"Matemática"},{"c":"EF03MA02","a":"3º ano","d":"Matemática"},{"c":"EF03MA03","a":"3º ano","d":"Matemática"},{"c":"EF03MA04","a":"3º ano","d":"Matemática"},{"c":"EF03MA05","a":"3º ano","d":"Matemática"},{"c":"EF03MA06","a":"3º ano","d":"Matemática"},{"c":"EF03MA07","a":"3º ano","d":"Matemática"},{"c":"EF03MA08","a":"3º ano","d":"Matemática"},{"c":"EF03MA09","a":"3º ano","d":"Matemática"},{"c":"EF03MA10","a":"3º ano","d":"Matemática"},{"c":"EF03MA11","a":"3º ano","d":"Matemática"},{"c":"EF03MA12","a":"3º ano","d":"Matemática"},{"c":"EF03MA13","a":"3º ano","d":"Matemática"},{"c":"EF03MA14","a":"3º ano","d":"Matemática"},{"c":"EF03MA15","a":"3º ano","d":"Matemática"},{"c":"EF03MA16","a":"3º ano","d":"Matemática"},{"c":"EF03MA17","a":"3º ano","d":"Matemática"},{"c":"EF03MA18","a":"3º ano","d":"Matemática"},{"c":"EF03MA19","a":"3º ano","d":"Matemática"},{"c":"EF03MA20","a":"3º ano","d":"Matemática"},{"c":"EF03MA21","a":"3º ano","d":"Matemática"},{"c":"EF03MA22","a":"3º ano","d":"Matemática"},{"c":"EF03MA23","a":"3º ano","d":"Matemática"},{"c":"EF03MA24","a":"3º ano","d":"Matemática"},{"c":"EF03MA25","a":"3º ano","d":"Matemática"},{"c":"EF03MA26","a":"3º ano","d":"Matemática"},{"c":"EF03MA27","a":"3º ano","d":"Matemática"},{"c":"EF03MA28","a":"3º ano","d":"Matemática"},{"c":"EF04MA01","a":"4º ano","d":"Matemática"},{"c":"EF04MA02","a":"4º ano","d":"Matemática"},{"c":"EF04MA03","a":"4º ano","d":"Matemática"},{"c":"EF04MA04","a":"4º ano","d":"Matemática"},{"c":"EF04MA05","a":"4º ano","d":"Matemática"},{"c":"EF04MA06","a":"4º ano","d":"Matemática"},{"c":"EF04MA07","a":"4º ano","d":"Matemática"},{"c":"EF04MA08","a":"4º ano","d":"Matemática"},{"c":"EF04MA09","a":"4º ano","d":"Matemática"},{"c":"EF04MA10","a":"4º ano","d":"Matemática"},{"c":"EF04MA11","a":"4º ano","d":"Matemática"},{"c":"EF04MA12","a":"4º ano","d":"Matemática"},{"c":"EF04MA13","a":"4º ano","d":"Matemática"},{"c":"EF04MA14","a":"4º ano","d":"Matemática"},{"c":"EF04MA15","a":"4º ano","d":"Matemática"},{"c":"EF04MA16","a":"4º ano","d":"Matemática"},{"c":"EF04MA17","a":"4º ano","d":"Matemática"},{"c":"EF04MA18","a":"4º ano","d":"Matemática"},{"c":"EF04MA19","a":"4º ano","d":"Matemática"},{"c":"EF04MA20","a":"4º ano","d":"Matemática"},{"c":"EF04MA21","a":"4º ano","d":"Matemática"},{"c":"EF04MA22","a":"4º ano","d":"Matemática"},{"c":"EF04MA23","a":"4º ano","d":"Matemática"},{"c":"EF04MA24","a":"4º ano","d":"Matemática"},{"c":"EF04MA25","a":"4º ano","d":"Matemática"},{"c":"EF04MA26","a":"4º ano","d":"Matemática"},{"c":"EF04MA27","a":"4º ano","d":"Matemática"},{"c":"EF04MA28","a":"4º ano","d":"Matemática"},{"c":"EF05MA01","a":"5º ano","d":"Matemática"},{"c":"EF05MA02","a":"5º ano","d":"Matemática"},{"c":"EF05MA03","a":"5º ano","d":"Matemática"},{"c":"EF05MA04","a":"5º ano","d":"Matemática"},{"c":"EF05MA05","a":"5º ano","d":"Matemática"},{"c":"EF05MA06","a":"5º ano","d":"Matemática"},{"c":"EF05MA07","a":"5º ano","d":"Matemática"},{"c":"EF05MA08","a":"5º ano","d":"Matemática"},{"c":"EF05MA09","a":"5º ano","d":"Matemática"},{"c":"EF05MA10","a":"5º ano","d":"Matemática"},{"c":"EF05MA11","a":"5º ano","d":"Matemática"},{"c":"EF05MA12","a":"5º ano","d":"Matemática"},{"c":"EF05MA13","a":"5º ano","d":"Matemática"},{"c":"EF05MA14","a":"5º ano","d":"Matemática"},{"c":"EF05MA15","a":"5º ano","d":"Matemática"},{"c":"EF05MA16","a":"5º ano","d":"Matemática"},{"c":"EF05MA17","a":"5º ano","d":"Matemática"},{"c":"EF05MA18","a":"5º ano","d":"Matemática"},{"c":"EF05MA19","a":"5º ano","d":"Matemática"},{"c":"EF05MA20","a":"5º ano","d":"Matemática"},{"c":"EF05MA21","a":"5º ano","d":"Matemática"},{"c":"EF05MA22","a":"5º ano","d":"Matemática"},{"c":"EF05MA23","a":"5º ano","d":"Matemática"},{"c":"EF05MA24","a":"5º ano","d":"Matemática"},{"c":"EF05MA25","a":"5º ano","d":"Matemática"},{"c":"EF01CI01","a":"1º ano","d":"Ciências"},{"c":"EF01CI02","a":"1º ano","d":"Ciências"},{"c":"EF01CI03","a":"1º ano","d":"Ciências"},{"c":"EF01CI04","a":"1º ano","d":"Ciências"},{"c":"EF01CI05","a":"1º ano","d":"Ciências"},{"c":"EF01CI06","a":"1º ano","d":"Ciências"},{"c":"EF02CI01","a":"2º ano","d":"Ciências"},{"c":"EF02CI02","a":"2º ano","d":"Ciências"},{"c":"EF02CI03","a":"2º ano","d":"Ciências"},{"c":"EF02CI04","a":"2º ano","d":"Ciências"},{"c":"EF02CI05","a":"2º ano","d":"Ciências"},{"c":"EF02CI06","a":"2º ano","d":"Ciências"},{"c":"EF02CI07","a":"2º ano","d":"Ciências"},{"c":"EF02CI08","a":"2º ano","d":"Ciências"},{"c":"EF03CI01","a":"3º ano","d":"Ciências"},{"c":"EF03CI02","a":"3º ano","d":"Ciências"},{"c":"EF03CI03","a":"3º ano","d":"Ciências"},{"c":"EF03CI04","a":"3º ano","d":"Ciências"},{"c":"EF03CI05","a":"3º ano","d":"Ciências"},{"c":"EF03CI06","a":"3º ano","d":"Ciências"},{"c":"EF03CI07","a":"3º ano","d":"Ciências"},{"c":"EF03CI08","a":"3º ano","d":"Ciências"},{"c":"EF03CI09","a":"3º ano","d":"Ciências"},{"c":"EF03CI10","a":"3º ano","d":"Ciências"},{"c":"EF04CI01","a":"4º ano","d":"Ciências"},{"c":"EF04CI02","a":"4º ano","d":"Ciências"},{"c":"EF04CI03","a":"4º ano","d":"Ciências"},{"c":"EF04CI04","a":"4º ano","d":"Ciências"},{"c":"EF04CI05","a":"4º ano","d":"Ciências"},{"c":"EF04CI06","a":"4º ano","d":"Ciências"},{"c":"EF04CI07","a":"4º ano","d":"Ciências"},{"c":"EF04CI08","a":"4º ano","d":"Ciências"},{"c":"EF04CI09","a":"4º ano","d":"Ciências"},{"c":"EF04CI10","a":"4º ano","d":"Ciências"},{"c":"EF04CI11","a":"4º ano","d":"Ciências"},{"c":"EF05CI01","a":"5º ano","d":"Ciências"},{"c":"EF05CI02","a":"5º ano","d":"Ciências"},{"c":"EF05CI03","a":"5º ano","d":"Ciências"},{"c":"EF05CI04","a":"5º ano","d":"Ciências"},{"c":"EF05CI05","a":"5º ano","d":"Ciências"},{"c":"EF05CI06","a":"5º ano","d":"Ciências"},{"c":"EF05CI07","a":"5º ano","d":"Ciências"},{"c":"EF05CI08","a":"5º ano","d":"Ciências"},{"c":"EF05CI09","a":"5º ano","d":"Ciências"},{"c":"EF05CI10","a":"5º ano","d":"Ciências"},{"c":"EF05CI11","a":"5º ano","d":"Ciências"},{"c":"EF05CI12","a":"5º ano","d":"Ciências"},{"c":"EF05CI13","a":"5º ano","d":"Ciências"},{"c":"EF01GE01","a":"1º ano","d":"Geografia"},{"c":"EF01GE02","a":"1º ano","d":"Geografia"},{"c":"EF01GE03","a":"1º ano","d":"Geografia"},{"c":"EF01GE04","a":"1º ano","d":"Geografia"},{"c":"EF01GE05","a":"1º ano","d":"Geografia"},{"c":"EF01GE06","a":"1º ano","d":"Geografia"},{"c":"EF01GE07","a":"1º ano","d":"Geografia"},{"c":"EF01GE08","a":"1º ano","d":"Geografia"},{"c":"EF01GE09","a":"1º ano","d":"Geografia"},{"c":"EF01GE10","a":"1º ano","d":"Geografia"},{"c":"EF01GE11","a":"1º ano","d":"Geografia"},{"c":"EF02GE01","a":"2º ano","d":"Geografia"},{"c":"EF02GE02","a":"2º ano","d":"Geografia"},{"c":"EF02GE03","a":"2º ano","d":"Geografia"},{"c":"EF02GE04","a":"2º ano","d":"Geografia"},{"c":"EF02GE05","a":"2º ano","d":"Geografia"},{"c":"EF02GE06","a":"2º ano","d":"Geografia"},{"c":"EF02GE07","a":"2º ano","d":"Geografia"},{"c":"EF02GE08","a":"2º ano","d":"Geografia"},{"c":"EF02GE09","a":"2º ano","d":"Geografia"},{"c":"EF02GE10","a":"2º ano","d":"Geografia"},{"c":"EF02GE11","a":"2º ano","d":"Geografia"},{"c":"EF03GE01","a":"3º ano","d":"Geografia"},{"c":"EF03GE02","a":"3º ano","d":"Geografia"},{"c":"EF03GE03","a":"3º ano","d":"Geografia"},{"c":"EF03GE04","a":"3º ano","d":"Geografia"},{"c":"EF03GE05","a":"3º ano","d":"Geografia"},{"c":"EF03GE06","a":"3º ano","d":"Geografia"},{"c":"EF03GE07","a":"3º ano","d":"Geografia"},{"c":"EF03GE08","a":"3º ano","d":"Geografia"},{"c":"EF03GE09","a":"3º ano","d":"Geografia"},{"c":"EF03GE10","a":"3º ano","d":"Geografia"},{"c":"EF03GE11","a":"3º ano","d":"Geografia"},{"c":"EF04GE01","a":"4º ano","d":"Geografia"},{"c":"EF04GE02","a":"4º ano","d":"Geografia"},{"c":"EF04GE03","a":"4º ano","d":"Geografia"},{"c":"EF04GE04","a":"4º ano","d":"Geografia"},{"c":"EF04GE05","a":"4º ano","d":"Geografia"},{"c":"EF04GE06","a":"4º ano","d":"Geografia"},{"c":"EF04GE07","a":"4º ano","d":"Geografia"},{"c":"EF04GE08","a":"4º ano","d":"Geografia"},{"c":"EF04GE09","a":"4º ano","d":"Geografia"},{"c":"EF04GE10","a":"4º ano","d":"Geografia"},{"c":"EF04GE11","a":"4º ano","d":"Geografia"},{"c":"EF05GE01","a":"5º ano","d":"Geografia"},{"c":"EF05GE02","a":"5º ano","d":"Geografia"},{"c":"EF05GE03","a":"5º ano","d":"Geografia"},{"c":"EF05GE04","a":"5º ano","d":"Geografia"},{"c":"EF05GE05","a":"5º ano","d":"Geografia"},{"c":"EF05GE06","a":"5º ano","d":"Geografia"},{"c":"EF05GE07","a":"5º ano","d":"Geografia"},{"c":"EF05GE08","a":"5º ano","d":"Geografia"},{"c":"EF05GE09","a":"5º ano","d":"Geografia"},{"c":"EF05GE10","a":"5º ano","d":"Geografia"},{"c":"EF05GE11","a":"5º ano","d":"Geografia"},{"c":"EF05GE12","a":"5º ano","d":"Geografia"},{"c":"EF01HI01","a":"1º ano","d":"História"},{"c":"EF01HI02","a":"1º ano","d":"História"},{"c":"EF01HI03","a":"1º ano","d":"História"},{"c":"EF01HI04","a":"1º ano","d":"História"},{"c":"EF01HI05","a":"1º ano","d":"História"},{"c":"EF01HI06","a":"1º ano","d":"História"},{"c":"EF01HI07","a":"1º ano","d":"História"},{"c":"EF01HI08","a":"1º ano","d":"História"},{"c":"EF02HI01","a":"2º ano","d":"História"},{"c":"EF02HI02","a":"2º ano","d":"História"},{"c":"EF02HI03","a":"2º ano","d":"História"},{"c":"EF02HI04","a":"2º ano","d":"História"},{"c":"EF02HI05","a":"2º ano","d":"História"},{"c":"EF02HI06","a":"2º ano","d":"História"},{"c":"EF02HI07","a":"2º ano","d":"História"},{"c":"EF02HI08","a":"2º ano","d":"História"},{"c":"EF02HI09","a":"2º ano","d":"História"},{"c":"EF02HI10","a":"2º ano","d":"História"},{"c":"EF03HI01","a":"3º ano","d":"História"},{"c":"EF03HI02","a":"3º ano","d":"História"},{"c":"EF03HI03","a":"3º ano","d":"História"},{"c":"EF03HI04","a":"3º ano","d":"História"},{"c":"EF03HI05","a":"3º ano","d":"História"},{"c":"EF03HI06","a":"3º ano","d":"História"},{"c":"EF03HI07","a":"3º ano","d":"História"},{"c":"EF03HI08","a":"3º ano","d":"História"},{"c":"EF03HI09","a":"3º ano","d":"História"},{"c":"EF03HI10","a":"3º ano","d":"História"},{"c":"EF03HI11","a":"3º ano","d":"História"},{"c":"EF03HI12","a":"3º ano","d":"História"},{"c":"EF04HI01","a":"4º ano","d":"História"},{"c":"EF04HI02","a":"4º ano","d":"História"},{"c":"EF04HI03","a":"4º ano","d":"História"},{"c":"EF04HI04","a":"4º ano","d":"História"},{"c":"EF04HI05","a":"4º ano","d":"História"},{"c":"EF04HI06","a":"4º ano","d":"História"},{"c":"EF04HI07","a":"4º ano","d":"História"},{"c":"EF04HI08","a":"4º ano","d":"História"},{"c":"EF04HI09","a":"4º ano","d":"História"},{"c":"EF04HI10","a":"4º ano","d":"História"},{"c":"EF04HI11","a":"4º ano","d":"História"},{"c":"EF05HI01","a":"5º ano","d":"História"},{"c":"EF05HI02","a":"5º ano","d":"História"},{"c":"EF05HI03","a":"5º ano","d":"História"},{"c":"EF05HI04","a":"5º ano","d":"História"},{"c":"EF05HI05","a":"5º ano","d":"História"},{"c":"EF05HI06","a":"5º ano","d":"História"},{"c":"EF05HI07","a":"5º ano","d":"História"},{"c":"EF05HI08","a":"5º ano","d":"História"},{"c":"EF05HI09","a":"5º ano","d":"História"},{"c":"EF05HI10","a":"5º ano","d":"História"},{"c":"EF05HI11","a":"5º ano","d":"História"},{"c":"EF15AR01","a":"1º ao 5º ano","d":"Arte"},{"c":"EF15AR02","a":"1º ao 5º ano","d":"Arte"},{"c":"EF15AR03","a":"1º ao 5º ano","d":"Arte"},{"c":"EF15AR04","a":"1º ao 5º ano","d":"Arte"},{"c":"EF15AR05","a":"1º ao 5º ano","d":"Arte"},{"c":"EF15AR06","a":"1º ao 5º ano","d":"Arte"},{"c":"EF15AR07","a":"1º ao 5º ano","d":"Arte"},{"c":"EF15AR08","a":"1º ao 5º ano","d":"Arte"},{"c":"EF15AR09","a":"1º ao 5º ano","d":"Arte"},{"c":"EF15AR10","a":"1º ao 5º ano","d":"Arte"},{"c":"EF15AR11","a":"1º ao 5º ano","d":"Arte"},{"c":"EF15AR12","a":"1º ao 5º ano","d":"Arte"},{"c":"EF15AR13","a":"1º ao 5º ano","d":"Arte"},{"c":"EF15AR14","a":"1º ao 5º ano","d":"Arte"},{"c":"EF15AR15","a":"1º ao 5º ano","d":"Arte"},{"c":"EF15AR16","a":"1º ao 5º ano","d":"Arte"},{"c":"EF15AR17","a":"1º ao 5º ano","d":"Arte"},{"c":"EF15AR18","a":"1º ao 5º ano","d":"Arte"},{"c":"EF15AR19","a":"1º ao 5º ano","d":"Arte"},{"c":"EF15AR20","a":"1º ao 5º ano","d":"Arte"},{"c":"EF15AR21","a":"1º ao 5º ano","d":"Arte"},{"c":"EF15AR22","a":"1º ao 5º ano","d":"Arte"},{"c":"EF15AR23","a":"1º ao 5º ano","d":"Arte"},{"c":"EF15AR24","a":"1º ao 5º ano","d":"Arte"},{"c":"EF15AR25","a":"1º ao 5º ano","d":"Arte"},{"c":"EF15AR26","a":"1º ao 5º ano","d":"Arte"},{"c":"EF12EF01","a":"1º e 2º anos","d":"Educação Física"},{"c":"EF12EF02","a":"1º e 2º anos","d":"Educação Física"},{"c":"EF12EF03","a":"1º e 2º anos","d":"Educação Física"},{"c":"EF12EF04","a":"1º e 2º anos","d":"Educação Física"},{"c":"EF12EF05","a":"1º e 2º anos","d":"Educação Física"},{"c":"EF12EF06","a":"1º e 2º anos","d":"Educação Física"},{"c":"EF35EF01","a":"3º ao 5º ano","d":"Educação Física"},{"c":"EF35EF02","a":"3º ao 5º ano","d":"Educação Física"},{"c":"EF35EF03","a":"3º ao 5º ano","d":"Educação Física"},{"c":"EF35EF04","a":"3º ao 5º ano","d":"Educação Física"},{"c":"EF35EF05","a":"3º ao 5º ano","d":"Educação Física"},{"c":"EF35EF06","a":"3º ao 5º ano","d":"Educação Física"},{"c":"EF35EF07","a":"3º ao 5º ano","d":"Educação Física"},{"c":"EF35EF08","a":"3º ao 5º ano","d":"Educação Física"},{"c":"EF35EF09","a":"3º ao 5º ano","d":"Educação Física"},{"c":"EF35EF10","a":"3º ao 5º ano","d":"Educação Física"},{"c":"EF35EF11","a":"3º ao 5º ano","d":"Educação Física"},{"c":"EF35EF12","a":"3º ao 5º ano","d":"Educação Física"},{"c":"EF35EF13","a":"3º ao 5º ano","d":"Educação Física"},{"c":"EF35EF14","a":"3º ao 5º ano","d":"Educação Física"},{"c":"EF35EF15","a":"3º ao 5º ano","d":"Educação Física"},{"c":"EF35EF16","a":"3º ao 5º ano","d":"Educação Física"},{"c":"EF35EF17","a":"3º ao 5º ano","d":"Educação Física"},{"c":"EF35EF18","a":"3º ao 5º ano","d":"Educação Física"},{"c":"EF35EF19","a":"3º ao 5º ano","d":"Educação Física"},{"c":"EF35EF20","a":"3º ao 5º ano","d":"Educação Física"},{"c":"EF35EF21","a":"3º ao 5º ano","d":"Educação Física"}];
+
+function inicializarBuscadorBncc() {
+  const selDisc = document.getElementById('bncc-disciplina');
+  if (selDisc.options.length <= 1) {
+    const disciplinas = [...new Set(bnccHabilidadesBanco.map(h => h.d))];
+    selDisc.innerHTML = '<option value="">Selecione…</option>' +
+      disciplinas.map(d => `<option value="${d}">${d}</option>`).join('');
+  }
+  document.getElementById('bncc-resultado').classList.remove('visivel');
+}
+
+function atualizarAnosBncc() {
+  const disc = document.getElementById('bncc-disciplina').value;
+  const selAno = document.getElementById('bncc-ano');
+  const selHab = document.getElementById('bncc-habilidade');
+  document.getElementById('bncc-resultado').classList.remove('visivel');
+  if (!disc) {
+    selAno.innerHTML = '<option value="">Selecione a disciplina primeiro</option>';
+    selHab.innerHTML = '<option value="">Selecione o ano primeiro</option>';
+    return;
+  }
+  const ordemBase = ['1º ano','2º ano','3º ano','4º ano','5º ano','1º e 2º anos','3º ao 5º ano','1º ao 5º ano'];
+  const anos = [...new Set(bnccHabilidadesBanco.filter(h => h.d === disc).map(h => h.a))]
+    .sort((a,b) => ordemBase.indexOf(a) - ordemBase.indexOf(b));
+  selAno.innerHTML = '<option value="">Selecione…</option>' + anos.map(a => `<option value="${a}">${a}</option>`).join('');
+  selHab.innerHTML = '<option value="">Selecione o ano primeiro</option>';
+}
+
+function atualizarHabilidadesBncc() {
+  const disc = document.getElementById('bncc-disciplina').value;
+  const ano  = document.getElementById('bncc-ano').value;
+  const selHab = document.getElementById('bncc-habilidade');
+  document.getElementById('bncc-resultado').classList.remove('visivel');
+  if (!disc || !ano) {
+    selHab.innerHTML = '<option value="">Selecione o ano primeiro</option>';
+    return;
+  }
+  const habs = bnccHabilidadesBanco.filter(h => h.d === disc && h.a === ano);
+  selHab.innerHTML = '<option value="">Selecione…</option>' + habs.map(h => `<option value="${h.c}">${h.c}</option>`).join('');
+}
+
+function montarPromptBncc(codigo) {
+  const item = bnccHabilidadesBanco.find(h => h.c === codigo);
+  if (!item) return null;
+  const t = bnccTemplatesPorDisciplina[item.d];
+  const habilidade = `Habilidade curricular oficial ${item.c} da BNCC para ${item.d} (${item.a}). ${t.eixo_fixo}`;
+  const tarefa = t.tarefa_tpl.replace('{ANO}', item.a);
+  const prompt = `"Aja como especialista em ${t.papel} ${t.conector} Anos Iniciais. Com base na habilidade da BNCC ${item.c} ("${habilidade}"), ${tarefa} ${t.restricoes}"`;
+  const sintese = `Atenção do Professor: Como o uso mediado da IA pode favorecer o desenvolvimento autônomo do estudante em ${item.c} sem gerar dependência cognitiva? Avalie sempre as respostas geradas para evitar alucinações e perda de autonomia do estudante.`;
+  return { codigo: item.c, ano: item.a, disciplina: item.d, habilidade, prompt, sintese };
+}
+
+function buscarPromptBncc() {
+  const codigo = document.getElementById('bncc-habilidade').value;
+  if (!codigo) { mostrarToast('Selecione disciplina, ano e habilidade ✏️'); return; }
+  const r = montarPromptBncc(codigo);
+  document.getElementById('bncc-r-codigo').textContent = `${r.codigo} · ${r.disciplina} · ${r.ano}`;
+  document.getElementById('bncc-r-habilidade').textContent = r.habilidade;
+  document.getElementById('bncc-r-prompt').textContent = r.prompt;
+  document.getElementById('bncc-r-sintese').textContent = r.sintese;
+  const res = document.getElementById('bncc-resultado');
+  res.classList.add('visivel');
+  res.scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+function copiarPromptBncc() {
+  const txt = document.getElementById('bncc-r-prompt').textContent;
+  navigator.clipboard.writeText(txt).catch(()=>{});
+  mostrarToast('Prompt copiado para a área de transferência ✓');
 }
 
 /* INIT */
